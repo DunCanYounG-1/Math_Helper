@@ -1,0 +1,871 @@
+[
+  {
+    "id": "kp-1-1-1",
+    "chapterId": "ch1",
+    "sectionId": "ch1-s1",
+    "title": "函数的定义与表示",
+    "description": "函数是从定义域到值域的一个映射关系，每个自变量x对应唯一的因变量y。\n\n函数的本质是一种**对应关系**：给定一个输入，就有唯一确定的输出。这种对应关系可以用解析式、图像或表格来描述。\n\n**理解要点**：\n- 定义域决定了自变量的取值范围\n- 对应法则描述了输入如何变成输出\n- 值域是所有输出值的集合",
+    "keyPoints": [
+      "**函数的三要素**：定义域（自变量的范围）、对应法则（映射规则）、值域（因变量的范围）",
+      "**函数的表示方法**：解析法（公式表示）、图示法（坐标系中的曲线）、列表法（数据表格）",
+      "**分段函数**：在不同区间使用不同的对应法则，如符号函数 sgn(x)"
+    ],
+    "formulas": ["f-1-1-1", "f-1-1-2"],
+    "metaphors": ["m-1-1-1"],
+    "prerequisites": [],
+    "hasVisualization": true,
+    "visualizationType": "function-plot",
+    "visualizationConfig": {
+      "type": "function-properties",
+      "expression": "e^x",
+      "showFunctionSelect": true
+    },
+    "examFrequency": "high",
+    "difficulty": 1
+  },
+  {
+    "id": "kp-1-1-2",
+    "chapterId": "ch1",
+    "sectionId": "ch1-s1",
+    "title": "函数的基本特性",
+    "description": "函数的有界性、单调性、奇偶性、周期性是分析函数性质的基本工具，是研究函数行为的四个维度。\n\n这些特性帮助我们：\n- 预测函数的整体行为\n- 简化计算（如利用奇偶性）\n- 判断函数图像的形状",
+    "keyPoints": [
+      "**有界性**：存在常数 M 使得 |f(x)| ≤ M，函数值不会无限增大",
+      "**单调性**：若 x₁ < x₂ 时 f(x₁) < f(x₂)，则函数单调递增",
+      "**奇偶性**：f(-x) = f(x) 为偶函数（关于y轴对称），f(-x) = -f(x) 为奇函数（关于原点对称）",
+      "**周期性**：存在 T > 0 使得 f(x+T) = f(x)，函数值周期性重复"
+    ],
+    "formulas": ["f-1-1-3", "f-1-1-4"],
+    "metaphors": ["m-1-1-2"],
+    "prerequisites": ["kp-1-1-1"],
+    "hasVisualization": true,
+    "visualizationType": "function-properties",
+    "visualizationConfig": {
+      "type": "function-properties",
+      "expression": "sin",
+      "showFunctionSelect": true
+    },
+    "examFrequency": "high",
+    "difficulty": 2
+  },
+  {
+    "id": "kp-1-2-1",
+    "chapterId": "ch1",
+    "sectionId": "ch1-s2",
+    "title": "数列极限的定义",
+    "description": "数列极限描述了数列项随n增大时趋近于某个确定值的变化趋势。\n\n**核心思想**：无论你要求多么精确（给定任意小的 ε），从某一项开始（存在 N），所有后面的项都能满足这个精度要求。\n\n**通俗理解**：数列的尾巴最终会钻进任意小的邻域内，并且再也不出来。",
+    "keyPoints": [
+      "**ε-N 定义**：对任意 ε > 0，存在正整数 N，当 n > N 时，|aₙ - A| < ε",
+      "**唯一性**：如果数列极限存在，则极限值是唯一的",
+      "**有界性**：收敛数列必有界（但有界数列不一定收敛）",
+      "**夹逼准则**：若 aₙ ≤ bₙ ≤ cₙ 且 aₙ、cₙ 趋于同一极限，则 bₙ 也趋于该极限"
+    ],
+    "formulas": ["f-1-2-1", "f-1-2-2"],
+    "metaphors": ["m-1-2-1"],
+    "prerequisites": ["kp-1-1-1"],
+    "hasVisualization": true,
+    "visualizationType": "sequence-limit",
+    "visualizationConfig": {
+      "type": "function-limit",
+      "expression": "(e^x-1)/x",
+      "targetX": 0,
+      "limitValue": 1
+    },
+    "examFrequency": "high",
+    "difficulty": 3
+  },
+  {
+    "id": "kp-1-3-1",
+    "chapterId": "ch1",
+    "sectionId": "ch1-s3",
+    "title": "函数极限的定义",
+    "description": "函数极限描述了自变量趋近于某点（或无穷大）时函数值的变化趋势。\n\n**与数列极限的区别**：\n- 数列是离散的（只有整数下标）\n- 函数是连续的（可以任意接近目标点）\n\n**关键理解**：极限关注的是「趋近过程」而非「到达后的值」",
+    "keyPoints": [
+      "**ε-δ 定义**：对任意 ε > 0，存在 δ > 0，当 0 < |x - x₀| < δ 时，|f(x) - A| < ε",
+      "**单侧极限**：左极限 lim(x→x₀⁻) 和右极限 lim(x→x₀⁺) 描述从单侧趋近的行为",
+      "**无穷极限**：x → ∞ 时的极限，描述函数的渐近行为",
+      "**极限存在条件**：左极限 = 右极限时，双侧极限才存在"
+    ],
+    "formulas": ["f-1-3-1", "f-1-3-2"],
+    "metaphors": ["m-1-3-1"],
+    "prerequisites": ["kp-1-2-1"],
+    "hasVisualization": true,
+    "visualizationType": "limit-animation",
+    "visualizationConfig": {
+      "type": "function-limit",
+      "expression": "tan(x)/x",
+      "targetX": 0,
+      "limitValue": 1
+    },
+    "examFrequency": "very-high",
+    "difficulty": 3
+  },
+  {
+    "id": "kp-1-3-2",
+    "chapterId": "ch1",
+    "sectionId": "ch1-s3",
+    "title": "极限的性质",
+    "description": "极限具有唯一性、局部有界性、局部保号性等重要性质，是进行极限运算的理论基础。",
+    "keyPoints": [
+      "**唯一性**：极限值是唯一确定的，不可能趋近于两个不同的值",
+      "**局部有界性**：若极限存在，则函数在去心邻域内有界",
+      "**局部保号性**：若极限为正，则函数在去心邻域内保持正值",
+      "**保不等式性**：若 f(x) ≤ g(x) 且极限都存在，则极限也满足这个不等式"
+    ],
+    "formulas": ["f-1-3-3"],
+    "metaphors": ["m-1-3-2"],
+    "prerequisites": ["kp-1-3-1"],
+    "hasVisualization": false,
+    "examFrequency": "medium",
+    "difficulty": 2
+  },
+  {
+    "id": "kp-1-4-1",
+    "chapterId": "ch1",
+    "sectionId": "ch1-s4",
+    "title": "无穷小与无穷大",
+    "description": "无穷小是以0为极限的变量，无穷大是绝对值无限增大的变量。它们是研究极限的重要工具。\n\n**核心关系**：无穷小的倒数是无穷大，无穷大的倒数是无穷小。\n\n**等价无穷小**是简化极限计算的强大工具：当 x→0 时，sin(x) ~ x，tan(x) ~ x，1-cos(x) ~ x²/2。",
+    "keyPoints": [
+      "**无穷小的定义**：极限为 0 的变量，可以任意小但不是 0",
+      "**无穷大的定义**：绝对值可以任意大的变量，不是一个数",
+      "**无穷小的比较**：高阶（比率趋于0）、低阶（比率趋于∞）、同阶、等价",
+      "**等价无穷小替换**：在乘除法中，等价无穷小可以相互替换"
+    ],
+    "formulas": ["f-1-4-1", "f-1-4-2", "f-1-4-3"],
+    "metaphors": ["m-1-4-1"],
+    "prerequisites": ["kp-1-3-1"],
+    "hasVisualization": true,
+    "visualizationType": "infinitesimal-compare",
+    "visualizationConfig": {
+      "type": "function-limit",
+      "expression": "(1-cos(x))/x^2",
+      "targetX": 0,
+      "limitValue": 0.5
+    },
+    "examFrequency": "very-high",
+    "difficulty": 3
+  },
+  {
+    "id": "kp-1-5-1",
+    "chapterId": "ch1",
+    "sectionId": "ch1-s5",
+    "title": "极限运算法则",
+    "description": "极限的四则运算法则使得复杂极限可以分解为简单极限的组合，是计算极限的基本方法。",
+    "keyPoints": [
+      "**四则运算法则**：lim(f±g) = lim f ± lim g，lim(f·g) = lim f · lim g",
+      "**商的极限**：lim(f/g) = lim f / lim g（分母极限不为0）",
+      "**复合函数极限**：若内层函数极限存在，可先求内层再求外层",
+      "**常用技巧**：有理化、通分、提取公因式"
+    ],
+    "formulas": ["f-1-5-1", "f-1-5-2"],
+    "metaphors": ["m-1-5-1"],
+    "prerequisites": ["kp-1-4-1"],
+    "hasVisualization": false,
+    "examFrequency": "high",
+    "difficulty": 2
+  },
+  {
+    "id": "kp-1-6-1",
+    "chapterId": "ch1",
+    "sectionId": "ch1-s6",
+    "title": "第一重要极限",
+    "description": "**lim(x→0) sin(x)/x = 1** 是三角函数极限计算的基础，也是证明三角函数导数的关键。\n\n**几何证明思路**：在单位圆中，当角度很小时，弧长、正弦值、正切值几乎相等。\n\n**应用价值**：由此可推导出 tan(x)/x → 1，(1-cos(x))/x² → 1/2 等重要极限。",
+    "keyPoints": [
+      "**核心公式**：lim(x→0) sin(x)/x = 1",
+      "**几何证明**：利用扇形面积的夹逼关系",
+      "**推广形式**：lim(x→0) tan(x)/x = 1",
+      "**等价无穷小**：当 x→0 时，sin(x) ~ x，tan(x) ~ x"
+    ],
+    "formulas": ["f-1-6-1", "f-1-6-2"],
+    "metaphors": ["m-1-6-1"],
+    "prerequisites": ["kp-1-5-1"],
+    "hasVisualization": true,
+    "visualizationType": "first-limit",
+    "visualizationConfig": {
+      "type": "first-limit",
+      "expression": "sin(x)/x",
+      "targetX": 0,
+      "limitValue": 1
+    },
+    "examFrequency": "very-high",
+    "difficulty": 2
+  },
+  {
+    "id": "kp-1-6-2",
+    "chapterId": "ch1",
+    "sectionId": "ch1-s6",
+    "title": "第二重要极限",
+    "description": "**lim(x→∞) (1+1/x)^x = e** 定义了自然对数的底数 e ≈ 2.71828。\n\n**本质含义**：描述了「连续复利增长」的极限，是指数增长和对数函数的自然基底。\n\n**处理 1^∞ 型极限**：当遇到幂指函数形如 f(x)^g(x)，其中 f(x)→1 且 g(x)→∞ 时，结果不一定是 1。",
+    "keyPoints": [
+      "**核心公式**：lim(x→∞) (1+1/x)^x = e ≈ 2.71828",
+      "**等价形式**：lim(x→0) (1+x)^(1/x) = e",
+      "**1^∞ 型极限**：令 (1+α)^(1/α) 形式，其中 α→0",
+      "**e 的来源**：复利增长的极限，自然对数的底"
+    ],
+    "formulas": ["f-1-6-3", "f-1-6-4"],
+    "metaphors": ["m-1-6-2"],
+    "prerequisites": ["kp-1-5-1"],
+    "hasVisualization": true,
+    "visualizationType": "second-limit",
+    "visualizationConfig": {
+      "type": "second-limit",
+      "expression": "(1+1/x)^x",
+      "targetX": "infinity",
+      "limitValue": 2.71828
+    },
+    "examFrequency": "very-high",
+    "difficulty": 3
+  },
+  {
+    "id": "kp-1-7-1",
+    "chapterId": "ch1",
+    "sectionId": "ch1-s7",
+    "title": "连续性的定义",
+    "description": "函数在某点连续意味着函数值等于该点的极限值，直观上图像「不断裂」。\n\n**三个条件同时满足**：\n1. f(x₀) 有定义\n2. lim(x→x₀) f(x) 存在\n3. lim(x→x₀) f(x) = f(x₀)",
+    "keyPoints": [
+      "**连续的定义**：lim(x→x₀) f(x) = f(x₀)，极限值等于函数值",
+      "**左连续与右连续**：单侧极限等于函数值",
+      "**连续函数的运算**：连续函数的和、差、积、商（分母不为0）仍连续",
+      "**复合函数的连续性**：连续函数的复合仍然连续"
+    ],
+    "formulas": ["f-1-7-1"],
+    "metaphors": ["m-1-7-1"],
+    "prerequisites": ["kp-1-3-1"],
+    "hasVisualization": true,
+    "visualizationType": "continuity",
+    "visualizationConfig": {
+      "type": "function-limit",
+      "expression": "ln(1+x)/x",
+      "targetX": 0,
+      "limitValue": 1
+    },
+    "examFrequency": "high",
+    "difficulty": 2
+  },
+  {
+    "id": "kp-1-7-2",
+    "chapterId": "ch1",
+    "sectionId": "ch1-s7",
+    "title": "间断点的分类",
+    "description": "间断点按照极限的存在性分为两大类：第一类（左右极限都存在）和第二类（至少一侧极限不存在）。\n\n**第一类间断点**：\n- 可去间断点：左右极限相等但不等于函数值（可以通过重新定义函数值来修复）\n- 跳跃间断点：左右极限不相等\n\n**第二类间断点**：震荡间断点、无穷间断点等",
+    "keyPoints": [
+      "**第一类间断点**：左右极限都存在",
+      "**可去间断点**：左极限 = 右极限 ≠ f(x₀)，如 sin(x)/x 在 x=0",
+      "**跳跃间断点**：左极限 ≠ 右极限，如符号函数 sgn(x) 在 x=0",
+      "**第二类间断点**：至少有一侧极限不存在，如 sin(1/x) 在 x=0"
+    ],
+    "formulas": ["f-1-7-2"],
+    "metaphors": ["m-1-7-2"],
+    "prerequisites": ["kp-1-7-1"],
+    "hasVisualization": true,
+    "visualizationType": "discontinuity",
+    "visualizationConfig": {
+      "type": "discontinuity",
+      "expression": "discontinuous"
+    },
+    "examFrequency": "high",
+    "difficulty": 2
+  },
+  {
+    "id": "kp-2-1-1",
+    "chapterId": "ch2",
+    "sectionId": "ch2-s1",
+    "title": "导数的定义",
+    "description": "导数是函数在某点的**瞬时变化率**，定义为差商的极限。\n\n**几何意义**：导数 f'(x₀) 就是函数图像在点 (x₀, f(x₀)) 处切线的斜率。\n\n**物理意义**：位移关于时间的导数是瞬时速度，速度的导数是加速度。\n\n**核心思想**：通过「平均变化率」的极限来定义「瞬时变化率」。",
+    "keyPoints": [
+      "**导数定义**：f'(x₀) = lim(Δx→0) [f(x₀+Δx) - f(x₀)] / Δx",
+      "**左导数与右导数**：从单侧趋近时的导数极限",
+      "**可导与连续的关系**：可导必连续，但连续不一定可导（如 |x| 在 x=0）",
+      "**几何意义**：导数是切线斜率"
+    ],
+    "formulas": ["f-2-1-1", "f-2-1-2"],
+    "metaphors": ["m-2-1-1"],
+    "prerequisites": ["kp-1-3-1", "kp-1-7-1"],
+    "hasVisualization": true,
+    "visualizationType": "derivative-definition",
+    "visualizationConfig": {
+      "type": "derivative-definition",
+      "expression": "x^2",
+      "showFunctionSelect": true
+    },
+    "examFrequency": "very-high",
+    "difficulty": 3
+  },
+  {
+    "id": "kp-2-1-2",
+    "chapterId": "ch2",
+    "sectionId": "ch2-s1",
+    "title": "基本求导公式",
+    "description": "常见函数的导数公式是求导计算的基础，需要牢记。\n\n**记忆技巧**：\n- 幂函数：指数降下来乘，指数减1\n- 指数函数：e^x 的导数是自己，a^x 要乘 ln(a)\n- 对数函数：ln(x) 的导数是 1/x",
+    "keyPoints": [
+      "**常数函数**：(C)' = 0",
+      "**幂函数**：(x^n)' = n·x^(n-1)，对任意实数 n 成立",
+      "**指数函数**：(e^x)' = e^x，(a^x)' = a^x · ln(a)",
+      "**对数函数**：(ln x)' = 1/x，(log_a x)' = 1/(x·ln a)",
+      "**三角函数**：(sin x)' = cos x，(cos x)' = -sin x"
+    ],
+    "formulas": ["f-2-1-3", "f-2-1-4", "f-2-1-5"],
+    "metaphors": ["m-2-1-2"],
+    "prerequisites": ["kp-2-1-1"],
+    "hasVisualization": false,
+    "examFrequency": "very-high",
+    "difficulty": 2
+  },
+  {
+    "id": "kp-2-2-1",
+    "chapterId": "ch2",
+    "sectionId": "ch2-s2",
+    "title": "求导法则",
+    "description": "四则运算的求导法则将复杂函数的导数分解为简单函数导数的组合。",
+    "keyPoints": [
+      "**和差法则**：(u ± v)' = u' ± v'，导数的和等于和的导数",
+      "**积法则（乘法法则）**：(uv)' = u'v + uv'，「前导后不导 + 前不导后导」",
+      "**商法则**：(u/v)' = (u'v - uv') / v²，「下乘上导减上乘下导，除以下的平方」"
+    ],
+    "formulas": ["f-2-2-1", "f-2-2-2", "f-2-2-3"],
+    "metaphors": ["m-2-2-1"],
+    "prerequisites": ["kp-2-1-2"],
+    "hasVisualization": false,
+    "examFrequency": "very-high",
+    "difficulty": 2
+  },
+  {
+    "id": "kp-2-2-2",
+    "chapterId": "ch2",
+    "sectionId": "ch2-s2",
+    "title": "链式法则",
+    "description": "复合函数的求导法则：将复合函数的导数分解为各层函数导数的乘积。\n\n**核心公式**：[f(g(x))]' = f'(g(x)) · g'(x)\n\n**理解方式**：「外层对内层求导」×「内层对 x 求导」，从外到内一层层剥开。",
+    "keyPoints": [
+      "**链式法则公式**：[f(g(x))]' = f'(g(x)) · g'(x)",
+      "**多层复合**：逐层求导，每层乘起来",
+      "**识别内外层**：先确定谁是外层函数，谁是内层函数"
+    ],
+    "formulas": ["f-2-2-4"],
+    "metaphors": ["m-2-2-2"],
+    "prerequisites": ["kp-2-2-1"],
+    "hasVisualization": true,
+    "visualizationType": "chain-rule",
+    "visualizationConfig": {
+      "type": "chain-rule",
+      "expression": "sin(x^2)",
+      "showFunctionSelect": true
+    },
+    "examFrequency": "very-high",
+    "difficulty": 3
+  },
+  {
+    "id": "kp-2-3-1",
+    "chapterId": "ch2",
+    "sectionId": "ch2-s3",
+    "title": "高阶导数",
+    "description": "高阶导数是导数的导数，描述函数变化率的变化。\n\n**物理意义**：\n- 一阶导数 = 速度（位移的变化率）\n- 二阶导数 = 加速度（速度的变化率）\n- 三阶导数 = 急动度（加速度的变化率）",
+    "keyPoints": [
+      "**二阶导数**：f''(x) 或 d²y/dx²，描述一阶导数的变化率",
+      "**n 阶导数记号**：f^(n)(x) 或 dⁿy/dxⁿ",
+      "**常见高阶导数**：(e^x)^(n) = e^x，(sin x)^(n) = sin(x + nπ/2)",
+      "**莱布尼茨公式**：(uv)^(n) = Σ C(n,k) u^(n-k) v^(k)"
+    ],
+    "formulas": ["f-2-3-1", "f-2-3-2"],
+    "metaphors": ["m-2-3-1"],
+    "prerequisites": ["kp-2-2-2"],
+    "hasVisualization": true,
+    "visualizationType": "higher-derivatives",
+    "visualizationConfig": {
+      "type": "higher-derivatives",
+      "expression": "x^3",
+      "showSecondDerivative": true,
+      "showFunctionSelect": true
+    },
+    "examFrequency": "high",
+    "difficulty": 3
+  },
+  {
+    "id": "kp-2-4-1",
+    "chapterId": "ch2",
+    "sectionId": "ch2-s4",
+    "title": "隐函数与参数方程求导",
+    "description": "不能直接写成 y = f(x) 形式的函数，可通过隐函数求导法或参数方程求导。\n\n**隐函数求导**：对方程两边同时对 x 求导，注意 y 是 x 的函数。\n\n**参数方程求导**：dy/dx = (dy/dt) / (dx/dt)",
+    "keyPoints": [
+      "**隐函数求导**：对方程 F(x,y) = 0 两边求导，y 对 x 求导时用链式法则",
+      "**参数方程求导**：dy/dx = (dy/dt) / (dx/dt)",
+      "**对数求导法**：对幂指函数 y = f(x)^g(x) 两边取对数后求导"
+    ],
+    "formulas": ["f-2-4-1", "f-2-4-2"],
+    "metaphors": ["m-2-4-1"],
+    "prerequisites": ["kp-2-2-2"],
+    "hasVisualization": true,
+    "visualizationType": "implicit-derivative",
+    "visualizationConfig": {
+      "type": "derivative-definition",
+      "expression": "sin",
+      "showFunctionSelect": true
+    },
+    "examFrequency": "high",
+    "difficulty": 3
+  },
+  {
+    "id": "kp-2-5-1",
+    "chapterId": "ch2",
+    "sectionId": "ch2-s5",
+    "title": "微分的概念",
+    "description": "微分是函数增量的**线性主部**，表示函数局部的线性近似。\n\n**核心公式**：dy = f'(x)dx\n\n**几何意义**：dy 是切线在 x 方向增量 dx 对应的纵向增量。\n\n**应用**：用于近似计算，如 √(1.02) ≈ √1 + (1/2√1)(0.02) = 1.01",
+    "keyPoints": [
+      "**微分定义**：dy = f'(x)dx，函数增量的线性近似",
+      "**可微与可导**：一元函数中可微等价于可导",
+      "**几何意义**：微分是切线纵向增量",
+      "**近似计算**：f(x₀+Δx) ≈ f(x₀) + f'(x₀)Δx"
+    ],
+    "formulas": ["f-2-5-1", "f-2-5-2"],
+    "metaphors": ["m-2-5-1"],
+    "prerequisites": ["kp-2-1-1"],
+    "hasVisualization": true,
+    "visualizationType": "differential",
+    "visualizationConfig": {
+      "type": "differential",
+      "expression": "x^2",
+      "showFunctionSelect": true
+    },
+    "examFrequency": "medium",
+    "difficulty": 3
+  },
+  {
+    "id": "kp-2-6-1",
+    "chapterId": "ch2",
+    "sectionId": "ch2-s6",
+    "title": "罗尔定理",
+    "description": "若函数满足三个条件，则在开区间内必存在导数为零的点。\n\n**三个条件**：\n1. 在 [a,b] 上连续\n2. 在 (a,b) 内可导\n3. f(a) = f(b)（两端点值相等）\n\n**结论**：至少存在一点 ξ ∈ (a,b) 使得 f'(ξ) = 0\n\n**几何意义**：存在水平切线",
+    "keyPoints": [
+      "**罗尔定理的三个条件**：闭区间连续、开区间可导、端点值相等",
+      "**几何意义**：曲线上存在水平切线（切线斜率为0）",
+      "**证明题应用**：构造辅助函数，使其满足罗尔定理条件"
+    ],
+    "formulas": ["f-2-6-1"],
+    "metaphors": ["m-2-6-1"],
+    "prerequisites": ["kp-2-1-1", "kp-1-7-1"],
+    "hasVisualization": true,
+    "visualizationType": "rolle-theorem",
+    "visualizationConfig": {
+      "type": "rolle-theorem",
+      "expression": "x^3-3x",
+      "showFunctionSelect": true
+    },
+    "examFrequency": "high",
+    "difficulty": 3
+  },
+  {
+    "id": "kp-2-6-2",
+    "chapterId": "ch2",
+    "sectionId": "ch2-s6",
+    "title": "拉格朗日中值定理",
+    "description": "在闭区间连续、开区间可导的条件下，存在点使得切线平行于弦。\n\n**核心公式**：f(b) - f(a) = f'(ξ)(b - a)\n\n**几何意义**：连接曲线两端点的割线（弦），在曲线上必存在一点，该点的切线与弦平行。",
+    "keyPoints": [
+      "**拉格朗日中值定理**：f(b) - f(a) = f'(ξ)(b - a)，存在 ξ ∈ (a,b)",
+      "**几何意义**：存在与弦平行的切线",
+      "**与罗尔定理的关系**：罗尔定理是拉格朗日定理的特例（f(a) = f(b)）",
+      "**有限增量公式**：Δf = f'(ξ)·Δx，函数增量等于导数乘以自变量增量"
+    ],
+    "formulas": ["f-2-6-2"],
+    "metaphors": ["m-2-6-2"],
+    "prerequisites": ["kp-2-6-1"],
+    "hasVisualization": true,
+    "visualizationType": "mean-value",
+    "visualizationConfig": {
+      "type": "mean-value"
+    },
+    "examFrequency": "very-high",
+    "difficulty": 3
+  },
+  {
+    "id": "kp-2-6-3",
+    "chapterId": "ch2",
+    "sectionId": "ch2-s6",
+    "title": "柯西中值定理",
+    "description": "拉格朗日中值定理的参数形式，描述两函数增量比值等于导数比值。\n\n**核心公式**：[f(b)-f(a)] / [g(b)-g(a)] = f'(ξ) / g'(ξ)\n\n**应用**：是证明洛必达法则的理论基础。",
+    "keyPoints": [
+      "**柯西中值定理**：[f(b)-f(a)] / [g(b)-g(a)] = f'(ξ) / g'(ξ)",
+      "**与拉格朗日中值定理的关系**：取 g(x) = x 即得拉格朗日定理",
+      "**证明洛必达法则**：柯西定理是洛必达法则的理论基础"
+    ],
+    "formulas": ["f-2-6-3"],
+    "metaphors": ["m-2-6-3"],
+    "prerequisites": ["kp-2-6-2"],
+    "hasVisualization": true,
+    "visualizationType": "mean-value",
+    "visualizationConfig": {
+      "type": "mean-value"
+    },
+    "examFrequency": "medium",
+    "difficulty": 4
+  },
+  {
+    "id": "kp-3-1-1",
+    "chapterId": "ch3",
+    "sectionId": "ch3-s1",
+    "title": "函数的单调性",
+    "description": "利用导数正负判断函数的单调递增或递减。\n\n**核心判定**：\n- f'(x) > 0 → 函数单调递增\n- f'(x) < 0 → 函数单调递减\n\n**求单调区间步骤**：\n1. 求 f'(x)\n2. 令 f'(x) = 0 找出临界点\n3. 在各区间判断 f'(x) 的符号",
+    "keyPoints": [
+      "**单调性判定定理**：导数正则增，导数负则减",
+      "**f'(x) > 0**：函数在该区间单调递增",
+      "**f'(x) < 0**：函数在该区间单调递减",
+      "**单调区间求法**：找出 f'(x) = 0 的点，分区间判断导数符号"
+    ],
+    "formulas": ["f-3-1-1"],
+    "metaphors": ["m-3-1-1"],
+    "prerequisites": ["kp-2-1-1"],
+    "hasVisualization": true,
+    "visualizationType": "monotonicity",
+    "visualizationConfig": {
+      "type": "monotonicity",
+      "expression": "sin",
+      "showFunctionSelect": true
+    },
+    "examFrequency": "very-high",
+    "difficulty": 2
+  },
+  {
+    "id": "kp-3-2-1",
+    "chapterId": "ch3",
+    "sectionId": "ch3-s2",
+    "title": "极值与最值",
+    "description": "利用导数找出函数的极大值、极小值和最大值、最小值。\n\n**极值点的必要条件**：f'(x₀) = 0（驻点）或 f'(x₀) 不存在\n\n**极值的充分条件**：\n- 第一充分条件：导数在该点两侧变号\n- 第二充分条件：f''(x₀) < 0 是极大值，f''(x₀) > 0 是极小值",
+    "keyPoints": [
+      "**极值必要条件**：f'(x₀) = 0（函数在极值点的导数为0）",
+      "**第一充分条件**：导数从正变负是极大值，从负变正是极小值",
+      "**第二充分条件**：f''(x₀) < 0 是极大，f''(x₀) > 0 是极小",
+      "**闭区间最值**：比较所有极值点和端点的函数值"
+    ],
+    "formulas": ["f-3-2-1", "f-3-2-2"],
+    "metaphors": ["m-3-2-1"],
+    "prerequisites": ["kp-3-1-1"],
+    "hasVisualization": true,
+    "visualizationType": "extrema",
+    "visualizationConfig": {
+      "type": "extrema",
+      "expression": "x^3-3x",
+      "showFunctionSelect": true
+    },
+    "examFrequency": "very-high",
+    "difficulty": 3
+  },
+  {
+    "id": "kp-3-3-1",
+    "chapterId": "ch3",
+    "sectionId": "ch3-s3",
+    "title": "凹凸性与拐点",
+    "description": "利用二阶导数判断函数图像的凹凸性和拐点。\n\n**凹凸性判定**：\n- f''(x) > 0：图像凹（开口向上），切线在曲线下方\n- f''(x) < 0：图像凸（开口向下），切线在曲线上方\n\n**拐点**：凹凸性改变的点",
+    "keyPoints": [
+      "**凹凸性定义**：凹函数的图像在切线上方，凸函数的图像在切线下方",
+      "**f''(x) > 0**：函数图像凹（下凸），切线在曲线下方",
+      "**f''(x) < 0**：函数图像凸（上凸），切线在曲线上方",
+      "**拐点**：凹凸性改变的点，f''(x₀) = 0 的候选点"
+    ],
+    "formulas": ["f-3-3-1"],
+    "metaphors": ["m-3-3-1"],
+    "prerequisites": ["kp-2-3-1"],
+    "hasVisualization": true,
+    "visualizationType": "concavity",
+    "visualizationConfig": {
+      "type": "concavity",
+      "expression": "x^3",
+      "showSecondDerivative": true,
+      "showFunctionSelect": true
+    },
+    "examFrequency": "high",
+    "difficulty": 3
+  },
+  {
+    "id": "kp-3-4-1",
+    "chapterId": "ch3",
+    "sectionId": "ch3-s4",
+    "title": "渐近线",
+    "description": "函数图像无限接近但不相交的直线，包括水平、垂直和斜渐近线。\n\n**三种渐近线**：\n- 水平渐近线：y = b（x→±∞ 时 f(x)→b）\n- 垂直渐近线：x = a（x→a 时 f(x)→±∞）\n- 斜渐近线：y = kx + b（x→∞ 时 f(x) - (kx+b)→0）",
+    "keyPoints": [
+      "**水平渐近线**：lim(x→±∞) f(x) = b，则 y = b 是水平渐近线",
+      "**垂直渐近线**：lim(x→a) f(x) = ±∞，则 x = a 是垂直渐近线",
+      "**斜渐近线求法**：k = lim f(x)/x，b = lim[f(x) - kx]"
+    ],
+    "formulas": ["f-3-4-1", "f-3-4-2"],
+    "metaphors": ["m-3-4-1"],
+    "prerequisites": ["kp-1-3-1"],
+    "hasVisualization": true,
+    "visualizationType": "asymptote",
+    "visualizationConfig": {
+      "type": "derivative-definition",
+      "expression": "1/x",
+      "showFunctionSelect": true
+    },
+    "examFrequency": "high",
+    "difficulty": 2
+  },
+  {
+    "id": "kp-3-5-1",
+    "chapterId": "ch3",
+    "sectionId": "ch3-s5",
+    "title": "洛必达法则",
+    "description": "求 0/0 型或 ∞/∞ 型未定式极限的重要方法。\n\n**核心思想**：将分子分母分别求导，转化为更简单的极限。\n\n**使用条件**：\n1. 必须是 0/0 或 ∞/∞ 型\n2. 分子分母分别可导\n3. 求导后的极限存在（或为∞）",
+    "keyPoints": [
+      "**0/0 型洛必达法则**：lim f(x)/g(x) = lim f'(x)/g'(x)",
+      "**∞/∞ 型洛必达法则**：同样适用",
+      "**其他未定式的转化**：0·∞、∞-∞、0⁰、1^∞、∞⁰ 需先转化",
+      "**注意事项**：不能无限使用，求导后极限必须存在"
+    ],
+    "formulas": ["f-3-5-1"],
+    "metaphors": ["m-3-5-1"],
+    "prerequisites": ["kp-2-6-3", "kp-1-4-1"],
+    "hasVisualization": false,
+    "examFrequency": "very-high",
+    "difficulty": 3
+  },
+  {
+    "id": "kp-4-1-1",
+    "chapterId": "ch4",
+    "sectionId": "ch4-s1",
+    "title": "原函数与不定积分",
+    "description": "不定积分是求导的逆运算，找出导数等于给定函数的所有函数。\n\n**核心概念**：\n- 原函数：F'(x) = f(x)，则 F(x) 是 f(x) 的原函数\n- 不定积分：所有原函数的集合，∫f(x)dx = F(x) + C\n\n**为什么要加 C**：因为常数的导数是 0，所以原函数不唯一。",
+    "keyPoints": [
+      "**原函数定义**：F'(x) = f(x)，则 F(x) 是 f(x) 的一个原函数",
+      "**不定积分**：∫f(x)dx = F(x) + C，包含任意常数 C",
+      "**基本积分公式**：对应基本求导公式的逆运算",
+      "**不定积分性质**：∫[f(x)±g(x)]dx = ∫f(x)dx ± ∫g(x)dx"
+    ],
+    "formulas": ["f-4-1-1", "f-4-1-2"],
+    "metaphors": ["m-4-1-1"],
+    "prerequisites": ["kp-2-1-2"],
+    "hasVisualization": true,
+    "visualizationType": "antiderivative",
+    "visualizationConfig": {
+      "type": "antiderivative",
+      "expression": "x^2",
+      "showFunctionSelect": true
+    },
+    "examFrequency": "very-high",
+    "difficulty": 2
+  },
+  {
+    "id": "kp-4-2-1",
+    "chapterId": "ch4",
+    "sectionId": "ch4-s2",
+    "title": "换元积分法",
+    "description": "通过变量替换将复杂积分转化为简单积分。\n\n**第一类换元（凑微分法）**：凑出 d[g(x)]，令 u = g(x)\n\n**第二类换元**：令 x = φ(t)，将被积函数简化\n\n**常用技巧**：三角代换（处理根式）、倒代换（处理 1/x 型）",
+    "keyPoints": [
+      "**第一类换元（凑微分法）**：∫f[g(x)]g'(x)dx = ∫f(u)du",
+      "**第二类换元**：令 x = φ(t)，dx = φ'(t)dt",
+      "**三角代换**：√(a²-x²) 令 x = a·sin t，√(x²+a²) 令 x = a·tan t",
+      "**倒代换**：令 x = 1/t，处理 1/x 型积分"
+    ],
+    "formulas": ["f-4-2-1", "f-4-2-2"],
+    "metaphors": ["m-4-2-1"],
+    "prerequisites": ["kp-4-1-1", "kp-2-2-2"],
+    "hasVisualization": false,
+    "examFrequency": "very-high",
+    "difficulty": 3
+  },
+  {
+    "id": "kp-4-3-1",
+    "chapterId": "ch4",
+    "sectionId": "ch4-s3",
+    "title": "分部积分法",
+    "description": "处理两函数乘积的积分，将一个难积的积分转化为容易积的积分。\n\n**核心公式**：∫u dv = uv - ∫v du\n\n**选择 u 和 dv 的原则（LIATE 法则）**：\nL-对数、I-反三角、A-代数、T-三角、E-指数\n越靠前的越适合做 u（被求导）",
+    "keyPoints": [
+      "**分部积分公式**：∫u dv = uv - ∫v du",
+      "**选择原则**：让「难积」的部分求导变简单，让「易积」的部分积分",
+      "**表格法**：快速进行多次分部积分",
+      "**循环积分**：如 ∫e^x sin x dx 会循环，需要解方程"
+    ],
+    "formulas": ["f-4-3-1"],
+    "metaphors": ["m-4-3-1"],
+    "prerequisites": ["kp-4-1-1", "kp-2-2-1"],
+    "hasVisualization": false,
+    "examFrequency": "very-high",
+    "difficulty": 3
+  },
+  {
+    "id": "kp-5-1-1",
+    "chapterId": "ch5",
+    "sectionId": "ch5-s1",
+    "title": "定积分的概念",
+    "description": "定积分是「分割、近似、求和、取极限」的过程，代表曲线下方的有向面积。\n\n**黎曼积分定义**：\n1. 将区间 [a,b] 分成 n 等份\n2. 在每小段取点计算函数值\n3. 求所有小矩形面积之和\n4. 当分割无限细时取极限",
+    "keyPoints": [
+      "**黎曼积分定义**：∫ₐᵇ f(x)dx = lim Σf(ξᵢ)Δxᵢ",
+      "**几何意义**：曲线与 x 轴围成的有向面积（x 轴上方为正，下方为负）",
+      "**定积分存在条件**：连续函数、有界且只有有限个间断点的函数",
+      "**定积分性质**：线性性、区间可加性、保号性"
+    ],
+    "formulas": ["f-5-1-1", "f-5-1-2"],
+    "metaphors": ["m-5-1-1"],
+    "prerequisites": ["kp-1-3-1"],
+    "hasVisualization": true,
+    "visualizationType": "definite-integral",
+    "visualizationConfig": {
+      "type": "definite-integral",
+      "expression": "sin",
+      "showFunctionSelect": true
+    },
+    "examFrequency": "very-high",
+    "difficulty": 3
+  },
+  {
+    "id": "kp-5-2-1",
+    "chapterId": "ch5",
+    "sectionId": "ch5-s2",
+    "title": "微积分基本定理",
+    "description": "牛顿-莱布尼茨公式连接了微分与积分，是微积分的核心定理。\n\n**核心内容**：\n1. 积分上限函数的导数等于被积函数：d/dx ∫ₐˣ f(t)dt = f(x)\n2. 定积分等于原函数在端点的差值：∫ₐᵇ f(x)dx = F(b) - F(a)",
+    "keyPoints": [
+      "**积分上限函数**：Φ(x) = ∫ₐˣ f(t)dt",
+      "**导数公式**：Φ'(x) = f(x)，积分上限函数的导数是被积函数",
+      "**牛顿-莱布尼茨公式**：∫ₐᵇ f(x)dx = F(b) - F(a)",
+      "**变限积分求导**：注意上下限都是 x 的函数时的链式法则"
+    ],
+    "formulas": ["f-5-2-1", "f-5-2-2"],
+    "metaphors": ["m-5-2-1"],
+    "prerequisites": ["kp-5-1-1", "kp-4-1-1"],
+    "hasVisualization": true,
+    "visualizationType": "ftc",
+    "visualizationConfig": {
+      "type": "ftc",
+      "expression": "cos",
+      "showFunctionSelect": true
+    },
+    "examFrequency": "very-high",
+    "difficulty": 3
+  },
+  {
+    "id": "kp-5-3-1",
+    "chapterId": "ch5",
+    "sectionId": "ch5-s3",
+    "title": "定积分的应用",
+    "description": "定积分可用于计算面积、体积、弧长、功等几何和物理量。\n\n**核心思想**：「微元法」—— 将整体分解为无穷多个微小部分，对每部分求和。",
+    "keyPoints": [
+      "**平面图形面积**：S = ∫ₐᵇ |f(x) - g(x)| dx",
+      "**旋转体体积**：V = π∫ₐᵇ [f(x)]² dx（绕 x 轴旋转）",
+      "**弧长公式**：L = ∫ₐᵇ √(1 + [f'(x)]²) dx",
+      "**物理应用**：功 W = ∫F(x)dx，质心、压力等"
+    ],
+    "formulas": ["f-5-3-1", "f-5-3-2", "f-5-3-3"],
+    "metaphors": ["m-5-3-1"],
+    "prerequisites": ["kp-5-2-1"],
+    "hasVisualization": true,
+    "visualizationType": "integral-applications",
+    "visualizationConfig": {
+      "type": "integral-applications",
+      "expression": "sqrt",
+      "showFunctionSelect": true
+    },
+    "examFrequency": "very-high",
+    "difficulty": 3
+  },
+  {
+    "id": "kp-6-1-1",
+    "chapterId": "ch6",
+    "sectionId": "ch6-s1",
+    "title": "微分方程基本概念",
+    "description": "微分方程是含有未知函数及其导数的方程，描述变量之间的变化关系。\n\n**基本术语**：\n- 阶：方程中导数的最高阶数\n- 通解：含有任意常数的解（常数个数 = 方程阶数）\n- 特解：满足初始条件的解\n\n**方向场**：在平面上每点画出切线方向，直观展示解的趋势。",
+    "keyPoints": [
+      "**微分方程定义**：含有未知函数及其导数的方程",
+      "**阶**：方程中未知函数导数的最高阶数",
+      "**通解与特解**：通解含任意常数，特解满足初始条件",
+      "**方向场**：几何上表示解曲线在各点的切线方向"
+    ],
+    "formulas": ["f-6-1-1"],
+    "metaphors": ["m-6-1-1"],
+    "prerequisites": ["kp-2-1-1", "kp-4-1-1"],
+    "hasVisualization": true,
+    "visualizationType": "direction-field",
+    "visualizationConfig": {
+      "type": "derivative-definition",
+      "expression": "ln",
+      "showFunctionSelect": true
+    },
+    "examFrequency": "high",
+    "difficulty": 2
+  },
+  {
+    "id": "kp-6-2-1",
+    "chapterId": "ch6",
+    "sectionId": "ch6-s2",
+    "title": "一阶微分方程",
+    "description": "一阶微分方程的常见类型及其求解方法。\n\n**可分离变量方程**：g(y)dy = f(x)dx，两边分别积分\n**齐次方程**：令 y/x = u 换元\n**一阶线性方程**：y' + P(x)y = Q(x)，有通解公式",
+    "keyPoints": [
+      "**可分离变量方程**：dy/dx = f(x)g(y)，分离变量后两边积分",
+      "**齐次方程**：dy/dx = φ(y/x)，令 u = y/x 换元",
+      "**一阶线性方程**：y' + P(x)y = Q(x)，通解公式",
+      "**伯努利方程**：y' + P(x)y = Q(x)y^n，可化为线性方程"
+    ],
+    "formulas": ["f-6-2-1", "f-6-2-2", "f-6-2-3"],
+    "metaphors": ["m-6-2-1"],
+    "prerequisites": ["kp-6-1-1", "kp-4-2-1"],
+    "hasVisualization": false,
+    "examFrequency": "very-high",
+    "difficulty": 3
+  },
+  {
+    "id": "kp-7-1-1",
+    "chapterId": "ch7",
+    "sectionId": "ch7-s1",
+    "title": "数项级数",
+    "description": "无穷多个数相加的级数，研究其收敛性是核心问题。\n\n**收敛的直观理解**：虽然有无穷多项，但它们的和是一个有限值。\n\n**发散的例子**：调和级数 1 + 1/2 + 1/3 + ... 是发散的！",
+    "keyPoints": [
+      "**级数收敛**：部分和数列 Sₙ 存在有限极限",
+      "**收敛必要条件**：级数收敛则通项趋于0（但反过来不成立）",
+      "**正项级数审敛法**：比较审敛法、比值审敛法、根值审敛法",
+      "**交错级数**：莱布尼茨判别法"
+    ],
+    "formulas": ["f-7-1-1", "f-7-1-2"],
+    "metaphors": ["m-7-1-1"],
+    "prerequisites": ["kp-1-2-1"],
+    "hasVisualization": true,
+    "visualizationType": "series-convergence",
+    "visualizationConfig": {
+      "type": "function-limit",
+      "expression": "(1+x)^(1/x)"
+    },
+    "examFrequency": "very-high",
+    "difficulty": 3
+  },
+  {
+    "id": "kp-7-2-1",
+    "chapterId": "ch7",
+    "sectionId": "ch7-s2",
+    "title": "幂级数",
+    "description": "以 x 的幂次为项的函数级数，在收敛域内表示一个函数。\n\n**形式**：Σaₙxⁿ = a₀ + a₁x + a₂x² + ...\n\n**收敛半径**：级数收敛的 x 范围的「半径」，用比值法求。",
+    "keyPoints": [
+      "**幂级数形式**：Σaₙ(x-x₀)ⁿ",
+      "**收敛半径**：R = lim|aₙ/aₙ₊₁|",
+      "**收敛域**：在 |x-x₀| < R 内绝对收敛，需单独判断端点",
+      "**逐项运算**：在收敛域内可逐项求导、逐项积分"
+    ],
+    "formulas": ["f-7-2-1", "f-7-2-2"],
+    "metaphors": ["m-7-2-1"],
+    "prerequisites": ["kp-7-1-1"],
+    "hasVisualization": true,
+    "visualizationType": "power-series",
+    "visualizationConfig": {
+      "type": "taylor"
+    },
+    "examFrequency": "very-high",
+    "difficulty": 3
+  },
+  {
+    "id": "kp-7-3-1",
+    "chapterId": "ch7",
+    "sectionId": "ch7-s3",
+    "title": "泰勒级数",
+    "description": "将函数在某点展开为幂级数，是函数的多项式近似。\n\n**核心思想**：用多项式逼近复杂函数，项数越多越精确。\n\n**麦克劳林级数**：在 x₀ = 0 处展开的泰勒级数。\n\n**常见展开式**必须记住：e^x、sin(x)、cos(x)、ln(1+x)、1/(1-x)",
+    "keyPoints": [
+      "**泰勒公式**：f(x) = Σ f^(n)(x₀)/n! · (x-x₀)ⁿ",
+      "**麦克劳林级数**：x₀ = 0 时的泰勒级数",
+      "**常见展开式**：e^x = Σxⁿ/n!，sin x = Σ(-1)ⁿx^(2n+1)/(2n+1)!",
+      "**应用**：近似计算、求极限、证明不等式"
+    ],
+    "formulas": ["f-7-3-1", "f-7-3-2", "f-7-3-3"],
+    "metaphors": ["m-7-3-1"],
+    "prerequisites": ["kp-7-2-1", "kp-2-3-1"],
+    "hasVisualization": true,
+    "visualizationType": "taylor",
+    "visualizationConfig": {
+      "type": "taylor"
+    },
+    "examFrequency": "very-high",
+    "difficulty": 4
+  }
+]

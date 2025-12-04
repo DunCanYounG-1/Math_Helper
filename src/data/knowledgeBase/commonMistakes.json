@@ -1,0 +1,212 @@
+[
+  {
+    "id": "cm-1",
+    "formulaId": "f-1-1-3",
+    "knowledgePointId": "kp-1-1-2",
+    "title": "奇偶性判断误区",
+    "mistakes": [
+      {
+        "wrong": "认为 $f(x) = x^2 + x$ 是奇函数",
+        "correct": "$f(-x) = x^2 - x \\neq -f(x)$，既不是奇函数也不是偶函数",
+        "tip": "判断奇偶性要先验证定义域是否关于原点对称"
+      },
+      {
+        "wrong": "忘记检查定义域对称性",
+        "correct": "奇偶函数的定义域必须关于原点对称",
+        "tip": "如 $f(x) = \\ln x$ 定义域 $(0, +\\infty)$ 不对称，无奇偶性"
+      }
+    ],
+    "severity": "high",
+    "examFrequency": "very-high"
+  },
+  {
+    "id": "cm-2",
+    "formulaId": "f-1-4-3",
+    "knowledgePointId": "kp-1-4-1",
+    "title": "等价无穷小替换误区",
+    "mistakes": [
+      {
+        "wrong": "在加减法中使用等价无穷小替换",
+        "correct": "等价无穷小只能在乘除法中替换",
+        "tip": "$\\lim \\frac{\\sin x - x}{x^3}$ 不能用 $x - x = 0$ 替换分子"
+      },
+      {
+        "wrong": "忽略替换条件 $x \\to 0$",
+        "correct": "$\\sin x \\sim x$ 仅在 $x \\to 0$ 时成立",
+        "tip": "使用前先确认极限过程是否为 $x \\to 0$"
+      },
+      {
+        "wrong": "$1 - \\cos x$ 替换成 $x^2$ 而非 $\\frac{x^2}{2}$",
+        "correct": "$1 - \\cos x \\sim \\frac{x^2}{2}$",
+        "tip": "牢记：$1 - \\cos x$ 的等价无穷小有系数 $\\frac{1}{2}$"
+      }
+    ],
+    "severity": "high",
+    "examFrequency": "very-high"
+  },
+  {
+    "id": "cm-3",
+    "formulaId": "f-1-3-2",
+    "knowledgePointId": "kp-1-3-1",
+    "title": "极限存在性判断误区",
+    "mistakes": [
+      {
+        "wrong": "只计算一侧极限就判断极限存在",
+        "correct": "必须验证左右极限都存在且相等",
+        "tip": "$\\lim_{x \\to 0} \\frac{|x|}{x}$ 左右极限不等，极限不存在"
+      },
+      {
+        "wrong": "极限为 $\\infty$ 时说极限存在",
+        "correct": "极限为 $\\infty$ 说明极限不存在（发散）",
+        "tip": "\"极限存在\" 指收敛到某个有限值"
+      }
+    ],
+    "severity": "high",
+    "examFrequency": "high"
+  },
+  {
+    "id": "cm-4",
+    "formulaId": "f-2-1-1",
+    "knowledgePointId": "kp-2-1-1",
+    "title": "导数定义理解误区",
+    "mistakes": [
+      {
+        "wrong": "混淆可导与连续的关系",
+        "correct": "可导 $\\Rightarrow$ 连续，但连续 $\\not\\Rightarrow$ 可导",
+        "tip": "$f(x) = |x|$ 在 $x=0$ 处连续但不可导"
+      },
+      {
+        "wrong": "用导数公式直接求分段函数在分段点的导数",
+        "correct": "分段点必须用导数定义（左右导数）判断",
+        "tip": "先求左右导数，相等才可导"
+      }
+    ],
+    "severity": "high",
+    "examFrequency": "very-high"
+  },
+  {
+    "id": "cm-5",
+    "formulaId": "f-2-2-1",
+    "knowledgePointId": "kp-2-2-1",
+    "title": "复合函数求导误区",
+    "mistakes": [
+      {
+        "wrong": "忘记乘内层函数的导数",
+        "correct": "$[f(g(x))]' = f'(g(x)) \\cdot g'(x)$",
+        "tip": "$(\\sin 2x)' = \\cos 2x \\cdot 2 = 2\\cos 2x$，不是 $\\cos 2x$"
+      },
+      {
+        "wrong": "多层复合时遗漏某层的导数",
+        "correct": "链式法则要一层一层求导并相乘",
+        "tip": "$(e^{\\sin x^2})' = e^{\\sin x^2} \\cdot \\cos x^2 \\cdot 2x$"
+      }
+    ],
+    "severity": "high",
+    "examFrequency": "very-high"
+  },
+  {
+    "id": "cm-6",
+    "formulaId": "f-2-3-1",
+    "knowledgePointId": "kp-2-3-1",
+    "title": "洛必达法则误用",
+    "mistakes": [
+      {
+        "wrong": "不是 $\\frac{0}{0}$ 或 $\\frac{\\infty}{\\infty}$ 型就用洛必达",
+        "correct": "洛必达法则只适用于 $\\frac{0}{0}$ 或 $\\frac{\\infty}{\\infty}$ 型",
+        "tip": "使用前先确认是否满足未定式条件"
+      },
+      {
+        "wrong": "洛必达后忘记验证是否还需继续",
+        "correct": "可能需要多次使用直到得出结果",
+        "tip": "每次用完检查是否还是未定式"
+      },
+      {
+        "wrong": "忽略洛必达法则失效的情况",
+        "correct": "当 $\\lim \\frac{f'(x)}{g'(x)}$ 不存在时，原极限可能存在",
+        "tip": "如 $\\lim_{x \\to \\infty} \\frac{x + \\sin x}{x}$，不能用洛必达"
+      }
+    ],
+    "severity": "high",
+    "examFrequency": "very-high"
+  },
+  {
+    "id": "cm-7",
+    "formulaId": "f-3-1-1",
+    "knowledgePointId": "kp-3-1-1",
+    "title": "不定积分符号误区",
+    "mistakes": [
+      {
+        "wrong": "忘记加常数 $C$",
+        "correct": "不定积分结果必须加任意常数 $C$",
+        "tip": "$\\int x\\,dx = \\frac{x^2}{2} + C$"
+      },
+      {
+        "wrong": "凑微分时忘记补系数",
+        "correct": "$\\int f(ax+b)\\,dx = \\frac{1}{a}F(ax+b) + C$",
+        "tip": "$\\int \\cos 2x\\,dx = \\frac{1}{2}\\sin 2x + C$"
+      }
+    ],
+    "severity": "medium",
+    "examFrequency": "high"
+  },
+  {
+    "id": "cm-8",
+    "formulaId": "f-3-2-1",
+    "knowledgePointId": "kp-3-2-1",
+    "title": "定积分计算误区",
+    "mistakes": [
+      {
+        "wrong": "换元后忘记改变积分上下限",
+        "correct": "换元积分必须同时改变积分限",
+        "tip": "令 $u = g(x)$，则上下限变为 $g(a)$ 和 $g(b)$"
+      },
+      {
+        "wrong": "混淆奇偶函数积分性质",
+        "correct": "对称区间 $[-a, a]$ 上：奇函数积分为0，偶函数积分为 $2\\int_0^a$",
+        "tip": "$\\int_{-1}^{1} x^3\\,dx = 0$"
+      }
+    ],
+    "severity": "medium",
+    "examFrequency": "high"
+  },
+  {
+    "id": "cm-9",
+    "formulaId": "f-4-1-1",
+    "knowledgePointId": "kp-4-1-1",
+    "title": "微分方程求解误区",
+    "mistakes": [
+      {
+        "wrong": "忘记通解中的任意常数",
+        "correct": "一阶方程有1个任意常数，二阶有2个",
+        "tip": "任意常数个数等于方程阶数"
+      },
+      {
+        "wrong": "分离变量时漏掉特解",
+        "correct": "分离变量可能丢失 $y = 0$ 等特解",
+        "tip": "检验 $y = 0$ 是否为解"
+      }
+    ],
+    "severity": "medium",
+    "examFrequency": "high"
+  },
+  {
+    "id": "cm-10",
+    "formulaId": "f-1-5-1",
+    "knowledgePointId": "kp-1-5-1",
+    "title": "极限运算法则误用",
+    "mistakes": [
+      {
+        "wrong": "极限不存在时使用四则运算法则",
+        "correct": "四则运算法则要求极限都存在",
+        "tip": "$\\lim (f + g)$ 存在不能推出 $\\lim f$ 和 $\\lim g$ 都存在"
+      },
+      {
+        "wrong": "求 $\\lim f^g$ 时直接用 $(\\lim f)^{\\lim g}$",
+        "correct": "$1^\\infty$ 型需要转化为 $e^{\\lim g \\ln f}$",
+        "tip": "$\\lim (1+\\frac{1}{x})^x$ 是 $1^\\infty$ 型，极限为 $e$"
+      }
+    ],
+    "severity": "high",
+    "examFrequency": "very-high"
+  }
+]

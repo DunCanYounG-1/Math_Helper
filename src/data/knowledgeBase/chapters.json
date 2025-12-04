@@ -1,0 +1,203 @@
+[
+  {
+    "id": "ch1",
+    "title": "第一章 函数、极限与连续",
+    "order": 1,
+    "description": "高等数学的基础，介绍函数的基本概念、极限理论和函数的连续性",
+    "sections": [
+      {
+        "id": "ch1-s1",
+        "title": "1.1 函数的概念与特性",
+        "knowledgePoints": ["kp-1-1-1", "kp-1-1-2"]
+      },
+      {
+        "id": "ch1-s2",
+        "title": "1.2 数列极限",
+        "knowledgePoints": ["kp-1-2-1"]
+      },
+      {
+        "id": "ch1-s3",
+        "title": "1.3 函数极限",
+        "knowledgePoints": ["kp-1-3-1", "kp-1-3-2"]
+      },
+      {
+        "id": "ch1-s4",
+        "title": "1.4 无穷小与无穷大",
+        "knowledgePoints": ["kp-1-4-1"]
+      },
+      {
+        "id": "ch1-s5",
+        "title": "1.5 极限运算法则",
+        "knowledgePoints": ["kp-1-5-1"]
+      },
+      {
+        "id": "ch1-s6",
+        "title": "1.6 两个重要极限",
+        "knowledgePoints": ["kp-1-6-1", "kp-1-6-2"]
+      },
+      {
+        "id": "ch1-s7",
+        "title": "1.7 连续性与间断点",
+        "knowledgePoints": ["kp-1-7-1", "kp-1-7-2"]
+      }
+    ]
+  },
+  {
+    "id": "ch2",
+    "title": "第二章 导数与微分",
+    "order": 2,
+    "description": "微分学的核心内容，介绍导数的概念、求导法则和微分",
+    "sections": [
+      {
+        "id": "ch2-s1",
+        "title": "2.1 导数的概念",
+        "knowledgePoints": ["kp-2-1-1", "kp-2-1-2"]
+      },
+      {
+        "id": "ch2-s2",
+        "title": "2.2 求导法则",
+        "knowledgePoints": ["kp-2-2-1", "kp-2-2-2"]
+      },
+      {
+        "id": "ch2-s3",
+        "title": "2.3 高阶导数",
+        "knowledgePoints": ["kp-2-3-1"]
+      },
+      {
+        "id": "ch2-s4",
+        "title": "2.4 隐函数与参数方程求导",
+        "knowledgePoints": ["kp-2-4-1"]
+      },
+      {
+        "id": "ch2-s5",
+        "title": "2.5 微分的概念",
+        "knowledgePoints": ["kp-2-5-1"]
+      },
+      {
+        "id": "ch2-s6",
+        "title": "2.6 微分中值定理",
+        "knowledgePoints": ["kp-2-6-1", "kp-2-6-2", "kp-2-6-3"]
+      }
+    ]
+  },
+  {
+    "id": "ch3",
+    "title": "第三章 导数应用",
+    "order": 3,
+    "description": "利用导数研究函数的性质和图像",
+    "sections": [
+      {
+        "id": "ch3-s1",
+        "title": "3.1 函数单调性",
+        "knowledgePoints": ["kp-3-1-1"]
+      },
+      {
+        "id": "ch3-s2",
+        "title": "3.2 极值与最值",
+        "knowledgePoints": ["kp-3-2-1"]
+      },
+      {
+        "id": "ch3-s3",
+        "title": "3.3 凹凸性与拐点",
+        "knowledgePoints": ["kp-3-3-1"]
+      },
+      {
+        "id": "ch3-s4",
+        "title": "3.4 渐近线",
+        "knowledgePoints": ["kp-3-4-1"]
+      },
+      {
+        "id": "ch3-s5",
+        "title": "3.5 洛必达法则",
+        "knowledgePoints": ["kp-3-5-1"]
+      }
+    ]
+  },
+  {
+    "id": "ch4",
+    "title": "第四章 不定积分",
+    "order": 4,
+    "description": "积分学的基础，介绍不定积分的概念和计算方法",
+    "sections": [
+      {
+        "id": "ch4-s1",
+        "title": "4.1 原函数与不定积分",
+        "knowledgePoints": ["kp-4-1-1"]
+      },
+      {
+        "id": "ch4-s2",
+        "title": "4.2 换元积分法",
+        "knowledgePoints": ["kp-4-2-1"]
+      },
+      {
+        "id": "ch4-s3",
+        "title": "4.3 分部积分法",
+        "knowledgePoints": ["kp-4-3-1"]
+      }
+    ]
+  },
+  {
+    "id": "ch5",
+    "title": "第五章 定积分",
+    "order": 5,
+    "description": "定积分的概念、性质和应用",
+    "sections": [
+      {
+        "id": "ch5-s1",
+        "title": "5.1 定积分概念与性质",
+        "knowledgePoints": ["kp-5-1-1"]
+      },
+      {
+        "id": "ch5-s2",
+        "title": "5.2 微积分基本定理",
+        "knowledgePoints": ["kp-5-2-1"]
+      },
+      {
+        "id": "ch5-s3",
+        "title": "5.3 定积分应用",
+        "knowledgePoints": ["kp-5-3-1"]
+      }
+    ]
+  },
+  {
+    "id": "ch6",
+    "title": "第六章 微分方程",
+    "order": 6,
+    "description": "常微分方程的基本解法",
+    "sections": [
+      {
+        "id": "ch6-s1",
+        "title": "6.1 微分方程基本概念",
+        "knowledgePoints": ["kp-6-1-1"]
+      },
+      {
+        "id": "ch6-s2",
+        "title": "6.2 一阶微分方程",
+        "knowledgePoints": ["kp-6-2-1"]
+      }
+    ]
+  },
+  {
+    "id": "ch7",
+    "title": "第七章 无穷级数",
+    "order": 7,
+    "description": "级数的收敛性和函数展开",
+    "sections": [
+      {
+        "id": "ch7-s1",
+        "title": "7.1 数项级数",
+        "knowledgePoints": ["kp-7-1-1"]
+      },
+      {
+        "id": "ch7-s2",
+        "title": "7.2 幂级数",
+        "knowledgePoints": ["kp-7-2-1"]
+      },
+      {
+        "id": "ch7-s3",
+        "title": "7.3 泰勒级数",
+        "knowledgePoints": ["kp-7-3-1"]
+      }
+    ]
+  }
+]

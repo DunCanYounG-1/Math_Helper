@@ -1,0 +1,1027 @@
+[
+  {
+    "id": "f-1-1-1",
+    "knowledgePointId": "kp-1-1-1",
+    "name": "函数定义",
+    "latex": "y = f(x), \\quad x \\in D",
+    "description": "函数是从定义域D到值域的映射，每个x对应唯一的y"
+  },
+  {
+    "id": "f-1-1-2",
+    "knowledgePointId": "kp-1-1-1",
+    "name": "复合函数",
+    "latex": "y = f(g(x)) = (f \\circ g)(x)",
+    "description": "复合函数是将一个函数的输出作为另一个函数的输入"
+  },
+  {
+    "id": "f-1-1-3",
+    "knowledgePointId": "kp-1-1-2",
+    "name": "奇函数定义",
+    "latex": "f(-x) = -f(x)",
+    "description": "奇函数关于原点对称"
+  },
+  {
+    "id": "f-1-1-4",
+    "knowledgePointId": "kp-1-1-2",
+    "name": "偶函数定义",
+    "latex": "f(-x) = f(x)",
+    "description": "偶函数关于y轴对称"
+  },
+  {
+    "id": "f-1-2-1",
+    "knowledgePointId": "kp-1-2-1",
+    "name": "数列极限的ε-N定义",
+    "latex": "\\lim_{n \\to \\infty} a_n = A \\Leftrightarrow \\forall \\varepsilon > 0, \\exists N, n > N \\Rightarrow |a_n - A| < \\varepsilon",
+    "description": "数列极限的精确定义"
+  },
+  {
+    "id": "f-1-2-2",
+    "knowledgePointId": "kp-1-2-1",
+    "name": "夹逼准则",
+    "latex": "a_n \\leq b_n \\leq c_n, \\lim a_n = \\lim c_n = A \\Rightarrow \\lim b_n = A",
+    "description": "若被夹在中间的数列两边极限相等，则中间数列极限也相等"
+  },
+  {
+    "id": "f-1-3-1",
+    "knowledgePointId": "kp-1-3-1",
+    "name": "函数极限的ε-δ定义",
+    "latex": "\\lim_{x \\to x_0} f(x) = A \\Leftrightarrow \\forall \\varepsilon > 0, \\exists \\delta > 0, 0 < |x - x_0| < \\delta \\Rightarrow |f(x) - A| < \\varepsilon",
+    "description": "函数极限的精确定义"
+  },
+  {
+    "id": "f-1-3-2",
+    "knowledgePointId": "kp-1-3-1",
+    "name": "极限存在条件",
+    "latex": "\\lim_{x \\to x_0} f(x) = A \\Leftrightarrow \\lim_{x \\to x_0^-} f(x) = \\lim_{x \\to x_0^+} f(x) = A",
+    "description": "极限存在当且仅当左右极限都存在且相等"
+  },
+  {
+    "id": "f-1-3-3",
+    "knowledgePointId": "kp-1-3-2",
+    "name": "局部保号性",
+    "latex": "\\lim_{x \\to x_0} f(x) = A > 0 \\Rightarrow \\exists \\delta > 0, 0 < |x - x_0| < \\delta \\Rightarrow f(x) > 0",
+    "description": "极限为正时，函数在邻域内为正"
+  },
+  {
+    "id": "f-1-4-1",
+    "knowledgePointId": "kp-1-4-1",
+    "name": "无穷小定义",
+    "latex": "\\lim_{x \\to x_0} \\alpha(x) = 0",
+    "description": "以0为极限的函数称为无穷小"
+  },
+  {
+    "id": "f-1-4-2",
+    "knowledgePointId": "kp-1-4-1",
+    "name": "等价无穷小",
+    "latex": "\\alpha \\sim \\beta \\Leftrightarrow \\lim \\frac{\\alpha}{\\beta} = 1",
+    "description": "两个无穷小的比值极限为1时称为等价无穷小"
+  },
+  {
+    "id": "f-1-4-3",
+    "knowledgePointId": "kp-1-4-1",
+    "name": "常见等价无穷小",
+    "latex": "\\sin x \\sim x, \\quad \\tan x \\sim x, \\quad 1 - \\cos x \\sim \\frac{x^2}{2}, \\quad e^x - 1 \\sim x, \\quad \\ln(1+x) \\sim x",
+    "description": "当x→0时的常见等价无穷小关系"
+  },
+  {
+    "id": "f-1-5-1",
+    "knowledgePointId": "kp-1-5-1",
+    "name": "极限四则运算",
+    "latex": "\\lim(f \\pm g) = \\lim f \\pm \\lim g, \\quad \\lim(fg) = \\lim f \\cdot \\lim g, \\quad \\lim \\frac{f}{g} = \\frac{\\lim f}{\\lim g}",
+    "description": "极限存在时可以进行四则运算"
+  },
+  {
+    "id": "f-1-5-2",
+    "knowledgePointId": "kp-1-5-1",
+    "name": "复合函数极限",
+    "latex": "\\lim_{x \\to x_0} f(g(x)) = f(\\lim_{x \\to x_0} g(x))",
+    "description": "当f连续时，复合函数的极限可以交换"
+  },
+  {
+    "id": "f-1-6-1",
+    "knowledgePointId": "kp-1-6-1",
+    "name": "第一重要极限",
+    "latex": "\\lim_{x \\to 0} \\frac{\\sin x}{x} = 1",
+    "description": "第一重要极限，三角函数极限计算的基础"
+  },
+  {
+    "id": "f-1-6-2",
+    "knowledgePointId": "kp-1-6-1",
+    "name": "第一重要极限推广",
+    "latex": "\\lim_{x \\to 0} \\frac{\\tan x}{x} = 1, \\quad \\lim_{x \\to 0} \\frac{\\arcsin x}{x} = 1",
+    "description": "第一重要极限的推广形式"
+  },
+  {
+    "id": "f-1-6-3",
+    "knowledgePointId": "kp-1-6-2",
+    "name": "第二重要极限",
+    "latex": "\\lim_{x \\to \\infty} \\left(1 + \\frac{1}{x}\\right)^x = e",
+    "description": "第二重要极限，自然对数底的定义"
+  },
+  {
+    "id": "f-1-6-4",
+    "knowledgePointId": "kp-1-6-2",
+    "name": "第二重要极限等价形式",
+    "latex": "\\lim_{x \\to 0} (1 + x)^{\\frac{1}{x}} = e, \\quad \\lim_{x \\to 0} \\frac{e^x - 1}{x} = 1",
+    "description": "第二重要极限的等价形式"
+  },
+  {
+    "id": "f-1-7-1",
+    "knowledgePointId": "kp-1-7-1",
+    "name": "连续性定义",
+    "latex": "\\lim_{x \\to x_0} f(x) = f(x_0)",
+    "description": "函数在x₀连续的定义"
+  },
+  {
+    "id": "f-1-7-2",
+    "knowledgePointId": "kp-1-7-2",
+    "name": "间断点分类",
+    "latex": "\\text{第一类：左右极限都存在} \\quad \\text{第二类：至少一侧极限不存在}",
+    "description": "间断点的分类标准"
+  },
+  {
+    "id": "f-2-1-1",
+    "knowledgePointId": "kp-2-1-1",
+    "name": "导数定义",
+    "latex": "f'(x_0) = \\lim_{\\Delta x \\to 0} \\frac{f(x_0 + \\Delta x) - f(x_0)}{\\Delta x} = \\lim_{x \\to x_0} \\frac{f(x) - f(x_0)}{x - x_0}",
+    "description": "导数的极限定义"
+  },
+  {
+    "id": "f-2-1-2",
+    "knowledgePointId": "kp-2-1-1",
+    "name": "可导与连续关系",
+    "latex": "f'(x_0) \\text{ 存在} \\Rightarrow f(x) \\text{ 在 } x_0 \\text{ 处连续}",
+    "description": "可导必连续，连续不一定可导"
+  },
+  {
+    "id": "f-2-1-3",
+    "knowledgePointId": "kp-2-1-2",
+    "name": "常数导数",
+    "latex": "(C)' = 0",
+    "description": "常数的导数为零"
+  },
+  {
+    "id": "f-2-1-4",
+    "knowledgePointId": "kp-2-1-2",
+    "name": "幂函数导数",
+    "latex": "(x^n)' = nx^{n-1} \\quad (n \\in \\mathbb{R})",
+    "description": "幂函数的求导公式，适用于任意实数n"
+  },
+  {
+    "id": "f-2-1-5",
+    "knowledgePointId": "kp-2-1-2",
+    "name": "根式导数",
+    "latex": "(\\sqrt{x})' = \\frac{1}{2\\sqrt{x}}, \\quad (\\sqrt[n]{x})' = \\frac{1}{n\\sqrt[n]{x^{n-1}}}",
+    "description": "根式函数的导数公式"
+  },
+  {
+    "id": "f-2-1-6",
+    "knowledgePointId": "kp-2-1-2",
+    "name": "指数函数导数",
+    "latex": "(e^x)' = e^x, \\quad (a^x)' = a^x \\ln a \\quad (a > 0, a \\neq 1)",
+    "description": "指数函数的导数公式"
+  },
+  {
+    "id": "f-2-1-7",
+    "knowledgePointId": "kp-2-1-2",
+    "name": "对数函数导数",
+    "latex": "(\\ln x)' = \\frac{1}{x}, \\quad (\\log_a x)' = \\frac{1}{x \\ln a} \\quad (a > 0, a \\neq 1)",
+    "description": "对数函数的导数公式"
+  },
+  {
+    "id": "f-2-1-8",
+    "knowledgePointId": "kp-2-1-2",
+    "name": "三角函数导数(正弦余弦)",
+    "latex": "(\\sin x)' = \\cos x, \\quad (\\cos x)' = -\\sin x",
+    "description": "正弦和余弦函数的导数"
+  },
+  {
+    "id": "f-2-1-9",
+    "knowledgePointId": "kp-2-1-2",
+    "name": "三角函数导数(正切余切)",
+    "latex": "(\\tan x)' = \\sec^2 x = \\frac{1}{\\cos^2 x}, \\quad (\\cot x)' = -\\csc^2 x = -\\frac{1}{\\sin^2 x}",
+    "description": "正切和余切函数的导数"
+  },
+  {
+    "id": "f-2-1-10",
+    "knowledgePointId": "kp-2-1-2",
+    "name": "三角函数导数(正割余割)",
+    "latex": "(\\sec x)' = \\sec x \\tan x, \\quad (\\csc x)' = -\\csc x \\cot x",
+    "description": "正割和余割函数的导数"
+  },
+  {
+    "id": "f-2-1-11",
+    "knowledgePointId": "kp-2-1-2",
+    "name": "反三角函数导数(反正弦反余弦)",
+    "latex": "(\\arcsin x)' = \\frac{1}{\\sqrt{1-x^2}}, \\quad (\\arccos x)' = -\\frac{1}{\\sqrt{1-x^2}}",
+    "description": "反正弦和反余弦函数的导数"
+  },
+  {
+    "id": "f-2-1-12",
+    "knowledgePointId": "kp-2-1-2",
+    "name": "反三角函数导数(反正切反余切)",
+    "latex": "(\\arctan x)' = \\frac{1}{1+x^2}, \\quad (\\text{arccot}\\, x)' = -\\frac{1}{1+x^2}",
+    "description": "反正切和反余切函数的导数"
+  },
+  {
+    "id": "f-2-1-13",
+    "knowledgePointId": "kp-2-1-2",
+    "name": "双曲函数导数",
+    "latex": "(\\sinh x)' = \\cosh x, \\quad (\\cosh x)' = \\sinh x, \\quad (\\tanh x)' = \\text{sech}^2 x",
+    "description": "双曲函数的导数公式"
+  },
+  {
+    "id": "f-2-2-1",
+    "knowledgePointId": "kp-2-2-1",
+    "name": "和差法则",
+    "latex": "(u \\pm v)' = u' \\pm v'",
+    "description": "函数和差的导数等于导数的和差"
+  },
+  {
+    "id": "f-2-2-2",
+    "knowledgePointId": "kp-2-2-1",
+    "name": "积法则",
+    "latex": "(uv)' = u'v + uv'",
+    "description": "两函数乘积的导数公式"
+  },
+  {
+    "id": "f-2-2-3",
+    "knowledgePointId": "kp-2-2-1",
+    "name": "商法则",
+    "latex": "\\left(\\frac{u}{v}\\right)' = \\frac{u'v - uv'}{v^2}",
+    "description": "两函数商的导数公式"
+  },
+  {
+    "id": "f-2-2-4",
+    "knowledgePointId": "kp-2-2-2",
+    "name": "链式法则",
+    "latex": "[f(g(x))]' = f'(g(x)) \\cdot g'(x)",
+    "description": "复合函数的求导法则"
+  },
+  {
+    "id": "f-2-3-1",
+    "knowledgePointId": "kp-2-3-1",
+    "name": "高阶导数记号",
+    "latex": "f''(x) = \\frac{d^2y}{dx^2}, \\quad f^{(n)}(x) = \\frac{d^ny}{dx^n}",
+    "description": "高阶导数的表示方法"
+  },
+  {
+    "id": "f-2-3-2",
+    "knowledgePointId": "kp-2-3-1",
+    "name": "莱布尼茨公式",
+    "latex": "(uv)^{(n)} = \\sum_{k=0}^{n} C_n^k u^{(n-k)} v^{(k)}",
+    "description": "两函数乘积的n阶导数公式"
+  },
+  {
+    "id": "f-2-4-1",
+    "knowledgePointId": "kp-2-4-1",
+    "name": "隐函数求导",
+    "latex": "F(x, y) = 0 \\Rightarrow \\frac{dy}{dx} = -\\frac{F'_x}{F'_y}",
+    "description": "隐函数求导的一般公式"
+  },
+  {
+    "id": "f-2-4-2",
+    "knowledgePointId": "kp-2-4-1",
+    "name": "参数方程求导",
+    "latex": "\\frac{dy}{dx} = \\frac{dy/dt}{dx/dt} = \\frac{\\varphi'(t)}{\\psi'(t)}",
+    "description": "参数方程的求导公式"
+  },
+  {
+    "id": "f-2-5-1",
+    "knowledgePointId": "kp-2-5-1",
+    "name": "微分定义",
+    "latex": "dy = f'(x)dx",
+    "description": "函数微分的定义"
+  },
+  {
+    "id": "f-2-5-2",
+    "knowledgePointId": "kp-2-5-1",
+    "name": "微分近似",
+    "latex": "\\Delta y \\approx dy = f'(x_0) \\Delta x",
+    "description": "用微分近似计算函数增量"
+  },
+  {
+    "id": "f-2-6-1",
+    "knowledgePointId": "kp-2-6-1",
+    "name": "罗尔定理",
+    "latex": "f(a) = f(b), f \\in C[a,b], f \\in D(a,b) \\Rightarrow \\exists \\xi \\in (a,b), f'(\\xi) = 0",
+    "description": "罗尔定理的数学表述"
+  },
+  {
+    "id": "f-2-6-2",
+    "knowledgePointId": "kp-2-6-2",
+    "name": "拉格朗日中值定理",
+    "latex": "f(b) - f(a) = f'(\\xi)(b - a), \\quad \\xi \\in (a, b)",
+    "description": "拉格朗日中值定理"
+  },
+  {
+    "id": "f-2-6-3",
+    "knowledgePointId": "kp-2-6-3",
+    "name": "柯西中值定理",
+    "latex": "\\frac{f(b) - f(a)}{g(b) - g(a)} = \\frac{f'(\\xi)}{g'(\\xi)}, \\quad \\xi \\in (a, b)",
+    "description": "柯西中值定理"
+  },
+  {
+    "id": "f-3-1-1",
+    "knowledgePointId": "kp-3-1-1",
+    "name": "单调性判定",
+    "latex": "f'(x) > 0 \\Rightarrow f(x) \\text{ 递增}, \\quad f'(x) < 0 \\Rightarrow f(x) \\text{ 递减}",
+    "description": "用导数判断函数单调性"
+  },
+  {
+    "id": "f-3-2-1",
+    "knowledgePointId": "kp-3-2-1",
+    "name": "极值必要条件",
+    "latex": "f(x_0) \\text{ 是极值} \\Rightarrow f'(x_0) = 0 \\text{ 或 } f'(x_0) \\text{ 不存在}",
+    "description": "极值点的必要条件"
+  },
+  {
+    "id": "f-3-2-2",
+    "knowledgePointId": "kp-3-2-1",
+    "name": "极值第二充分条件",
+    "latex": "f'(x_0) = 0, f''(x_0) < 0 \\Rightarrow \\text{极大值}; \\quad f''(x_0) > 0 \\Rightarrow \\text{极小值}",
+    "description": "用二阶导数判断极值类型"
+  },
+  {
+    "id": "f-3-3-1",
+    "knowledgePointId": "kp-3-3-1",
+    "name": "凹凸性判定",
+    "latex": "f''(x) > 0 \\Rightarrow \\text{凹（下凸）}, \\quad f''(x) < 0 \\Rightarrow \\text{凸（上凸）}",
+    "description": "用二阶导数判断凹凸性"
+  },
+  {
+    "id": "f-3-4-1",
+    "knowledgePointId": "kp-3-4-1",
+    "name": "水平渐近线",
+    "latex": "\\lim_{x \\to +\\infty} f(x) = b \\text{ 或 } \\lim_{x \\to -\\infty} f(x) = b \\Rightarrow y = b \\text{ 是水平渐近线}",
+    "description": "水平渐近线的求法"
+  },
+  {
+    "id": "f-3-4-2",
+    "knowledgePointId": "kp-3-4-1",
+    "name": "斜渐近线",
+    "latex": "k = \\lim_{x \\to \\infty} \\frac{f(x)}{x}, \\quad b = \\lim_{x \\to \\infty} [f(x) - kx] \\Rightarrow y = kx + b",
+    "description": "斜渐近线的求法"
+  },
+  {
+    "id": "f-3-5-1",
+    "knowledgePointId": "kp-3-5-1",
+    "name": "洛必达法则",
+    "latex": "\\lim \\frac{f(x)}{g(x)} \\xlongequal{\\frac{0}{0} \\text{ 或 } \\frac{\\infty}{\\infty}} \\lim \\frac{f'(x)}{g'(x)}",
+    "description": "洛必达法则用于求未定式极限"
+  },
+  {
+    "id": "f-4-1-1",
+    "knowledgePointId": "kp-4-1-1",
+    "name": "不定积分定义",
+    "latex": "\\int f(x)dx = F(x) + C, \\quad F'(x) = f(x)",
+    "description": "不定积分是求导的逆运算"
+  },
+  {
+    "id": "f-4-1-2",
+    "knowledgePointId": "kp-4-1-1",
+    "name": "幂函数积分",
+    "latex": "\\int x^n dx = \\frac{x^{n+1}}{n+1} + C \\quad (n \\neq -1)",
+    "description": "幂函数的积分公式"
+  },
+  {
+    "id": "f-4-1-3",
+    "knowledgePointId": "kp-4-1-1",
+    "name": "指数函数积分",
+    "latex": "\\int e^x dx = e^x + C, \\quad \\int a^x dx = \\frac{a^x}{\\ln a} + C",
+    "description": "指数函数的积分公式"
+  },
+  {
+    "id": "f-4-1-4",
+    "knowledgePointId": "kp-4-1-1",
+    "name": "对数函数积分",
+    "latex": "\\int \\frac{1}{x} dx = \\ln|x| + C",
+    "description": "对数函数的积分公式"
+  },
+  {
+    "id": "f-4-1-5",
+    "knowledgePointId": "kp-4-1-1",
+    "name": "三角函数积分(正弦余弦)",
+    "latex": "\\int \\sin x\\, dx = -\\cos x + C, \\quad \\int \\cos x\\, dx = \\sin x + C",
+    "description": "正弦和余弦函数的积分"
+  },
+  {
+    "id": "f-4-1-6",
+    "knowledgePointId": "kp-4-1-1",
+    "name": "三角函数积分(正切余切)",
+    "latex": "\\int \\tan x\\, dx = -\\ln|\\cos x| + C, \\quad \\int \\cot x\\, dx = \\ln|\\sin x| + C",
+    "description": "正切和余切函数的积分"
+  },
+  {
+    "id": "f-4-1-7",
+    "knowledgePointId": "kp-4-1-1",
+    "name": "三角函数积分(正割余割)",
+    "latex": "\\int \\sec x\\, dx = \\ln|\\sec x + \\tan x| + C, \\quad \\int \\csc x\\, dx = \\ln|\\csc x - \\cot x| + C",
+    "description": "正割和余割函数的积分"
+  },
+  {
+    "id": "f-4-1-8",
+    "knowledgePointId": "kp-4-1-1",
+    "name": "三角函数平方积分",
+    "latex": "\\int \\sec^2 x\\, dx = \\tan x + C, \\quad \\int \\csc^2 x\\, dx = -\\cot x + C",
+    "description": "正割和余割平方的积分"
+  },
+  {
+    "id": "f-4-1-9",
+    "knowledgePointId": "kp-4-1-1",
+    "name": "反三角函数积分",
+    "latex": "\\int \\frac{1}{\\sqrt{1-x^2}} dx = \\arcsin x + C, \\quad \\int \\frac{1}{1+x^2} dx = \\arctan x + C",
+    "description": "产生反三角函数的积分"
+  },
+  {
+    "id": "f-4-1-10",
+    "knowledgePointId": "kp-4-1-1",
+    "name": "根式积分",
+    "latex": "\\int \\frac{1}{\\sqrt{a^2-x^2}} dx = \\arcsin\\frac{x}{a} + C, \\quad \\int \\frac{1}{a^2+x^2} dx = \\frac{1}{a}\\arctan\\frac{x}{a} + C",
+    "description": "含参数的常见积分公式"
+  },
+  {
+    "id": "f-4-1-11",
+    "knowledgePointId": "kp-4-1-1",
+    "name": "对数型积分",
+    "latex": "\\int \\frac{1}{x^2-a^2} dx = \\frac{1}{2a}\\ln\\left|\\frac{x-a}{x+a}\\right| + C",
+    "description": "产生对数的有理函数积分"
+  },
+  {
+    "id": "f-4-2-1",
+    "knowledgePointId": "kp-4-2-1",
+    "name": "第一类换元法",
+    "latex": "\\int f(\\varphi(x)) \\varphi'(x) dx = \\int f(u) du \\quad (u = \\varphi(x))",
+    "description": "凑微分法"
+  },
+  {
+    "id": "f-4-2-2",
+    "knowledgePointId": "kp-4-2-1",
+    "name": "第二类换元法",
+    "latex": "\\int f(x) dx \\xlongequal{x = \\varphi(t)} \\int f(\\varphi(t)) \\varphi'(t) dt",
+    "description": "变量替换法"
+  },
+  {
+    "id": "f-4-3-1",
+    "knowledgePointId": "kp-4-3-1",
+    "name": "分部积分公式",
+    "latex": "\\int u dv = uv - \\int v du",
+    "description": "分部积分法"
+  },
+  {
+    "id": "f-5-1-1",
+    "knowledgePointId": "kp-5-1-1",
+    "name": "定积分定义",
+    "latex": "\\int_a^b f(x)dx = \\lim_{\\lambda \\to 0} \\sum_{i=1}^{n} f(\\xi_i) \\Delta x_i",
+    "description": "定积分的黎曼和定义"
+  },
+  {
+    "id": "f-5-1-2",
+    "knowledgePointId": "kp-5-1-1",
+    "name": "定积分性质",
+    "latex": "\\int_a^b f(x)dx = -\\int_b^a f(x)dx, \\quad \\int_a^b [f(x) + g(x)]dx = \\int_a^b f(x)dx + \\int_a^b g(x)dx",
+    "description": "定积分的基本性质"
+  },
+  {
+    "id": "f-5-2-1",
+    "knowledgePointId": "kp-5-2-1",
+    "name": "变限积分求导",
+    "latex": "\\frac{d}{dx} \\int_a^x f(t)dt = f(x)",
+    "description": "积分上限函数的导数"
+  },
+  {
+    "id": "f-5-2-2",
+    "knowledgePointId": "kp-5-2-1",
+    "name": "牛顿-莱布尼茨公式",
+    "latex": "\\int_a^b f(x)dx = F(b) - F(a) = F(x) \\Big|_a^b",
+    "description": "微积分基本定理"
+  },
+  {
+    "id": "f-5-3-1",
+    "knowledgePointId": "kp-5-3-1",
+    "name": "平面面积",
+    "latex": "S = \\int_a^b |f(x) - g(x)| dx",
+    "description": "用定积分计算平面图形面积"
+  },
+  {
+    "id": "f-5-3-2",
+    "knowledgePointId": "kp-5-3-1",
+    "name": "旋转体体积",
+    "latex": "V = \\pi \\int_a^b [f(x)]^2 dx",
+    "description": "绕x轴旋转体的体积"
+  },
+  {
+    "id": "f-5-3-3",
+    "knowledgePointId": "kp-5-3-1",
+    "name": "弧长公式",
+    "latex": "L = \\int_a^b \\sqrt{1 + [f'(x)]^2} dx",
+    "description": "平面曲线的弧长"
+  },
+  {
+    "id": "f-6-1-1",
+    "knowledgePointId": "kp-6-1-1",
+    "name": "微分方程一般形式",
+    "latex": "F(x, y, y', y'', \\ldots, y^{(n)}) = 0",
+    "description": "n阶微分方程的一般形式"
+  },
+  {
+    "id": "f-6-2-1",
+    "knowledgePointId": "kp-6-2-1",
+    "name": "可分离变量方程",
+    "latex": "\\frac{dy}{dx} = f(x)g(y) \\Rightarrow \\int \\frac{dy}{g(y)} = \\int f(x)dx",
+    "description": "可分离变量微分方程的解法"
+  },
+  {
+    "id": "f-6-2-2",
+    "knowledgePointId": "kp-6-2-1",
+    "name": "一阶线性方程",
+    "latex": "y' + P(x)y = Q(x) \\Rightarrow y = e^{-\\int P dx}\\left[\\int Q e^{\\int P dx} dx + C\\right]",
+    "description": "一阶线性微分方程的通解公式"
+  },
+  {
+    "id": "f-6-2-3",
+    "knowledgePointId": "kp-6-2-1",
+    "name": "齐次方程",
+    "latex": "\\frac{dy}{dx} = \\varphi\\left(\\frac{y}{x}\\right) \\xRightarrow{u = y/x} x\\frac{du}{dx} + u = \\varphi(u)",
+    "description": "齐次微分方程的变量替换"
+  },
+  {
+    "id": "f-7-1-1",
+    "knowledgePointId": "kp-7-1-1",
+    "name": "级数收敛定义",
+    "latex": "\\sum_{n=1}^{\\infty} a_n = S \\Leftrightarrow \\lim_{n \\to \\infty} S_n = S",
+    "description": "级数收敛于部分和数列的极限"
+  },
+  {
+    "id": "f-7-1-2",
+    "knowledgePointId": "kp-7-1-1",
+    "name": "收敛必要条件",
+    "latex": "\\sum a_n \\text{ 收敛} \\Rightarrow \\lim_{n \\to \\infty} a_n = 0",
+    "description": "级数收敛的必要条件"
+  },
+  {
+    "id": "f-7-2-1",
+    "knowledgePointId": "kp-7-2-1",
+    "name": "幂级数形式",
+    "latex": "\\sum_{n=0}^{\\infty} a_n (x - x_0)^n",
+    "description": "幂级数的一般形式"
+  },
+  {
+    "id": "f-7-2-2",
+    "knowledgePointId": "kp-7-2-1",
+    "name": "收敛半径公式",
+    "latex": "R = \\lim_{n \\to \\infty} \\left|\\frac{a_n}{a_{n+1}}\\right| = \\frac{1}{\\limsup_{n \\to \\infty} \\sqrt[n]{|a_n|}}",
+    "description": "幂级数收敛半径的计算"
+  },
+  {
+    "id": "f-7-3-1",
+    "knowledgePointId": "kp-7-3-1",
+    "name": "泰勒公式",
+    "latex": "f(x) = \\sum_{n=0}^{\\infty} \\frac{f^{(n)}(x_0)}{n!}(x - x_0)^n",
+    "description": "函数的泰勒级数展开"
+  },
+  {
+    "id": "f-7-3-2",
+    "knowledgePointId": "kp-7-3-1",
+    "name": "麦克劳林展开式-指数",
+    "latex": "e^x = \\sum_{n=0}^{\\infty} \\frac{x^n}{n!} = 1 + x + \\frac{x^2}{2!} + \\frac{x^3}{3!} + \\cdots",
+    "description": "e^x的麦克劳林展开"
+  },
+  {
+    "id": "f-7-3-3",
+    "knowledgePointId": "kp-7-3-1",
+    "name": "麦克劳林展开式-三角",
+    "latex": "\\sin x = \\sum_{n=0}^{\\infty} \\frac{(-1)^n x^{2n+1}}{(2n+1)!}, \\quad \\cos x = \\sum_{n=0}^{\\infty} \\frac{(-1)^n x^{2n}}{(2n)!}",
+    "description": "三角函数的麦克劳林展开"
+  },
+
+  {
+    "id": "f-1-4-4",
+    "knowledgePointId": "kp-1-4-1",
+    "name": "等价无穷小-反三角",
+    "latex": "\\arcsin x \\sim x, \\quad \\arctan x \\sim x \\quad (x \\to 0)",
+    "description": "当x→0时，反正弦和反正切函数的等价无穷小",
+    "examFrequency": "high",
+    "memoryTip": "反三角函数在0附近和自变量本身等价，因为它们的泰勒展开首项都是x"
+  },
+  {
+    "id": "f-1-4-5",
+    "knowledgePointId": "kp-1-4-1",
+    "name": "等价无穷小-幂指型",
+    "latex": "(1+x)^\\alpha - 1 \\sim \\alpha x \\quad (x \\to 0)",
+    "description": "当x→0时，幂函数的等价无穷小",
+    "examFrequency": "very-high",
+    "memoryTip": "「幂次下来乘」：指数α降下来与x相乘，这与求导法则形式一致"
+  },
+  {
+    "id": "f-1-4-6",
+    "knowledgePointId": "kp-1-4-1",
+    "name": "等价无穷小-高阶",
+    "latex": "x - \\sin x \\sim \\frac{x^3}{6}, \\quad \\tan x - x \\sim \\frac{x^3}{3}, \\quad x - \\ln(1+x) \\sim \\frac{x^2}{2} \\quad (x \\to 0)",
+    "description": "当x→0时的高阶等价无穷小关系",
+    "examFrequency": "very-high",
+    "memoryTip": "「136口诀」：x-sinx是1/6，tanx-x是1/3，x-ln(1+x)是1/2。记住分母：6、3、2"
+  },
+  {
+    "id": "f-1-4-7",
+    "knowledgePointId": "kp-1-4-1",
+    "name": "等价无穷小-对数型",
+    "latex": "a^x - 1 \\sim x \\ln a, \\quad \\log_a(1+x) \\sim \\frac{x}{\\ln a} \\quad (x \\to 0)",
+    "description": "当x→0时，一般底数的指数和对数函数的等价无穷小",
+    "examFrequency": "medium",
+    "memoryTip": "把e换成a，就多乘或除一个lna。a^x比e^x多乘lna，log_a比ln多除lna"
+  },
+  {
+    "id": "f-1-2-3",
+    "knowledgePointId": "kp-1-2-1",
+    "name": "单调有界准则",
+    "latex": "\\text{单调递增有上界} \\Rightarrow \\text{收敛}, \\quad \\text{单调递减有下界} \\Rightarrow \\text{收敛}",
+    "description": "单调有界数列必收敛",
+    "examFrequency": "high",
+    "memoryTip": "「单调有界必收敛」：递增找上界，递减找下界。常用于递推数列求极限"
+  },
+
+  {
+    "id": "f-3-3-2",
+    "knowledgePointId": "kp-3-3-1",
+    "name": "拐点判定",
+    "latex": "f''(x_0) = 0 \\text{ 且 } f''(x) \\text{ 在 } x_0 \\text{ 两侧变号} \\Rightarrow (x_0, f(x_0)) \\text{ 是拐点}",
+    "description": "拐点的判定条件",
+    "examFrequency": "high",
+    "memoryTip": "拐点是「凹凸分界点」：二阶导为0只是候选，还要两侧变号才是真拐点"
+  },
+  {
+    "id": "f-3-3-3",
+    "knowledgePointId": "kp-3-3-1",
+    "name": "曲率公式",
+    "latex": "K = \\frac{|y''|}{(1 + y'^2)^{3/2}}",
+    "description": "平面曲线的曲率计算公式",
+    "examFrequency": "medium",
+    "memoryTip": "「上二下一加三半」：分子是二阶导绝对值，分母是(1+一阶导平方)的3/2次方"
+  },
+  {
+    "id": "f-3-3-4",
+    "knowledgePointId": "kp-3-3-1",
+    "name": "曲率半径",
+    "latex": "\\rho = \\frac{1}{K} = \\frac{(1 + y'^2)^{3/2}}{|y''|}",
+    "description": "曲率半径是曲率的倒数",
+    "examFrequency": "medium",
+    "memoryTip": "曲率半径就是曲率的倒数，公式上下颠倒即可"
+  },
+  {
+    "id": "f-3-4-3",
+    "knowledgePointId": "kp-3-4-1",
+    "name": "垂直渐近线",
+    "latex": "\\lim_{x \\to x_0^+} f(x) = \\pm\\infty \\text{ 或 } \\lim_{x \\to x_0^-} f(x) = \\pm\\infty \\Rightarrow x = x_0 \\text{ 是垂直渐近线}",
+    "description": "垂直渐近线的求法",
+    "examFrequency": "high",
+    "memoryTip": "找分母为0的点！在这些点检查极限是否趋向无穷"
+  },
+
+  {
+    "id": "f-4-1-12",
+    "knowledgePointId": "kp-4-1-1",
+    "name": "根式积分-平方差型",
+    "latex": "\\int \\frac{1}{\\sqrt{x^2 - a^2}} dx = \\ln|x + \\sqrt{x^2 - a^2}| + C",
+    "description": "含根式的积分公式",
+    "examFrequency": "high",
+    "memoryTip": "结果是「ln|x+根号|」形式，x²-a²和x²+a²的结果形式完全相同"
+  },
+  {
+    "id": "f-4-1-13",
+    "knowledgePointId": "kp-4-1-1",
+    "name": "根式积分-平方和型",
+    "latex": "\\int \\frac{1}{\\sqrt{x^2 + a^2}} dx = \\ln|x + \\sqrt{x^2 + a^2}| + C",
+    "description": "含根式的积分公式",
+    "examFrequency": "high",
+    "memoryTip": "和平方差型记法一样：「ln|x+根号|」，只是根号内符号不同"
+  },
+  {
+    "id": "f-4-1-14",
+    "knowledgePointId": "kp-4-1-1",
+    "name": "根式积分-完整形式",
+    "latex": "\\int \\sqrt{a^2 - x^2}\\, dx = \\frac{x}{2}\\sqrt{a^2 - x^2} + \\frac{a^2}{2}\\arcsin\\frac{x}{a} + C",
+    "description": "含根式a²-x²的积分",
+    "examFrequency": "very-high",
+    "memoryTip": "「一半x根号 + 一半a²反正弦」：两项都有1/2系数"
+  },
+  {
+    "id": "f-4-1-15",
+    "knowledgePointId": "kp-4-1-1",
+    "name": "双曲函数积分",
+    "latex": "\\int \\sinh x\\, dx = \\cosh x + C, \\quad \\int \\cosh x\\, dx = \\sinh x + C",
+    "description": "双曲函数的积分公式",
+    "examFrequency": "low",
+    "memoryTip": "双曲正弦和余弦互为导数/积分，不像三角函数有负号"
+  },
+  {
+    "id": "f-4-1-16",
+    "knowledgePointId": "kp-4-1-1",
+    "name": "有理函数积分-部分分式",
+    "latex": "\\int \\frac{1}{(x-a)(x-b)} dx = \\frac{1}{a-b}\\ln\\left|\\frac{x-a}{x-b}\\right| + C",
+    "description": "有理函数部分分式积分",
+    "examFrequency": "high",
+    "memoryTip": "拆分成两个分式后积分，系数是1/(a-b)，结果是两个ln相减"
+  },
+  {
+    "id": "f-4-2-3",
+    "knowledgePointId": "kp-4-2-1",
+    "name": "三角代换",
+    "latex": "\\sqrt{a^2-x^2}: x=a\\sin t; \\quad \\sqrt{a^2+x^2}: x=a\\tan t; \\quad \\sqrt{x^2-a^2}: x=a\\sec t",
+    "description": "三种常见根式的三角代换方法",
+    "examFrequency": "very-high",
+    "memoryTip": "「减用sin，加用tan，反减用sec」：a²-x²用sinθ，a²+x²用tanθ，x²-a²用secθ"
+  },
+
+  {
+    "id": "f-5-1-3",
+    "knowledgePointId": "kp-5-1-1",
+    "name": "奇函数对称区间积分",
+    "latex": "f(x) \\text{ 为奇函数} \\Rightarrow \\int_{-a}^{a} f(x)\\, dx = 0",
+    "description": "奇函数在对称区间上的积分为零",
+    "examFrequency": "very-high",
+    "memoryTip": "「奇零偶倍」：奇函数对称区间积分=0，偶函数=2倍半区间"
+  },
+  {
+    "id": "f-5-1-4",
+    "knowledgePointId": "kp-5-1-1",
+    "name": "偶函数对称区间积分",
+    "latex": "f(x) \\text{ 为偶函数} \\Rightarrow \\int_{-a}^{a} f(x)\\, dx = 2\\int_{0}^{a} f(x)\\, dx",
+    "description": "偶函数在对称区间上的积分等于两倍的半区间积分",
+    "examFrequency": "very-high",
+    "memoryTip": "「奇零偶倍」：偶函数关于y轴对称，面积翻倍"
+  },
+  {
+    "id": "f-5-1-5",
+    "knowledgePointId": "kp-5-1-1",
+    "name": "周期函数积分",
+    "latex": "f(x+T) = f(x) \\Rightarrow \\int_{a}^{a+T} f(x)\\, dx = \\int_{0}^{T} f(x)\\, dx",
+    "description": "周期函数在任意一个周期上的积分相等",
+    "examFrequency": "high",
+    "memoryTip": "周期函数积一个周期，起点在哪里无所谓，结果都一样"
+  },
+  {
+    "id": "f-5-1-6",
+    "knowledgePointId": "kp-5-1-1",
+    "name": "华里士公式",
+    "latex": "\\int_0^{\\frac{\\pi}{2}} \\sin^n x\\, dx = \\int_0^{\\frac{\\pi}{2}} \\cos^n x\\, dx = \\begin{cases} \\frac{(n-1)!!}{n!!} \\cdot \\frac{\\pi}{2} & n\\text{为偶数} \\\\ \\frac{(n-1)!!}{n!!} & n\\text{为奇数} \\end{cases}",
+    "description": "Wallis公式，用于计算三角函数的幂次积分",
+    "examFrequency": "very-high",
+    "memoryTip": "「偶配π/2，奇不配」：偶数次幂结果要乘π/2，奇数次幂不用。双阶乘从(n-1)连乘到1或2"
+  },
+  {
+    "id": "f-5-1-7",
+    "knowledgePointId": "kp-5-1-1",
+    "name": "区间再现公式",
+    "latex": "\\int_a^b f(x)\\, dx = \\int_a^b f(a+b-x)\\, dx",
+    "description": "定积分的区间再现公式，常用于简化计算",
+    "examFrequency": "very-high",
+    "memoryTip": "「x换成a+b-x」：相当于把区间「翻转」，特别适合处理对称性问题"
+  },
+  {
+    "id": "f-5-2-3",
+    "knowledgePointId": "kp-5-2-1",
+    "name": "变限积分求导-复杂形式",
+    "latex": "\\frac{d}{dx} \\int_{\\varphi(x)}^{\\psi(x)} f(t)\\, dt = f(\\psi(x))\\psi'(x) - f(\\varphi(x))\\varphi'(x)",
+    "description": "上下限都是x的函数时的变限积分求导",
+    "examFrequency": "very-high",
+    "memoryTip": "「上代上导减下代下导」：f(上限)×上限导数 - f(下限)×下限导数"
+  },
+  {
+    "id": "f-5-3-4",
+    "knowledgePointId": "kp-5-3-1",
+    "name": "绕y轴旋转体积",
+    "latex": "V = 2\\pi \\int_a^b x|f(x)|\\, dx",
+    "description": "曲线绕y轴旋转的旋转体体积（柱壳法）",
+    "examFrequency": "high",
+    "memoryTip": "「柱壳法」：2π × 半径 × 高度 × 厚度，半径是x，高度是f(x)"
+  },
+  {
+    "id": "f-5-3-5",
+    "knowledgePointId": "kp-5-3-1",
+    "name": "参数方程弧长",
+    "latex": "L = \\int_{\\alpha}^{\\beta} \\sqrt{[x'(t)]^2 + [y'(t)]^2}\\, dt",
+    "description": "参数方程表示的曲线弧长",
+    "examFrequency": "high",
+    "memoryTip": "「勾股定理微元版」：dx²+dy²开根号积分"
+  },
+  {
+    "id": "f-5-3-6",
+    "knowledgePointId": "kp-5-3-1",
+    "name": "极坐标弧长",
+    "latex": "L = \\int_{\\alpha}^{\\beta} \\sqrt{r^2 + (r')^2}\\, d\\theta",
+    "description": "极坐标表示的曲线弧长",
+    "examFrequency": "medium",
+    "memoryTip": "极坐标弧长：r²加r导数的平方，再开根号积分"
+  },
+
+  {
+    "id": "f-6-2-4",
+    "knowledgePointId": "kp-6-2-1",
+    "name": "伯努利方程",
+    "latex": "y' + P(x)y = Q(x)y^n \\xRightarrow{z = y^{1-n}} z' + (1-n)P(x)z = (1-n)Q(x)",
+    "description": "伯努利方程通过变量替换化为一阶线性方程",
+    "examFrequency": "high",
+    "memoryTip": "「除以y^n再换元」：两边除以y^n，然后令z=y^(1-n)，就变成线性方程了"
+  },
+  {
+    "id": "f-6-3-1",
+    "knowledgePointId": "kp-6-1-1",
+    "name": "二阶常系数齐次方程",
+    "latex": "y'' + py' + qy = 0, \\quad \\text{特征方程: } r^2 + pr + q = 0",
+    "description": "二阶常系数齐次线性微分方程的特征方程",
+    "examFrequency": "very-high",
+    "memoryTip": "「y换r，导数变次数」：y''→r²，y'→r，y→1，立刻得到特征方程"
+  },
+  {
+    "id": "f-6-3-2",
+    "knowledgePointId": "kp-6-1-1",
+    "name": "二阶齐次通解-两实根",
+    "latex": "r_1 \\neq r_2 \\Rightarrow y = C_1 e^{r_1 x} + C_2 e^{r_2 x}",
+    "description": "特征方程有两不等实根时的通解",
+    "examFrequency": "very-high",
+    "memoryTip": "两个不同实根：两个独立的指数函数相加"
+  },
+  {
+    "id": "f-6-3-3",
+    "knowledgePointId": "kp-6-1-1",
+    "name": "二阶齐次通解-重根",
+    "latex": "r_1 = r_2 = r \\Rightarrow y = (C_1 + C_2 x)e^{rx}",
+    "description": "特征方程有重根时的通解",
+    "examFrequency": "very-high",
+    "memoryTip": "「重根乘x」：有重根时，第二个解要多乘一个x"
+  },
+  {
+    "id": "f-6-3-4",
+    "knowledgePointId": "kp-6-1-1",
+    "name": "二阶齐次通解-共轭复根",
+    "latex": "r = \\alpha \\pm \\beta i \\Rightarrow y = e^{\\alpha x}(C_1 \\cos\\beta x + C_2 \\sin\\beta x)",
+    "description": "特征方程有共轭复根时的通解",
+    "examFrequency": "very-high",
+    "memoryTip": "「复根变三角」：实部α做指数，虚部β做三角函数的系数"
+  },
+  {
+    "id": "f-6-3-5",
+    "knowledgePointId": "kp-6-1-1",
+    "name": "二阶非齐次特解-多项式型",
+    "latex": "y'' + py' + qy = P_m(x)e^{\\lambda x} \\Rightarrow y^* = x^k Q_m(x)e^{\\lambda x}",
+    "description": "非齐次方程特解设法，k为λ作为特征根的重数",
+    "examFrequency": "very-high",
+    "memoryTip": "「根是几重乘几个x」：λ不是根k=0，单根k=1，重根k=2"
+  },
+  {
+    "id": "f-6-3-6",
+    "knowledgePointId": "kp-6-1-1",
+    "name": "二阶非齐次特解-三角型",
+    "latex": "y'' + py' + qy = e^{\\lambda x}[P(x)\\cos\\omega x + Q(x)\\sin\\omega x]",
+    "description": "含三角函数的非齐次方程特解设法",
+    "examFrequency": "high",
+    "memoryTip": "三角型特解要同时包含sin和cos，检查λ±ωi是否为特征根"
+  },
+  {
+    "id": "f-6-3-7",
+    "knowledgePointId": "kp-6-1-1",
+    "name": "欧拉方程",
+    "latex": "x^2 y'' + pxy' + qy = f(x) \\xRightarrow{x = e^t} \\text{化为常系数方程}",
+    "description": "欧拉方程通过变量替换化为常系数方程",
+    "examFrequency": "medium",
+    "memoryTip": "「x换e^t」：系数是x的幂次的方程，用x=e^t换元变成常系数"
+  },
+
+  {
+    "id": "f-7-1-3",
+    "knowledgePointId": "kp-7-1-1",
+    "name": "几何级数",
+    "latex": "\\sum_{n=0}^{\\infty} q^n = \\frac{1}{1-q} \\quad (|q| < 1)",
+    "description": "几何级数（等比级数）的求和公式",
+    "examFrequency": "very-high",
+    "memoryTip": "「首项除以(1-公比)」：等比级数|q|<1时收敛于1/(1-q)"
+  },
+  {
+    "id": "f-7-1-4",
+    "knowledgePointId": "kp-7-1-1",
+    "name": "p级数",
+    "latex": "\\sum_{n=1}^{\\infty} \\frac{1}{n^p} \\begin{cases} \\text{收敛} & p > 1 \\\\ \\text{发散} & p \\leq 1 \\end{cases}",
+    "description": "p级数的收敛判定",
+    "examFrequency": "very-high",
+    "memoryTip": "「p>1收敛，p≤1发散」：特别注意p=1是调和级数，发散！"
+  },
+  {
+    "id": "f-7-1-5",
+    "knowledgePointId": "kp-7-1-1",
+    "name": "比值审敛法",
+    "latex": "\\lim_{n \\to \\infty} \\frac{a_{n+1}}{a_n} = \\rho \\Rightarrow \\begin{cases} \\rho < 1: \\text{收敛} \\\\ \\rho > 1: \\text{发散} \\\\ \\rho = 1: \\text{不确定} \\end{cases}",
+    "description": "达朗贝尔比值审敛法",
+    "examFrequency": "very-high",
+    "memoryTip": "「后项除前项」：ρ<1收敛，ρ>1发散，ρ=1失效换方法"
+  },
+  {
+    "id": "f-7-1-6",
+    "knowledgePointId": "kp-7-1-1",
+    "name": "根值审敛法",
+    "latex": "\\lim_{n \\to \\infty} \\sqrt[n]{a_n} = \\rho \\Rightarrow \\begin{cases} \\rho < 1: \\text{收敛} \\\\ \\rho > 1: \\text{发散} \\\\ \\rho = 1: \\text{不确定} \\end{cases}",
+    "description": "柯西根值审敛法",
+    "examFrequency": "very-high",
+    "memoryTip": "「开n次方」：适合带n次幂的级数，判定标准和比值法一样"
+  },
+  {
+    "id": "f-7-1-7",
+    "knowledgePointId": "kp-7-1-1",
+    "name": "交错级数审敛法",
+    "latex": "\\sum_{n=1}^{\\infty} (-1)^{n-1} a_n: \\quad a_n \\geq a_{n+1} \\text{ 且 } \\lim a_n = 0 \\Rightarrow \\text{收敛}",
+    "description": "莱布尼茨判别法，用于交错级数",
+    "examFrequency": "very-high",
+    "memoryTip": "「单减趋零」：交错级数只要通项单调递减且趋于0就收敛"
+  },
+  {
+    "id": "f-7-1-8",
+    "knowledgePointId": "kp-7-1-1",
+    "name": "比较审敛法",
+    "latex": "0 \\leq a_n \\leq b_n: \\quad \\sum b_n \\text{收敛} \\Rightarrow \\sum a_n \\text{收敛}; \\quad \\sum a_n \\text{发散} \\Rightarrow \\sum b_n \\text{发散}",
+    "description": "正项级数的比较审敛法",
+    "examFrequency": "high",
+    "memoryTip": "「大的收敛小的也收敛，小的发散大的也发散」：常与p级数比较"
+  },
+  {
+    "id": "f-7-3-4",
+    "knowledgePointId": "kp-7-3-1",
+    "name": "麦克劳林展开式-对数",
+    "latex": "\\ln(1+x) = \\sum_{n=1}^{\\infty} \\frac{(-1)^{n-1} x^n}{n} = x - \\frac{x^2}{2} + \\frac{x^3}{3} - \\cdots \\quad (-1 < x \\leq 1)",
+    "description": "ln(1+x)的麦克劳林展开",
+    "examFrequency": "very-high",
+    "memoryTip": "「正负交替，分母就是次数」：x-x²/2+x³/3-...，记住x=1时等于ln2"
+  },
+  {
+    "id": "f-7-3-5",
+    "knowledgePointId": "kp-7-3-1",
+    "name": "麦克劳林展开式-几何",
+    "latex": "\\frac{1}{1-x} = \\sum_{n=0}^{\\infty} x^n = 1 + x + x^2 + x^3 + \\cdots \\quad (|x| < 1)",
+    "description": "1/(1-x)的麦克劳林展开",
+    "examFrequency": "very-high",
+    "memoryTip": "「最简单的幂级数」：所有系数都是1，是很多展开的基础"
+  },
+  {
+    "id": "f-7-3-6",
+    "knowledgePointId": "kp-7-3-1",
+    "name": "麦克劳林展开式-二项",
+    "latex": "(1+x)^\\alpha = \\sum_{n=0}^{\\infty} C_\\alpha^n x^n = 1 + \\alpha x + \\frac{\\alpha(\\alpha-1)}{2!}x^2 + \\cdots \\quad (|x| < 1)",
+    "description": "(1+x)^α的二项式展开",
+    "examFrequency": "high",
+    "memoryTip": "「广义二项式」：系数是α(α-1)(α-2)...(α-n+1)/n!，α为整数时有限项"
+  },
+  {
+    "id": "f-7-3-7",
+    "knowledgePointId": "kp-7-3-1",
+    "name": "麦克劳林展开式-反三角",
+    "latex": "\\arctan x = \\sum_{n=0}^{\\infty} \\frac{(-1)^n x^{2n+1}}{2n+1} = x - \\frac{x^3}{3} + \\frac{x^5}{5} - \\cdots \\quad (|x| \\leq 1)",
+    "description": "arctan x的麦克劳林展开",
+    "examFrequency": "high",
+    "memoryTip": "「奇次幂除以次数」：只有奇数次幂，分母就是次数。x=1时=π/4"
+  },
+  {
+    "id": "f-7-3-8",
+    "knowledgePointId": "kp-7-3-1",
+    "name": "泰勒公式-带拉格朗日余项",
+    "latex": "f(x) = \\sum_{k=0}^{n} \\frac{f^{(k)}(x_0)}{k!}(x-x_0)^k + \\frac{f^{(n+1)}(\\xi)}{(n+1)!}(x-x_0)^{n+1}",
+    "description": "泰勒公式的拉格朗日余项形式",
+    "examFrequency": "very-high",
+    "memoryTip": "「拉格朗日余项用于精确估计」：ξ在x₀和x之间，用于证明不等式"
+  },
+  {
+    "id": "f-7-3-9",
+    "knowledgePointId": "kp-7-3-1",
+    "name": "泰勒公式-带佩亚诺余项",
+    "latex": "f(x) = \\sum_{k=0}^{n} \\frac{f^{(k)}(x_0)}{k!}(x-x_0)^k + o((x-x_0)^n)",
+    "description": "泰勒公式的佩亚诺余项形式",
+    "examFrequency": "very-high",
+    "memoryTip": "「佩亚诺余项用于求极限」：只说明是高阶无穷小，不给精确值"
+  },
+
+  {
+    "id": "f-2-4-3",
+    "knowledgePointId": "kp-2-4-1",
+    "name": "反函数求导",
+    "latex": "[f^{-1}(x)]' = \\frac{1}{f'(y)} \\quad \\text{其中 } y = f^{-1}(x)",
+    "description": "反函数的导数公式",
+    "examFrequency": "medium",
+    "memoryTip": "「导数取倒数」：反函数的导数是原函数导数的倒数，但要注意自变量换回去"
+  },
+  {
+    "id": "f-2-4-4",
+    "knowledgePointId": "kp-2-4-1",
+    "name": "对数求导法",
+    "latex": "y = u^v \\Rightarrow \\ln y = v \\ln u \\Rightarrow \\frac{y'}{y} = v' \\ln u + \\frac{v \\cdot u'}{u}",
+    "description": "幂指函数的对数求导法",
+    "examFrequency": "high",
+    "memoryTip": "「先取对数再求导」：遇到u^v型（底和指数都含x），先两边取ln简化"
+  },
+  {
+    "id": "f-2-4-5",
+    "knowledgePointId": "kp-2-4-1",
+    "name": "参数方程二阶导数",
+    "latex": "\\frac{d^2y}{dx^2} = \\frac{d}{dx}\\left(\\frac{dy}{dx}\\right) = \\frac{\\frac{d}{dt}\\left(\\frac{dy/dt}{dx/dt}\\right)}{dx/dt}",
+    "description": "参数方程的二阶导数",
+    "examFrequency": "high",
+    "memoryTip": "「一阶导对t求导，再除以dx/dt」：先求出dy/dx，对t求导后再除以dx/dt"
+  }
+]

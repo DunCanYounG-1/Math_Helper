@@ -1,0 +1,20 @@
+{
+  "permissions": {
+    "allow": [
+      "SlashCommand(/bmad:bmm:workflows:workflow-init)",
+      "Bash(mkdir:*)",
+      "SlashCommand(/bmad:ux)",
+      "Bash(find:*)",
+      "Bash(dir:*)",
+      "Bash(findstr:*)",
+      "Bash(powershell -Command \"(Get-Content ''src\\data\\knowledgeBase\\formulas.json'' | ConvertFrom-Json).Count\")",
+      "Bash(npm run electron:dev:*)",
+      "SlashCommand(/bmad:quick)",
+      "Bash(npx vite build:*)",
+      "Bash(npm run dev:*)",
+      "SlashCommand(/bmad:dev)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

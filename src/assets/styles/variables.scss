@@ -1,0 +1,75 @@
+// 主题色
+$primary-color: #409EFF;
+$primary-color-light: rgba(64, 158, 255, 0.1);
+$success-color: #67C23A;
+$warning-color: #E6A23C;
+$danger-color: #F56C6C;
+$info-color: #909399;
+
+// 文字颜色
+$text-color: #303133;
+$text-color-secondary: #606266;
+$text-color-placeholder: #C0C4CC;
+
+// 背景色
+$bg-color: #F5F7FA;
+$header-bg: #FFFFFF;
+$sidebar-bg: #FAFBFC;
+$card-bg: #FFFFFF;
+
+// 边框
+$border-color: #E4E7ED;
+$border-radius: 4px;
+
+// 阴影
+$box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+$box-shadow-light: 0 2px 4px rgba(0, 0, 0, 0.05);
+
+// 动画
+$transition-duration: 0.3s;
+
+// 导出为CSS变量
+:root {
+  --primary-color: #{$primary-color};
+  --primary-color-light: #{$primary-color-light};
+  --success-color: #{$success-color};
+  --warning-color: #{$warning-color};
+  --danger-color: #{$danger-color};
+  --info-color: #{$info-color};
+
+  --text-color: #{$text-color};
+  --text-color-secondary: #{$text-color-secondary};
+  --text-color-placeholder: #{$text-color-placeholder};
+
+  --bg-color: #{$bg-color};
+  --header-bg: #{$header-bg};
+  --sidebar-bg: #{$sidebar-bg};
+  --card-bg: #{$card-bg};
+
+  --border-color: #{$border-color};
+  --border-radius: #{$border-radius};
+
+  --box-shadow: #{$box-shadow};
+  --box-shadow-light: #{$box-shadow-light};
+
+  --hover-bg: rgba(0, 0, 0, 0.04);
+}
+
+// 深色主题
+[data-theme="dark"] {
+  --primary-color: #409EFF;
+  --primary-color-light: rgba(64, 158, 255, 0.2);
+
+  --text-color: #E5E5E5;
+  --text-color-secondary: #A3A3A3;
+  --text-color-placeholder: #6B6B6B;
+
+  --bg-color: #1A1A1A;
+  --header-bg: #242424;
+  --sidebar-bg: #1F1F1F;
+  --card-bg: #2D2D2D;
+
+  --border-color: #3F3F3F;
+
+  --hover-bg: rgba(255, 255, 255, 0.08);
+}
