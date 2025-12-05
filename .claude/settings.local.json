@@ -12,7 +12,9 @@
       "SlashCommand(/bmad:quick)",
       "Bash(npx vite build:*)",
       "Bash(npm run dev:*)",
-      "SlashCommand(/bmad:dev)"
+      "SlashCommand(/bmad:dev)",
+      "SlashCommand(/bmad:pm)",
+      "Bash(cat:*)"
     ],
     "deny": [],
     "ask": []
