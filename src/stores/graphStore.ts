@@ -30,8 +30,8 @@ const colors = ['#409EFF', '#67C23A', '#E6A23C', '#F56C6C', '#909399', '#9C27B0'
 export const useGraphStore = defineStore('graph', {
   state: (): GraphState => ({
     functions: [],
-    xRange: [-10, 10],
-    yRange: [-10, 10],
+    xRange: [-20, 20],
+    yRange: [-20, 20],
     showGrid: true,
     showSpecialPoints: true,
     activeFunction: null

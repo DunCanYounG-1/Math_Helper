@@ -18,7 +18,7 @@ export const useSettingsStore = defineStore('settings', {
   state: (): SettingsState => ({
     theme: 'light',
     animationSpeed: 1,
-    defaultXRange: [-10, 10],
+    defaultXRange: [-20, 20],
     // AI 配置默认值
     aiProvider: 'qwen',
     aiApiKey: '',

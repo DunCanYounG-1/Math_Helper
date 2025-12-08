@@ -4,6 +4,7 @@ import path from 'path'
 
 export default defineConfig({
   plugins: [vue()],
+  base: './', // Electron 需要使用相对路径
   resolve: {
     alias: {
       '@': path.resolve(__dirname, 'src')

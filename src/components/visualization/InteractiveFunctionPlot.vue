@@ -126,8 +126,8 @@ const availableFunctions: Record<string, FunctionDef> = {
       { name: 'c', label: 'c (纵截距)', value: 0, min: -5, max: 5, step: 0.1 }
     ],
     description: '调整 a 改变开口方向和大小，b 影响对称轴位置，c 是 y 轴截距。顶点坐标为 (-b/2a, c-b²/4a)',
-    xRange: [-6, 6],
-    yRange: [-8, 12]
+    xRange: [-20, 20],
+    yRange: [-20, 20]
   },
   sine: {
     name: '正弦函数 y = A·sin(ωx + φ)',
@@ -152,8 +152,8 @@ const availableFunctions: Record<string, FunctionDef> = {
       { name: 'c', label: 'c (垂直平移)', value: 0, min: -5, max: 5, step: 0.1 }
     ],
     description: '当 b > 1 时指数增长，0 < b < 1 时指数衰减。a 控制增长速度，c 控制水平渐近线位置',
-    xRange: [-4, 4],
-    yRange: [-2, 10]
+    xRange: [-20, 20],
+    yRange: [-20, 20]
   },
   logarithm: {
     name: '对数函数 y = a·log_b(x) + c',
@@ -165,8 +165,8 @@ const availableFunctions: Record<string, FunctionDef> = {
       { name: 'c', label: 'c (垂直平移)', value: 0, min: -5, max: 5, step: 0.1 }
     ],
     description: '对数函数是指数函数的反函数。底数 b > 1 时单调递增，定义域为 x > 0',
-    xRange: [0.01, 8],
-    yRange: [-5, 5]
+    xRange: [0.01, 20],
+    yRange: [-20, 20]
   },
   power: {
     name: '幂函数 y = xⁿ',
@@ -179,8 +179,8 @@ const availableFunctions: Record<string, FunctionDef> = {
       { name: 'n', label: 'n (幂次)', value: 2, min: -3, max: 5, step: 0.5 }
     ],
     description: 'n > 0 时过原点，n < 0 时有垂直渐近线。n 为偶数时关于 y 轴对称，n 为奇数时关于原点对称',
-    xRange: [-4, 4],
-    yRange: [-5, 10]
+    xRange: [-20, 20],
+    yRange: [-20, 20]
   },
   tangent: {
     name: '正切函数 y = A·tan(ωx)',
@@ -220,8 +220,8 @@ const availableFunctions: Record<string, FunctionDef> = {
       { name: 'c', label: 'c (垂直平移)', value: 0, min: -5, max: 5, step: 0.1 }
     ],
     description: '根号函数定义域为 x ≥ -b，a > 0 时单调递增，a < 0 时单调递减',
-    xRange: [-2, 10],
-    yRange: [-4, 6]
+    xRange: [-20, 20],
+    yRange: [-20, 20]
   },
   reciprocal: {
     name: '反比例函数 y = a/x + c',
@@ -232,8 +232,8 @@ const availableFunctions: Record<string, FunctionDef> = {
       { name: 'c', label: 'c (垂直平移)', value: 0, min: -5, max: 5, step: 0.1 }
     ],
     description: '反比例函数在 x = 0 处有垂直渐近线，y = c 是水平渐近线',
-    xRange: [-6, 6],
-    yRange: [-6, 6]
+    xRange: [-20, 20],
+    yRange: [-20, 20]
   }
 }
 
@@ -269,7 +269,7 @@ const generateFunctionData = (): [number, number][] => {
     paramValues[p.name] = p.value
   })
 
-  const [xMin, xMax] = func.xRange || [-10, 10]
+  const [xMin, xMax] = func.xRange || [-20, 20]
   const points: [number, number][] = []
   const step = (xMax - xMin) / 500
 
@@ -288,8 +288,8 @@ const updateChart = () => {
   if (!chart) return
 
   const func = availableFunctions[selectedFunction.value]
-  const [yMin, yMax] = func.yRange || [-10, 10]
-  const [xMin, xMax] = func.xRange || [-10, 10]
+  const [yMin, yMax] = func.yRange || [-20, 20]
+  const [xMin, xMax] = func.xRange || [-20, 20]
 
   chart.setOption({
     xAxis: { min: xMin, max: xMax },
@@ -305,13 +305,13 @@ const initChart = () => {
   if (!chartContainer.value) return
 
   const func = availableFunctions[selectedFunction.value]
-  const [yMin, yMax] = func.yRange || [-10, 10]
-  const [xMin, xMax] = func.xRange || [-10, 10]
+  const [yMin, yMax] = func.yRange || [-20, 20]
+  const [xMin, xMax] = func.xRange || [-20, 20]
 
   chart = echarts.init(chartContainer.value)
   chart.setOption({
     animation: false,
-    grid: { left: 50, right: 20, top: 20, bottom: 40 },
+    grid: { left: 60, right: 40, top: 30, bottom: 50 }, // 优化边距适配正方形
     xAxis: {
       type: 'value',
       min: xMin,
@@ -458,7 +458,8 @@ onUnmounted(() => {
 }
 
 .chart-container {
-  height: 300px;
+  width: 100%;
+  aspect-ratio: 1 / 1; /* 纵横比 1:1 (正方形) */
   margin-bottom: 16px;
   border: 1px solid var(--border-color);
   border-radius: 8px;

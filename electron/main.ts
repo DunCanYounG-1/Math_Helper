@@ -22,7 +22,12 @@ function createWindow() {
     mainWindow.loadURL('http://localhost:5173')
     mainWindow.webContents.openDevTools()
   } else {
-    mainWindow.loadFile(path.join(__dirname, '../dist/index.html'))
+    // 生产环境：加载打包后的文件
+    const indexPath = path.join(__dirname, '../dist/index.html')
+    mainWindow.loadFile(indexPath)
+
+    // 可选：打开开发者工具以便调试
+    // mainWindow.webContents.openDevTools()
   }
 
   mainWindow.on('closed', () => {

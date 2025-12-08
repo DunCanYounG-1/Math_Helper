@@ -169,10 +169,32 @@
     <div class="settings-section card">
       <h2>关于</h2>
       <div class="about-info">
-        <p><strong>Math Helper</strong> - 高等数学可视化学习工具</p>
-        <p>版本：v0.1.0 (MVP)</p>
-        <p>让抽象数学变得直观易懂</p>
-        <p class="developer">开发者：DuncanYoung</p>
+        <div class="app-info">
+          <p><strong>Math Helper</strong> - 高等数学可视化学习工具</p>
+          <p>版本：v0.1.0 (MVP)</p>
+          <p class="slogan">让抽象数学变得直观易懂</p>
+        </div>
+        <div class="developer-section">
+          <div class="developer-badge">
+            <el-icon class="dev-icon"><UserFilled /></el-icon>
+            <div class="developer-info">
+              <span class="developer-label">开发者</span>
+              <span class="developer-name">DuncanYoung</span>
+            </div>
+          </div>
+          <div class="project-links">
+            <a
+              href="https://github.com/DunCanYounG-1/Math_Helper"
+              target="_blank"
+              class="github-link"
+            >
+              <el-icon><Link /></el-icon>
+              <span>开源项目地址</span>
+              <el-icon class="external-icon"><Right /></el-icon>
+            </a>
+          </div>
+          <p class="copyright">© 2024 DuncanYoung. All rights reserved.</p>
+        </div>
       </div>
     </div>
 
@@ -186,7 +208,7 @@
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
-import { Download, Upload, Delete } from '@element-plus/icons-vue'
+import { Download, Upload, Delete, UserFilled, Link, Right } from '@element-plus/icons-vue'
 import { useSettingsStore } from '@/stores/settingsStore'
 import { useProgressStore } from '@/stores/progressStore'
 import { setAIConfig, testConnection, providerConfigs, type AIProvider } from '@/services/aiService'
@@ -457,17 +479,113 @@ onMounted(() => {
 }
 
 .about-info {
-  p {
-    margin-bottom: 8px;
-    line-height: 1.6;
+  .app-info {
+    p {
+      margin-bottom: 8px;
+      line-height: 1.6;
+    }
+
+    .slogan {
+      color: var(--text-color-secondary);
+      font-style: italic;
+      margin-top: 12px;
+    }
   }
 
-  .developer {
-    margin-top: 16px;
-    padding-top: 12px;
-    border-top: 1px dashed var(--border-color);
-    color: var(--primary-color);
-    font-weight: 500;
+  .developer-section {
+    margin-top: 24px;
+    padding-top: 20px;
+    border-top: 2px solid var(--border-color);
+
+    .developer-badge {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 16px;
+      background: linear-gradient(135deg,
+        rgba(var(--primary-color-rgb), 0.08) 0%,
+        rgba(var(--primary-color-rgb), 0.02) 100%);
+      border-radius: 12px;
+      border: 1px solid rgba(var(--primary-color-rgb), 0.15);
+      margin-bottom: 12px;
+
+      .dev-icon {
+        font-size: 32px;
+        color: var(--primary-color);
+        padding: 12px;
+        background-color: rgba(var(--primary-color-rgb), 0.1);
+        border-radius: 50%;
+      }
+
+      .developer-info {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+
+        .developer-label {
+          font-size: 12px;
+          color: var(--text-color-secondary);
+          text-transform: uppercase;
+          letter-spacing: 0.5px;
+        }
+
+        .developer-name {
+          font-size: 18px;
+          font-weight: 600;
+          color: var(--primary-color);
+          letter-spacing: 0.5px;
+        }
+      }
+    }
+
+    .project-links {
+      margin-bottom: 12px;
+
+      .github-link {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 12px 16px;
+        background-color: var(--bg-color);
+        border: 1px solid var(--border-color);
+        border-radius: 8px;
+        color: var(--text-color);
+        text-decoration: none;
+        transition: all 0.3s ease;
+        font-size: 14px;
+
+        &:hover {
+          background-color: rgba(var(--primary-color-rgb), 0.05);
+          border-color: var(--primary-color);
+          transform: translateX(4px);
+
+          .external-icon {
+            transform: translateX(4px);
+          }
+        }
+
+        .el-icon {
+          color: var(--primary-color);
+
+          &.external-icon {
+            margin-left: auto;
+            transition: transform 0.3s ease;
+          }
+        }
+
+        span {
+          flex: 1;
+        }
+      }
+    }
+
+    .copyright {
+      text-align: center;
+      font-size: 12px;
+      color: var(--text-color-placeholder);
+      margin: 0;
+      padding-top: 8px;
+    }
   }
 }
 
