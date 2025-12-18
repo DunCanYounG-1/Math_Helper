@@ -437,17 +437,21 @@ watch(() => props.config, () => {
   initChart()
 }, { deep: true })
 
+// 保存 resize 处理函数的引用，以便正确移除
+const handleResize = () => chart?.resize()
+
 onMounted(async () => {
   setFunctionFromConfig()
   // 等待 DOM 渲染完成，确保 chartContainer ref 已准备好
   await nextTick()
   initChart()
   isInitialized = true
-  window.addEventListener('resize', () => chart?.resize())
+  window.addEventListener('resize', handleResize)
 })
 
 onUnmounted(() => {
   stopAnimation()
+  window.removeEventListener('resize', handleResize)
   chart?.dispose()
 })
 </script>

@@ -155,9 +155,6 @@ let cachedCurveData: [number, number][] | null = null
 
 // 获取当前配置
 const limitType = computed(() => props.config?.type || 'function-limit')
-const targetX = computed(() => props.config?.targetX ?? 0)
-const limitValue = computed(() => props.config?.limitValue ?? 1)
-const funcName = computed(() => props.config?.funcName || props.config?.expression || 'f(x)')
 
 // 预定义的函数
 // animRange: [leftDistance, rightDistance] 定义点从目标点向左/右的最大距离
@@ -499,7 +496,6 @@ const updateChart = () => {
 const initChart = () => {
   if (!chartContainer.value) return
 
-  const func = currentFunc.value
   const expr = props.config?.expression || 'sin(x)/x'
 
   // 根据函数类型设置合适的坐标轴范围
@@ -689,15 +685,19 @@ watch(() => props.config, () => {
   initChart()
 }, { deep: true })
 
+// 保存 resize 处理函数的引用，以便正确移除
+const handleResize = () => chart?.resize()
+
 onMounted(async () => {
   // 等待 DOM 渲染完成，确保 chartContainer ref 已准备好
   await nextTick()
   initChart()
-  window.addEventListener('resize', () => chart?.resize())
+  window.addEventListener('resize', handleResize)
 })
 
 onUnmounted(() => {
   stopAnimation()
+  window.removeEventListener('resize', handleResize)
   chart?.dispose()
 })
 </script>

@@ -1,0 +1,591 @@
+// ============================================
+// Element Plus iOS 风格覆盖
+// ============================================
+
+// 按钮组件
+.el-button {
+  --el-button-border-radius: 10px;
+  font-weight: 500;
+  transition: all 0.2s var(--transition-timing);
+
+  &:active:not(:disabled) {
+    transform: scale(0.97);
+  }
+
+  &--primary {
+    box-shadow: 0 2px 8px rgba(0, 122, 255, 0.3);
+
+    &:hover {
+      box-shadow: 0 4px 12px rgba(0, 122, 255, 0.4);
+    }
+  }
+
+  &--success {
+    box-shadow: 0 2px 8px rgba(52, 199, 89, 0.3);
+  }
+
+  &--warning {
+    box-shadow: 0 2px 8px rgba(255, 149, 0, 0.3);
+  }
+
+  &--danger {
+    box-shadow: 0 2px 8px rgba(255, 59, 48, 0.3);
+  }
+
+  &.is-round {
+    border-radius: 100px;
+  }
+}
+
+// 输入框组件
+.el-input {
+  --el-input-border-radius: 10px;
+
+  .el-input__wrapper {
+    transition: all 0.2s var(--transition-timing);
+    box-shadow: none;
+    background-color: rgba(118, 118, 128, 0.12);
+    border: none;
+
+    &.is-focus {
+      box-shadow: 0 0 0 4px rgba(0, 122, 255, 0.2);
+      background-color: var(--card-bg);
+    }
+  }
+}
+
+// 卡片组件
+.el-card {
+  --el-card-border-radius: 14px;
+  border: none;
+  box-shadow: var(--box-shadow-light);
+  transition: all 0.3s var(--transition-timing);
+
+  &:hover {
+    box-shadow: var(--box-shadow);
+  }
+}
+
+// 标签组件
+.el-tag {
+  --el-tag-border-radius: 6px;
+  border: none;
+  font-weight: 500;
+
+  &--primary {
+    background-color: rgba(0, 122, 255, 0.12);
+    color: var(--primary-color);
+  }
+
+  &--success {
+    background-color: rgba(52, 199, 89, 0.12);
+    color: var(--success-color);
+  }
+
+  &--warning {
+    background-color: rgba(255, 149, 0, 0.12);
+    color: var(--warning-color);
+  }
+
+  &--danger {
+    background-color: rgba(255, 59, 48, 0.12);
+    color: var(--danger-color);
+  }
+
+  &--info {
+    background-color: rgba(118, 118, 128, 0.12);
+    color: var(--text-color-secondary);
+  }
+}
+
+// 对话框组件
+.el-dialog {
+  --el-dialog-border-radius: 14px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+
+  .el-dialog__header {
+    padding: 16px 20px;
+    border-bottom: 0.5px solid var(--separator-color);
+  }
+
+  .el-dialog__body {
+    padding: 20px;
+  }
+}
+
+// 消息提示组件
+.el-message {
+  --el-message-border-radius: 10px;
+  border: none;
+  box-shadow: var(--box-shadow-elevated);
+  backdrop-filter: blur(20px);
+}
+
+// 下拉菜单
+.el-dropdown-menu {
+  --el-dropdown-menu-border-radius: 14px;
+  border: none;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+  padding: 6px;
+
+  .el-dropdown-menu__item {
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-size: 15px;
+
+    &:hover {
+      background-color: var(--hover-bg);
+    }
+  }
+}
+
+// 滑块组件
+.el-slider {
+  --el-slider-button-size: 20px;
+  --el-slider-runway-bg-color: rgba(118, 118, 128, 0.12);
+
+  .el-slider__button {
+    border: 2px solid var(--primary-color);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  }
+}
+
+// 开关组件
+.el-switch {
+  --el-switch-on-color: var(--success-color);
+  --el-switch-off-color: rgba(118, 118, 128, 0.32);
+
+  .el-switch__core {
+    border: none;
+  }
+}
+
+// 进度条组件
+.el-progress-bar__outer {
+  background-color: rgba(118, 118, 128, 0.12);
+  border-radius: 100px;
+}
+
+.el-progress-bar__inner {
+  border-radius: 100px;
+}
+
+// 分页组件
+.el-pagination {
+  .el-pager li {
+    border-radius: 8px;
+    font-weight: 500;
+
+    &.is-active {
+      background-color: var(--primary-color);
+      color: white;
+    }
+  }
+}
+
+// Select
+.el-select {
+  .el-select__wrapper {
+    border-radius: 10px;
+    box-shadow: none;
+    background-color: rgba(118, 118, 128, 0.12);
+    border: none;
+
+    &.is-focused {
+      box-shadow: 0 0 0 4px rgba(0, 122, 255, 0.2);
+      background-color: var(--card-bg);
+    }
+  }
+}
+
+.el-select-dropdown {
+  border-radius: 14px;
+  border: none;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+  padding: 6px;
+
+  .el-select-dropdown__item {
+    border-radius: 8px;
+
+    &.is-selected {
+      background-color: rgba(0, 122, 255, 0.12);
+      color: var(--primary-color);
+      font-weight: 600;
+    }
+  }
+}
+
+// ============================================
+// iOS 风格触摸反馈
+// ============================================
+.ios-touchable {
+  cursor: pointer;
+  transition: all 0.15s var(--transition-timing);
+  -webkit-tap-highlight-color: transparent;
+
+  &:active {
+    opacity: 0.7;
+    transform: scale(0.98);
+  }
+}
+
+.ios-highlight {
+  cursor: pointer;
+  transition: background-color 0.15s var(--transition-timing);
+
+  &:active {
+    background-color: var(--active-bg);
+  }
+}
+
+// ============================================
+// iOS 风格动画关键帧
+// ============================================
+@keyframes ios-bounce {
+  0%, 20%, 53%, 100% {
+    transform: translateY(0);
+  }
+  40%, 43% {
+    transform: translateY(-15px);
+  }
+  70% {
+    transform: translateY(-7px);
+  }
+}
+
+@keyframes ios-pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+@keyframes ios-fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes ios-fade-in-scale {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.ios-bounce { animation: ios-bounce 0.6s; }
+.ios-pulse { animation: ios-pulse 0.5s ease-in-out; }
+.ios-fade-in-up { animation: ios-fade-in-up 0.4s var(--transition-timing); }
+.ios-fade-in-scale { animation: ios-fade-in-scale 0.3s var(--spring-timing); }
+
+// ============================================
+// iOS 暗色模式增强
+// ============================================
+[data-theme="dark"] {
+  // 按钮暗色阴影
+  .el-button {
+    &--primary {
+      box-shadow: 0 2px 8px rgba(10, 132, 255, 0.4);
+      
+      &:hover {
+        box-shadow: 0 4px 12px rgba(10, 132, 255, 0.5);
+      }
+    }
+    
+    &--success {
+      box-shadow: 0 2px 8px rgba(48, 209, 88, 0.4);
+    }
+    
+    &--warning {
+      box-shadow: 0 2px 8px rgba(255, 159, 10, 0.4);
+    }
+    
+    &--danger {
+      box-shadow: 0 2px 8px rgba(255, 69, 58, 0.4);
+    }
+  }
+
+  // 输入框暗色
+  .el-input .el-input__wrapper {
+    background-color: rgba(118, 118, 128, 0.24);
+    
+    &.is-focus {
+      box-shadow: 0 0 0 4px rgba(10, 132, 255, 0.3);
+    }
+  }
+
+  // 选择框暗色
+  .el-select .el-select__wrapper {
+    background-color: rgba(118, 118, 128, 0.24);
+    
+    &.is-focused {
+      box-shadow: 0 0 0 4px rgba(10, 132, 255, 0.3);
+    }
+  }
+
+  // 下拉菜单暗色
+  .el-dropdown-menu,
+  .el-select-dropdown {
+    background-color: var(--card-bg);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
+  }
+
+  // 对话框暗色
+  .el-dialog {
+    background-color: var(--card-bg);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
+  }
+
+  // 标签暗色
+  .el-tag {
+    &--primary {
+      background-color: rgba(10, 132, 255, 0.2);
+    }
+    
+    &--success {
+      background-color: rgba(48, 209, 88, 0.2);
+    }
+    
+    &--warning {
+      background-color: rgba(255, 159, 10, 0.2);
+    }
+    
+    &--danger {
+      background-color: rgba(255, 69, 58, 0.2);
+    }
+    
+    &--info {
+      background-color: rgba(118, 118, 128, 0.24);
+    }
+  }
+
+  // 进度条暗色
+  .el-progress-bar__outer {
+    background-color: rgba(118, 118, 128, 0.24);
+  }
+
+  // 滑块暗色
+  .el-slider {
+    --el-slider-runway-bg-color: rgba(118, 118, 128, 0.24);
+  }
+}
+
+// ============================================
+// iOS 交互卡片组件
+// ============================================
+.ios-card-interactive {
+  background-color: var(--card-bg);
+  border-radius: var(--border-radius-lg);
+  transition: all 0.25s var(--transition-timing);
+  cursor: pointer;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--box-shadow);
+  }
+
+  &:active {
+    transform: scale(0.98);
+    box-shadow: var(--box-shadow-light);
+  }
+}
+
+// iOS 列表项组件
+.ios-list-interactive {
+  transition: background-color 0.15s var(--transition-timing);
+  cursor: pointer;
+
+  &:active {
+    background-color: var(--active-bg);
+  }
+}
+
+// iOS 图标按钮
+.ios-icon-button {
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 11px;
+  background-color: var(--hover-bg);
+  cursor: pointer;
+  transition: all 0.2s var(--transition-timing);
+
+  &:hover {
+    background-color: var(--active-bg);
+  }
+
+  &:active {
+    transform: scale(0.92);
+  }
+}
+
+// iOS 徽章
+.ios-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  font-size: 12px;
+  font-weight: 600;
+  color: white;
+  background-color: var(--ios-red);
+  border-radius: 100px;
+}
+
+// iOS 搜索栏
+.ios-search-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  background-color: rgba(118, 118, 128, 0.12);
+  border-radius: 10px;
+  transition: all 0.2s var(--transition-timing);
+
+  &:focus-within {
+    background-color: var(--card-bg);
+    box-shadow: 0 0 0 4px rgba(0, 122, 255, 0.2);
+  }
+
+  input {
+    flex: 1;
+    border: none;
+    background: none;
+    outline: none;
+    font-size: 17px;
+    color: var(--text-color);
+
+    &::placeholder {
+      color: var(--text-color-placeholder);
+    }
+  }
+}
+
+// iOS 分段控制器增强
+.ios-segment {
+  display: inline-flex;
+  background-color: rgba(118, 118, 128, 0.12);
+  border-radius: 9px;
+  padding: 2px;
+
+  .segment-item {
+    padding: 7px 14px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-color);
+    border-radius: 7px;
+    cursor: pointer;
+    transition: all 0.2s var(--transition-timing);
+    position: relative;
+
+    &.active {
+      background-color: var(--card-bg);
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.08);
+    }
+
+    &:not(.active):hover {
+      background-color: rgba(0, 0, 0, 0.04);
+    }
+  }
+}
+
+// iOS 浮动操作按钮
+.ios-fab {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  width: 56px;
+  height: 56px;
+  border-radius: 16px;
+  background: linear-gradient(135deg, var(--ios-blue), var(--ios-teal));
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 16px rgba(0, 122, 255, 0.4);
+  transition: all 0.3s var(--spring-timing);
+  z-index: 1000;
+
+  &:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 20px rgba(0, 122, 255, 0.5);
+  }
+
+  &:active {
+    transform: scale(0.95);
+  }
+}
+
+// ============================================
+// iOS 骨架屏动画
+// ============================================
+@keyframes ios-skeleton {
+  0% {
+    background-position: -200px 0;
+  }
+  100% {
+    background-position: calc(200px + 100%) 0;
+  }
+}
+
+.ios-skeleton {
+  background: linear-gradient(
+    90deg,
+    rgba(118, 118, 128, 0.12) 0px,
+    rgba(118, 118, 128, 0.2) 40px,
+    rgba(118, 118, 128, 0.12) 80px
+  );
+  background-size: 200px 100%;
+  animation: ios-skeleton 1.5s ease-in-out infinite;
+  border-radius: 4px;
+}
+
+// iOS 加载指示器
+.ios-spinner {
+  width: 20px;
+  height: 20px;
+  border: 2px solid rgba(0, 122, 255, 0.2);
+  border-top-color: var(--ios-blue);
+  border-radius: 50%;
+  animation: ios-spin 0.8s linear infinite;
+}
+
+@keyframes ios-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+// iOS 成功动画
+@keyframes ios-checkmark {
+  0% {
+    stroke-dashoffset: 100;
+  }
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+
+// iOS 抖动动画（错误提示）
+@keyframes ios-shake {
+  0%, 100% { transform: translateX(0); }
+  10%, 30%, 50%, 70%, 90% { transform: translateX(-4px); }
+  20%, 40%, 60%, 80% { transform: translateX(4px); }
+}
+
+.ios-shake {
+  animation: ios-shake 0.5s ease-in-out;
+}

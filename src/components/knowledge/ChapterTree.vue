@@ -77,7 +77,7 @@
       @node-expand="handleNodeExpand"
       @node-collapse="handleNodeCollapse"
     >
-      <template #default="{ node, data }">
+      <template #default="{ data }">
         <!-- 章节节点 -->
         <div v-if="data.isChapter" class="tree-node chapter-node">
           <span class="chapter-icon">{{ getChapterIcon(data.order) }}</span>
@@ -183,7 +183,7 @@ interface SearchResultItem {
   chapterTitle: string
   sectionTitle: string
   hasVisualization: boolean
-  examFrequency: string
+  examFrequency?: string
 }
 
 // 搜索功能
@@ -381,8 +381,8 @@ watch(() => route.params.knowledgePointId, (kpId) => {
   if (kpId && typeof kpId === 'string') {
     const kp = knowledgeStore.getKnowledgePointById(kpId)
     if (kp) {
-      // 找到章节和小节
-      const chapter = knowledgeStore.chapters.find(ch => ch.id === kp.chapterId)
+      // 使用索引 O(1) 查找章节
+      const chapter = knowledgeStore.getChapterById(kp.chapterId)
       if (chapter) {
         if (!expandedKeys.value.includes(chapter.id)) {
           expandedKeys.value.push(chapter.id)
@@ -495,8 +495,8 @@ const autoLocateLastLearned = () => {
   if (lastKpId) {
     const kp = knowledgeStore.getKnowledgePointById(lastKpId)
     if (kp) {
-      // 展开对应章节
-      const chapter = knowledgeStore.chapters.find(ch => ch.id === kp.chapterId)
+      // 使用索引 O(1) 查找章节
+      const chapter = knowledgeStore.getChapterById(kp.chapterId)
       if (chapter) {
         if (!expandedKeys.value.includes(chapter.id)) {
           expandedKeys.value.push(chapter.id)
@@ -518,8 +518,7 @@ const autoLocateLastLearned = () => {
 }
 
 onMounted(() => {
-  knowledgeStore.loadKnowledgeData()
-  progressStore.loadFromStorage()
+  // 数据已在 App.vue 中全局加载，无需重复加载
   loadExpandedState()
   // 添加键盘事件监听
   window.addEventListener('keydown', handleKeydown)

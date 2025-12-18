@@ -1,35 +1,153 @@
+// ============================================
+// iOS Human Interface Guidelines 设计系统
+// 参考: https://developer.apple.com/design/human-interface-guidelines/
+// ============================================
+
+// iOS 系统色彩 (iOS 17+)
+$ios-blue: #007AFF;
+$ios-green: #34C759;
+$ios-orange: #FF9500;
+$ios-red: #FF3B30;
+$ios-purple: #AF52DE;
+$ios-pink: #FF2D55;
+$ios-teal: #5AC8FA;
+$ios-indigo: #5856D6;
+$ios-yellow: #FFCC00;
+$ios-cyan: #32ADE6;
+$ios-mint: #00C7BE;
+$ios-brown: #A2845E;
+
 // 主题色
-$primary-color: #409EFF;
-$primary-color-light: rgba(64, 158, 255, 0.1);
-$success-color: #67C23A;
-$warning-color: #E6A23C;
-$danger-color: #F56C6C;
-$info-color: #909399;
+$primary-color: $ios-blue;
+$primary-color-light: rgba(0, 122, 255, 0.1);
+$success-color: $ios-green;
+$warning-color: $ios-orange;
+$danger-color: $ios-red;
+$info-color: #8E8E93;
 
-// 文字颜色
-$text-color: #303133;
-$text-color-secondary: #606266;
-$text-color-placeholder: #C0C4CC;
+// 文字颜色 - iOS HIG 标准
+$text-color: #000000;
+$text-color-secondary: #3C3C43;  // 60% opacity black
+$text-color-tertiary: #8E8E93;   // iOS 系统灰
+$text-color-placeholder: #C7C7CC;
+$text-color-quaternary: #D1D1D6;
 
-// 背景色
-$bg-color: #F5F7FA;
-$header-bg: #FFFFFF;
-$sidebar-bg: #FAFBFC;
+// 背景色 - iOS 分组表格风格
+$bg-color: #F2F2F7;              // iOS 系统背景色
+$header-bg: rgba(249, 249, 249, 0.94);
+$sidebar-bg: rgba(242, 242, 247, 0.8);
 $card-bg: #FFFFFF;
+$grouped-bg: #F2F2F7;
+$elevated-bg: #FFFFFF;           // 提升层背景
 
-// 边框
-$border-color: #E4E7ED;
-$border-radius: 4px;
+// 分隔线 - iOS 标准0.5pt
+$separator-color: rgba(60, 60, 67, 0.12);
+$separator-color-opaque: #C6C6C8;
 
-// 阴影
-$box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
-$box-shadow-light: 0 2px 4px rgba(0, 0, 0, 0.05);
+// 边框 & 圆角 - iOS HIG 标准
+$border-color: rgba(60, 60, 67, 0.12);
+$border-radius-xs: 6px;          // 小元素
+$border-radius-sm: 8px;          // 按钮、输入框
+$border-radius: 10px;            // 标准卡片
+$border-radius-md: 12px;         // 中等卡片
+$border-radius-lg: 14px;         // 大卡片、模态框
+$border-radius-xl: 20px;         // 超大卡片
+$border-radius-full: 9999px;     // 胶囊形
 
-// 动画
-$transition-duration: 0.3s;
+// 阴影 - iOS 风格（柔和自然）
+$box-shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.04);
+$box-shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.06);
+$box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+$box-shadow-md: 0 4px 16px rgba(0, 0, 0, 0.1);
+$box-shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.12);
+$box-shadow-xl: 0 12px 40px rgba(0, 0, 0, 0.15);
+
+// 毛玻璃效果 - iOS 材质
+$blur-thin: blur(10px);
+$blur-regular: blur(20px);
+$blur-thick: blur(30px);
+$blur-prominent: blur(40px);
+
+// 动画 - iOS HIG 标准时序
+$duration-instant: 0.1s;
+$duration-fast: 0.2s;
+$duration-normal: 0.3s;
+$duration-slow: 0.4s;
+$duration-slower: 0.5s;
+
+// iOS 动画曲线
+$ease-default: cubic-bezier(0.25, 0.1, 0.25, 1);        // 标准缓动
+$ease-in: cubic-bezier(0.42, 0, 1, 1);                  // 进入
+$ease-out: cubic-bezier(0, 0, 0.58, 1);                 // 退出
+$ease-in-out: cubic-bezier(0.42, 0, 0.58, 1);           // 进出
+$ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);        // 弹性
+$ease-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);   // 反弹
+
+// ============================================
+// 间距系统 - 严格遵循 8px 原则 (iOS HIG)
+// ============================================
+$spacing-2: 2px;    // 极小间距
+$spacing-4: 4px;    // 图标与文字间距
+$spacing-6: 6px;    // 紧凑间距
+$spacing-8: 8px;    // 基础单位
+$spacing-10: 10px;  //
+$spacing-12: 12px;  // 列表项内边距
+$spacing-16: 16px;  // 标准内边距
+$spacing-20: 20px;  // 卡片边距
+$spacing-24: 24px;  // 分组间距
+$spacing-32: 32px;  // 大区块间距
+$spacing-40: 40px;  // 页面边距
+$spacing-48: 48px;  // 大分隔
+$spacing-56: 56px;
+$spacing-64: 64px;
+
+// 兼容旧变量名
+$spacing-xs: $spacing-4;
+$spacing-sm: $spacing-8;
+$spacing-md: $spacing-16;
+$spacing-lg: $spacing-20;
+$spacing-xl: $spacing-32;
+
+// ============================================
+// 字体系统 - iOS HIG 标准
+// ============================================
+$font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text',
+              'Helvetica Neue', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+
+// iOS 文字大小 (以pt为单位，在web上使用px)
+$font-size-caption2: 11px;   // Caption 2
+$font-size-caption1: 12px;   // Caption 1
+$font-size-footnote: 13px;   // Footnote
+$font-size-subhead: 15px;    // Subheadline
+$font-size-callout: 16px;    // Callout
+$font-size-body: 17px;       // Body (默认)
+$font-size-headline: 17px;   // Headline (加粗)
+$font-size-title3: 20px;     // Title 3
+$font-size-title2: 22px;     // Title 2
+$font-size-title1: 28px;     // Title 1
+$font-size-large-title: 34px; // Large Title
+
+// 字重 - iOS 标准
+$font-weight-regular: 400;
+$font-weight-medium: 500;
+$font-weight-semibold: 600;
+$font-weight-bold: 700;
+
+// 行高
+$line-height-tight: 1.2;
+$line-height-normal: 1.47;   // iOS 标准
+$line-height-relaxed: 1.6;
+
+// ============================================
+// 触摸目标 - iOS HIG 最小 44pt
+// ============================================
+$touch-target-min: 44px;
+$touch-target-comfortable: 48px;
+$touch-target-large: 56px;
 
 // 导出为CSS变量
 :root {
+  // 颜色
   --primary-color: #{$primary-color};
   --primary-color-light: #{$primary-color-light};
   --success-color: #{$success-color};
@@ -37,39 +155,158 @@ $transition-duration: 0.3s;
   --danger-color: #{$danger-color};
   --info-color: #{$info-color};
 
+  // iOS 系统色
+  --ios-blue: #{$ios-blue};
+  --ios-green: #{$ios-green};
+  --ios-orange: #{$ios-orange};
+  --ios-red: #{$ios-red};
+  --ios-purple: #{$ios-purple};
+  --ios-pink: #{$ios-pink};
+  --ios-teal: #{$ios-teal};
+  --ios-indigo: #{$ios-indigo};
+  --ios-yellow: #{$ios-yellow};
+  --ios-cyan: #{$ios-cyan};
+  --ios-mint: #{$ios-mint};
+
+  // 文字
   --text-color: #{$text-color};
   --text-color-secondary: #{$text-color-secondary};
+  --text-color-tertiary: #{$text-color-tertiary};
   --text-color-placeholder: #{$text-color-placeholder};
+  --text-color-quaternary: #{$text-color-quaternary};
 
+  // 背景
   --bg-color: #{$bg-color};
   --header-bg: #{$header-bg};
   --sidebar-bg: #{$sidebar-bg};
   --card-bg: #{$card-bg};
+  --grouped-bg: #{$grouped-bg};
+  --elevated-bg: #{$elevated-bg};
 
+  // 分隔线
+  --separator-color: #{$separator-color};
+  --separator-color-opaque: #{$separator-color-opaque};
+
+  // 边框 & 圆角
   --border-color: #{$border-color};
+  --border-radius-xs: #{$border-radius-xs};
+  --border-radius-sm: #{$border-radius-sm};
   --border-radius: #{$border-radius};
+  --border-radius-md: #{$border-radius-md};
+  --border-radius-lg: #{$border-radius-lg};
+  --border-radius-xl: #{$border-radius-xl};
+  --border-radius-full: #{$border-radius-full};
 
+  // 阴影
+  --box-shadow-xs: #{$box-shadow-xs};
+  --box-shadow-sm: #{$box-shadow-sm};
   --box-shadow: #{$box-shadow};
-  --box-shadow-light: #{$box-shadow-light};
+  --box-shadow-md: #{$box-shadow-md};
+  --box-shadow-lg: #{$box-shadow-lg};
+  --box-shadow-xl: #{$box-shadow-xl};
+  // 兼容旧变量
+  --box-shadow-light: #{$box-shadow-sm};
+  --box-shadow-elevated: #{$box-shadow-lg};
 
+  // 毛玻璃
+  --blur-thin: #{$blur-thin};
+  --blur-regular: #{$blur-regular};
+  --blur-thick: #{$blur-thick};
+  --blur-prominent: #{$blur-prominent};
+
+  // 悬停 & 激活状态
   --hover-bg: rgba(0, 0, 0, 0.04);
+  --active-bg: rgba(0, 0, 0, 0.08);
+  --focus-ring: 0 0 0 4px rgba(0, 122, 255, 0.3);
+
+  // 动画
+  --duration-instant: #{$duration-instant};
+  --duration-fast: #{$duration-fast};
+  --duration-normal: #{$duration-normal};
+  --duration-slow: #{$duration-slow};
+  --transition-duration: #{$duration-normal};
+  --transition-timing: #{$ease-default};
+  --spring-timing: #{$ease-spring};
+
+  // 间距 - 8px系统
+  --spacing-2: #{$spacing-2};
+  --spacing-4: #{$spacing-4};
+  --spacing-6: #{$spacing-6};
+  --spacing-8: #{$spacing-8};
+  --spacing-10: #{$spacing-10};
+  --spacing-12: #{$spacing-12};
+  --spacing-16: #{$spacing-16};
+  --spacing-20: #{$spacing-20};
+  --spacing-24: #{$spacing-24};
+  --spacing-32: #{$spacing-32};
+  --spacing-40: #{$spacing-40};
+  --spacing-48: #{$spacing-48};
+  // 兼容旧变量
+  --spacing-xs: #{$spacing-xs};
+  --spacing-sm: #{$spacing-sm};
+  --spacing-md: #{$spacing-md};
+  --spacing-lg: #{$spacing-lg};
+  --spacing-xl: #{$spacing-xl};
+
+  // 字体大小
+  --font-size-caption2: #{$font-size-caption2};
+  --font-size-caption1: #{$font-size-caption1};
+  --font-size-footnote: #{$font-size-footnote};
+  --font-size-subhead: #{$font-size-subhead};
+  --font-size-callout: #{$font-size-callout};
+  --font-size-body: #{$font-size-body};
+  --font-size-headline: #{$font-size-headline};
+  --font-size-title3: #{$font-size-title3};
+  --font-size-title2: #{$font-size-title2};
+  --font-size-title1: #{$font-size-title1};
+  --font-size-large-title: #{$font-size-large-title};
+
+  // 触摸目标
+  --touch-target-min: #{$touch-target-min};
+  --touch-target-comfortable: #{$touch-target-comfortable};
 }
 
-// 深色主题
+// ============================================
+// 深色主题 - iOS Dark Mode
+// ============================================
 [data-theme="dark"] {
-  --primary-color: #409EFF;
-  --primary-color-light: rgba(64, 158, 255, 0.2);
+  // 文字 - iOS 深色模式标准
+  --text-color: #FFFFFF;
+  --text-color-secondary: rgba(235, 235, 245, 0.6);
+  --text-color-tertiary: rgba(235, 235, 245, 0.3);
+  --text-color-placeholder: rgba(235, 235, 245, 0.18);
+  --text-color-quaternary: rgba(235, 235, 245, 0.1);
 
-  --text-color: #E5E5E5;
-  --text-color-secondary: #A3A3A3;
-  --text-color-placeholder: #6B6B6B;
+  // 背景 - iOS 深色模式
+  --bg-color: #000000;
+  --header-bg: rgba(29, 29, 31, 0.94);
+  --sidebar-bg: rgba(28, 28, 30, 0.8);
+  --card-bg: #1C1C1E;
+  --grouped-bg: #000000;
+  --elevated-bg: #2C2C2E;
 
-  --bg-color: #1A1A1A;
-  --header-bg: #242424;
-  --sidebar-bg: #1F1F1F;
-  --card-bg: #2D2D2D;
+  // 分隔线
+  --separator-color: rgba(84, 84, 88, 0.65);
+  --separator-color-opaque: #38383A;
 
-  --border-color: #3F3F3F;
+  // 边框
+  --border-color: rgba(84, 84, 88, 0.65);
 
+  // 悬停 & 激活
   --hover-bg: rgba(255, 255, 255, 0.08);
+  --active-bg: rgba(255, 255, 255, 0.12);
+  --focus-ring: 0 0 0 4px rgba(10, 132, 255, 0.4);
+
+  // 阴影 - 深色模式更强
+  --box-shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.2);
+  --box-shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.25);
+  --box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  --box-shadow-md: 0 4px 16px rgba(0, 0, 0, 0.35);
+  --box-shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.4);
+  --box-shadow-xl: 0 12px 40px rgba(0, 0, 0, 0.5);
+  --box-shadow-light: var(--box-shadow-sm);
+  --box-shadow-elevated: var(--box-shadow-lg);
+
+  // 主色透明度调整
+  --primary-color-light: rgba(10, 132, 255, 0.2);
 }

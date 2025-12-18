@@ -12,6 +12,8 @@ export interface Formula {
   name: string
   latex: string
   description: string
+  examFrequency?: 'very-high' | 'high' | 'medium' | 'low'
+  memoryTip?: string
 }
 
 export interface Metaphor {
@@ -89,6 +91,7 @@ export interface KnowledgePoint {
   prerequisites: string[]
   hasVisualization: boolean
   visualizationType?: string
+  visualizationConfig?: Record<string, any>
   examFrequency?: 'very-high' | 'high' | 'medium' | 'low'
   difficulty: number
 }
@@ -119,6 +122,20 @@ export interface KnowledgeState {
   currentKnowledgePointId: string | null
   expandedChapters: string[]
   isLoading: boolean
+  // 索引 Map - 用于 O(1) 快速查找
+  _formulaIndex: Map<string, Formula>
+  _metaphorIndex: Map<string, Metaphor>
+  _exampleIndex: Map<string, Example>
+  _knowledgePointIndex: Map<string, KnowledgePoint>
+  _chapterIndex: Map<string, Chapter>
+  // 关联索引 - 用于快速获取关联数据
+  _formulasByKpId: Map<string, Formula[]>
+  _metaphorsByKpId: Map<string, Metaphor[]>
+  _examplesByKpId: Map<string, Example[]>
+  _mistakesByKpId: Map<string, CommonMistake[]>
+  _mistakesByFormulaId: Map<string, CommonMistake[]>
+  _kpsByChapterId: Map<string, KnowledgePoint[]>
+  _kpsBySectionId: Map<string, KnowledgePoint[]>
 }
 
 export const useKnowledgeStore = defineStore('knowledge', {
@@ -133,55 +150,76 @@ export const useKnowledgeStore = defineStore('knowledge', {
     currentSectionId: null,
     currentKnowledgePointId: null,
     expandedChapters: [],
-    isLoading: false
+    isLoading: false,
+    // 索引初始化
+    _formulaIndex: new Map(),
+    _metaphorIndex: new Map(),
+    _exampleIndex: new Map(),
+    _knowledgePointIndex: new Map(),
+    _chapterIndex: new Map(),
+    _formulasByKpId: new Map(),
+    _metaphorsByKpId: new Map(),
+    _examplesByKpId: new Map(),
+    _mistakesByKpId: new Map(),
+    _mistakesByFormulaId: new Map(),
+    _kpsByChapterId: new Map(),
+    _kpsBySectionId: new Map()
   }),
 
   getters: {
     currentChapter: (state): Chapter | undefined => {
       if (!state.currentChapterId) return undefined
-      return state.chapters.find((ch) => ch.id === state.currentChapterId)
+      // 使用索引 O(1) 查找
+      return state._chapterIndex.get(state.currentChapterId)
     },
 
     currentKnowledgePoint: (state): KnowledgePoint | undefined => {
       if (!state.currentKnowledgePointId) return undefined
-      return state.knowledgePoints.find(
-        (kp) => kp.id === state.currentKnowledgePointId
-      )
+      // 使用索引 O(1) 查找
+      return state._knowledgePointIndex.get(state.currentKnowledgePointId)
     },
 
     getChapterById: (state) => (id: string) => {
-      return state.chapters.find((ch) => ch.id === id)
+      // 使用索引 O(1) 查找
+      return state._chapterIndex.get(id)
     },
 
     getKnowledgePointById: (state) => (id: string) => {
-      return state.knowledgePoints.find((kp) => kp.id === id)
+      // 使用索引 O(1) 查找
+      return state._knowledgePointIndex.get(id)
     },
 
     getKnowledgePointsByChapter: (state) => (chapterId: string) => {
-      return state.knowledgePoints.filter((kp) => kp.chapterId === chapterId)
+      // 使用关联索引 O(1) 查找
+      return state._kpsByChapterId.get(chapterId) || []
     },
 
     getKnowledgePointsBySection: (state) => (sectionId: string) => {
-      return state.knowledgePoints.filter((kp) => kp.sectionId === sectionId)
+      // 使用关联索引 O(1) 查找
+      return state._kpsBySectionId.get(sectionId) || []
     },
 
     getFormulasByKnowledgePoint: (state) => (kpId: string) => {
-      return state.formulas.filter((f) => f.knowledgePointId === kpId)
+      // 使用关联索引 O(1) 查找
+      return state._formulasByKpId.get(kpId) || []
     },
 
     getMetaphorsByKnowledgePoint: (state) => (kpId: string) => {
-      return state.metaphors.filter((m) => m.knowledgePointId === kpId)
+      // 使用关联索引 O(1) 查找
+      return state._metaphorsByKpId.get(kpId) || []
     },
 
     getExamplesByKnowledgePoint: (state) => (kpId: string) => {
-      return state.examples.filter((e) => e.knowledgePointId === kpId)
+      // 使用关联索引 O(1) 查找
+      return state._examplesByKpId.get(kpId) || []
     },
 
     getPrerequisites: (state) => (kpId: string) => {
-      const kp = state.knowledgePoints.find((k) => k.id === kpId)
+      const kp = state._knowledgePointIndex.get(kpId)
       if (!kp) return []
+      // 使用索引查找前置知识点
       return kp.prerequisites
-        .map((id) => state.knowledgePoints.find((k) => k.id === id))
+        .map((id) => state._knowledgePointIndex.get(id))
         .filter(Boolean) as KnowledgePoint[]
     },
 
@@ -211,12 +249,14 @@ export const useKnowledgeStore = defineStore('knowledge', {
 
     // 获取公式相关的常见错误
     getCommonMistakesByFormula: (state) => (formulaId: string) => {
-      return state.commonMistakes.filter((cm) => cm.formulaId === formulaId)
+      // 使用关联索引 O(1) 查找
+      return state._mistakesByFormulaId.get(formulaId) || []
     },
 
     // 获取知识点相关的常见错误
     getCommonMistakesByKnowledgePoint: (state) => (kpId: string) => {
-      return state.commonMistakes.filter((cm) => cm.knowledgePointId === kpId)
+      // 使用关联索引 O(1) 查找
+      return state._mistakesByKpId.get(kpId) || []
     },
 
     // 获取高频易错点
@@ -233,42 +273,103 @@ export const useKnowledgeStore = defineStore('knowledge', {
 
       this.isLoading = true
       try {
-        // 加载章节数据
+        // 1. 加载原始数据
         this.chapters = chaptersData as Chapter[]
-
-        // 加载公式数据
         this.formulas = formulasData as Formula[]
-
-        // 加载比喻数据
         this.metaphors = metaphorsData as Metaphor[]
-
-        // 加载例题数据
         this.examples = examplesData as Example[]
-
-        // 加载常见错误数据
         this.commonMistakes = commonMistakesData as CommonMistake[]
 
-        // 加载知识点数据并关联公式、比喻和例题
+        // 2. 构建章节索引
+        for (const chapter of this.chapters) {
+          this._chapterIndex.set(chapter.id, chapter)
+        }
+
+        // 3. 构建公式索引和关联索引
+        for (const formula of this.formulas) {
+          this._formulaIndex.set(formula.id, formula)
+          // 按知识点ID分组
+          const kpFormulas = this._formulasByKpId.get(formula.knowledgePointId) || []
+          kpFormulas.push(formula)
+          this._formulasByKpId.set(formula.knowledgePointId, kpFormulas)
+        }
+
+        // 4. 构建比喻索引和关联索引
+        for (const metaphor of this.metaphors) {
+          this._metaphorIndex.set(metaphor.id, metaphor)
+          // 按知识点ID分组
+          const kpMetaphors = this._metaphorsByKpId.get(metaphor.knowledgePointId) || []
+          kpMetaphors.push(metaphor)
+          this._metaphorsByKpId.set(metaphor.knowledgePointId, kpMetaphors)
+        }
+
+        // 5. 构建例题索引和关联索引
+        for (const example of this.examples) {
+          this._exampleIndex.set(example.id, example)
+          // 按知识点ID分组
+          const kpExamples = this._examplesByKpId.get(example.knowledgePointId) || []
+          kpExamples.push(example)
+          this._examplesByKpId.set(example.knowledgePointId, kpExamples)
+        }
+
+        // 6. 构建常见错误索引
+        for (const mistake of this.commonMistakes) {
+          // 按知识点ID分组
+          const kpMistakes = this._mistakesByKpId.get(mistake.knowledgePointId) || []
+          kpMistakes.push(mistake)
+          this._mistakesByKpId.set(mistake.knowledgePointId, kpMistakes)
+          // 按公式ID分组
+          const formulaMistakes = this._mistakesByFormulaId.get(mistake.formulaId) || []
+          formulaMistakes.push(mistake)
+          this._mistakesByFormulaId.set(mistake.formulaId, formulaMistakes)
+        }
+
+        // 7. 加载知识点并使用索引进行 O(1) 关联（原来是 O(n²)）
         const rawKnowledgePoints = knowledgePointsData as KnowledgePointData[]
-        this.knowledgePoints = rawKnowledgePoints.map((kp) => ({
-          id: kp.id,
-          chapterId: kp.chapterId,
-          sectionId: kp.sectionId,
-          title: kp.title,
-          description: kp.description,
-          keyPoints: kp.keyPoints,
-          prerequisites: kp.prerequisites,
-          hasVisualization: kp.hasVisualization,
-          visualizationType: kp.visualizationType,
-          examFrequency: kp.examFrequency as KnowledgePoint['examFrequency'],
-          difficulty: kp.difficulty,
-          // 关联公式
-          formulas: this.formulas.filter((f) => kp.formulas.includes(f.id)),
-          // 关联比喻
-          metaphors: this.metaphors.filter((m) => kp.metaphors.includes(m.id)),
-          // 关联例题
-          examples: this.examples.filter((e) => e.knowledgePointId === kp.id)
-        }))
+        this.knowledgePoints = rawKnowledgePoints.map((kp) => {
+          // 使用索引获取关联的公式（O(1) 查找 + O(m) 映射，m为公式数量）
+          const associatedFormulas = kp.formulas
+            .map(id => this._formulaIndex.get(id))
+            .filter((f): f is Formula => f !== undefined)
+
+          // 使用索引获取关联的比喻
+          const associatedMetaphors = kp.metaphors
+            .map(id => this._metaphorIndex.get(id))
+            .filter((m): m is Metaphor => m !== undefined)
+
+          // 使用关联索引获取例题（O(1) 查找）
+          const associatedExamples = this._examplesByKpId.get(kp.id) || []
+
+          return {
+            id: kp.id,
+            chapterId: kp.chapterId,
+            sectionId: kp.sectionId,
+            title: kp.title,
+            description: kp.description,
+            keyPoints: kp.keyPoints,
+            prerequisites: kp.prerequisites,
+            hasVisualization: kp.hasVisualization,
+            visualizationType: kp.visualizationType,
+            examFrequency: kp.examFrequency as KnowledgePoint['examFrequency'],
+            difficulty: kp.difficulty,
+            formulas: associatedFormulas,
+            metaphors: associatedMetaphors,
+            examples: associatedExamples
+          }
+        })
+
+        // 8. 构建知识点索引和分组索引
+        for (const kp of this.knowledgePoints) {
+          this._knowledgePointIndex.set(kp.id, kp)
+          // 按章节ID分组
+          const chapterKps = this._kpsByChapterId.get(kp.chapterId) || []
+          chapterKps.push(kp)
+          this._kpsByChapterId.set(kp.chapterId, chapterKps)
+          // 按节ID分组
+          const sectionKps = this._kpsBySectionId.get(kp.sectionId) || []
+          sectionKps.push(kp)
+          this._kpsBySectionId.set(kp.sectionId, sectionKps)
+        }
 
         // 默认展开第一章
         if (this.chapters.length > 0) {
@@ -293,7 +394,8 @@ export const useKnowledgeStore = defineStore('knowledge', {
     setCurrentKnowledgePoint(id: string | null) {
       this.currentKnowledgePointId = id
       if (id) {
-        const kp = this.knowledgePoints.find((k) => k.id === id)
+        // 使用索引 O(1) 查找
+        const kp = this._knowledgePointIndex.get(id)
         if (kp) {
           this.currentChapterId = kp.chapterId
           this.currentSectionId = kp.sectionId
@@ -317,10 +419,14 @@ export const useKnowledgeStore = defineStore('knowledge', {
     // 添加AI生成的比喻
     addMetaphor(metaphor: Metaphor) {
       this.metaphors.push(metaphor)
-      // 更新对应知识点的比喻列表
-      const kp = this.knowledgePoints.find(
-        (k) => k.id === metaphor.knowledgePointId
-      )
+      // 更新索引
+      this._metaphorIndex.set(metaphor.id, metaphor)
+      // 更新关联索引
+      const kpMetaphors = this._metaphorsByKpId.get(metaphor.knowledgePointId) || []
+      kpMetaphors.push(metaphor)
+      this._metaphorsByKpId.set(metaphor.knowledgePointId, kpMetaphors)
+      // 更新对应知识点的比喻列表（使用索引 O(1) 查找）
+      const kp = this._knowledgePointIndex.get(metaphor.knowledgePointId)
       if (kp) {
         kp.metaphors.push(metaphor)
       }

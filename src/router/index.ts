@@ -33,6 +33,12 @@ const routes: RouteRecordRaw[] = [
     meta: { title: '公式速查' }
   },
   {
+    path: '/knowledge-graph',
+    name: 'KnowledgeGraph',
+    component: () => import('@/views/KnowledgeGraphView.vue'),
+    meta: { title: '知识图谱' }
+  },
+  {
     path: '/favorites',
     name: 'Favorites',
     component: () => import('@/views/FavoritesView.vue'),
@@ -61,6 +67,24 @@ const routes: RouteRecordRaw[] = [
     name: 'Settings',
     component: () => import('@/views/SettingsView.vue'),
     meta: { title: '设置' }
+  },
+  {
+    path: '/deep-understanding',
+    name: 'DeepUnderstanding',
+    component: () => import('@/views/DeepUnderstandingView.vue'),
+    meta: { title: '深度理解' }
+  },
+  {
+    path: '/graph-3d',
+    name: 'Graph3D',
+    component: () => import('@/views/Graph3DView.vue'),
+    meta: { title: '3D绘图' }
+  },
+  {
+    path: '/ai',
+    name: 'AI',
+    component: () => import('@/views/AIView.vue'),
+    meta: { title: 'AI助手' }
   }
 ]
 

@@ -119,11 +119,11 @@ const toggleMemorized = () => {
   emit('memorized', props.formula.id, isMemorized.value)
 }
 
-const getDifficultyType = (freq: string) => {
-  const types: Record<string, string> = {
+const getDifficultyType = (freq: string): 'primary' | 'success' | 'warning' | 'info' | 'danger' => {
+  const types: Record<string, 'primary' | 'success' | 'warning' | 'info' | 'danger'> = {
     'very-high': 'danger',
     'high': 'warning',
-    'medium': '',
+    'medium': 'info',
     'low': 'info'
   }
   return types[freq] || 'info'

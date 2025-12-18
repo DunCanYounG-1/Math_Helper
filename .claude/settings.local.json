@@ -19,7 +19,19 @@
       "Bash(npx electron-builder:*)",
       "Bash(npx tsc:*)",
       "Bash(ls:*)",
-      "Bash(powershell:*)"
+      "Bash(powershell:*)",
+      "SlashCommand(/bmad:bmm:workflows:brainstorm-project)",
+      "WebSearch",
+      "SlashCommand(/bmad:bmm:workflows:create-epics-and-stories)",
+      "SlashCommand(/bmad:bmm:workflows:implementation-readiness)",
+      "SlashCommand(/bmad:bmm:workflows:sprint-planning)",
+      "Bash(npm install:*)",
+      "Bash(sort:*)",
+      "Bash(wc:*)",
+      "Bash(grep:*)",
+      "Bash(npm ls:*)",
+      "Bash(npx vue-tsc:*)",
+      "Bash(npx eslint:*)"
     ],
     "deny": [],
     "ask": []

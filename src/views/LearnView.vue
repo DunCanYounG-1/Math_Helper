@@ -339,6 +339,9 @@
         <p>从左侧章节树中选择您想要学习的知识点</p>
       </div>
     </div>
+
+    <!-- AI 智能问答面板 -->
+    <ChatPanel :knowledge-point-id="currentKnowledgePoint?.id" />
   </div>
 </template>
 
@@ -352,10 +355,11 @@ import { useKnowledgeStore, type Metaphor } from '@/stores/knowledgeStore'
 import ExampleDisplay from '@/components/knowledge/ExampleDisplay.vue'
 import NotesSection from '@/components/knowledge/NotesSection.vue'
 import CommonMistakesPanel from '@/components/learn/CommonMistakesPanel.vue'
+import ChatPanel from '@/components/ai/ChatPanel.vue'
 import { useSettingsStore } from '@/stores/settingsStore'
 import { useProgressStore } from '@/stores/progressStore'
 import { createMetaphor, setAIConfig, isConfigured } from '@/services/aiService'
-import { renderLatex, renderMarkdown, renderFormula } from '@/utils/latex'
+import { renderMarkdown, renderFormula } from '@/utils/latex'
 import 'katex/dist/katex.min.css'
 
 const route = useRoute()
@@ -443,11 +447,11 @@ const getFormulaExample = (formula: any) => {
 }
 
 // 考试频率标签类型
-const getExamFrequencyType = (freq: string) => {
-  const types: Record<string, string> = {
+const getExamFrequencyType = (freq: string): 'primary' | 'success' | 'warning' | 'info' | 'danger' => {
+  const types: Record<string, 'primary' | 'success' | 'warning' | 'info' | 'danger'> = {
     'very-high': 'danger',
     'high': 'warning',
-    'medium': '',
+    'medium': 'info',
     'low': 'info'
   }
   return types[freq] || 'info'
@@ -467,17 +471,19 @@ const getExamFrequencyLabel = (freq: string) => {
 // 相关知识点（前置和后继）
 const relatedKnowledgePoints = computed(() => {
   const kp = currentKnowledgePoint.value
-  if (!kp) return { prev: [], next: [] }
+  if (!kp) return { prev: [] as Array<{ id: string; title: string }>, next: [] as Array<{ id: string; title: string }> }
 
   // 前置知识点
   const prev = (kp.prerequisites || [])
     .map((id: string) => knowledgeStore.getKnowledgePointById(id))
-    .filter(Boolean)
+    .filter((item): item is NonNullable<typeof item> => Boolean(item))
+    .map(item => ({ id: item.id, title: item.title }))
     .slice(0, 3)
 
   // 后继知识点（依赖当前知识点的）
   const next = knowledgeStore.knowledgePoints
     .filter(other => other.prerequisites?.includes(kp.id))
+    .map(item => ({ id: item.id, title: item.title }))
     .slice(0, 3)
 
   return { prev, next }
@@ -544,8 +550,8 @@ const statusLabel = computed(() => {
   return labels[currentStatus.value] || '未学习'
 })
 
-const statusButtonType = computed(() => {
-  const types: Record<string, string> = {
+const statusButtonType = computed((): '' | 'default' | 'text' | 'primary' | 'success' | 'warning' | 'info' | 'danger' => {
+  const types: Record<string, '' | 'default' | 'text' | 'primary' | 'success' | 'warning' | 'info' | 'danger'> = {
     'not-started': 'info',
     'in-progress': 'warning',
     'completed': 'success',
@@ -565,7 +571,8 @@ const breadcrumbData = computed(() => {
   const kp = currentKnowledgePoint.value
   if (!kp) return { chapter: '', section: '' }
 
-  const chapter = knowledgeStore.chapters.find(ch => ch.id === kp.chapterId)
+  // 使用索引 O(1) 查找
+  const chapter = knowledgeStore.getChapterById(kp.chapterId)
   if (!chapter) return { chapter: '', section: '' }
 
   let sectionTitle = ''
@@ -587,7 +594,8 @@ const chapterProgress = computed(() => {
   const kp = currentKnowledgePoint.value
   if (!kp) return null
 
-  const chapter = knowledgeStore.chapters.find(ch => ch.id === kp.chapterId)
+  // 使用索引 O(1) 查找
+  const chapter = knowledgeStore.getChapterById(kp.chapterId)
   if (!chapter) return null
 
   // 获取章节下所有知识点ID
@@ -650,57 +658,64 @@ watch(() => currentKnowledgePoint.value?.id, (newId, oldId) => {
   }
 }, { immediate: true })
 
-// 可视化组件映射
+// 可视化组件映射 - 优化：每种组件只定义一次，避免重复创建 AsyncComponent
+const LimitAnimation = defineAsyncComponent(() => import('@/components/visualization/LimitAnimation.vue'))
+const DerivativeAnimation = defineAsyncComponent(() => import('@/components/visualization/DerivativeAnimation.vue'))
+const MeanValueAnimation = defineAsyncComponent(() => import('@/components/visualization/MeanValueAnimation.vue'))
+const InteractiveFunctionPlot = defineAsyncComponent(() => import('@/components/visualization/InteractiveFunctionPlot.vue'))
+const IntegralAnimation = defineAsyncComponent(() => import('@/components/visualization/IntegralAnimation.vue'))
+const TaylorAnimation = defineAsyncComponent(() => import('@/components/visualization/TaylorAnimation.vue'))
+
 // 将知识点中的 visualizationType 映射到实际的组件
-const visualizationComponents: Record<string, any> = {
+const visualizationComponents: Record<string, ReturnType<typeof defineAsyncComponent>> = {
   // 极限相关
-  'limit': defineAsyncComponent(() => import('@/components/visualization/LimitAnimation.vue')),
-  'limit-animation': defineAsyncComponent(() => import('@/components/visualization/LimitAnimation.vue')),
-  'sequence-limit': defineAsyncComponent(() => import('@/components/visualization/LimitAnimation.vue')),
-  'first-limit': defineAsyncComponent(() => import('@/components/visualization/LimitAnimation.vue')),
-  'second-limit': defineAsyncComponent(() => import('@/components/visualization/LimitAnimation.vue')),
-  'infinitesimal-compare': defineAsyncComponent(() => import('@/components/visualization/LimitAnimation.vue')),
-  'continuity': defineAsyncComponent(() => import('@/components/visualization/LimitAnimation.vue')),
-  'discontinuity': defineAsyncComponent(() => import('@/components/visualization/LimitAnimation.vue')),
+  'limit': LimitAnimation,
+  'limit-animation': LimitAnimation,
+  'sequence-limit': LimitAnimation,
+  'first-limit': LimitAnimation,
+  'second-limit': LimitAnimation,
+  'infinitesimal-compare': LimitAnimation,
+  'continuity': LimitAnimation,
+  'discontinuity': LimitAnimation,
 
   // 导数相关
-  'derivative': defineAsyncComponent(() => import('@/components/visualization/DerivativeAnimation.vue')),
-  'derivative-definition': defineAsyncComponent(() => import('@/components/visualization/DerivativeAnimation.vue')),
-  'chain-rule': defineAsyncComponent(() => import('@/components/visualization/DerivativeAnimation.vue')),
-  'higher-derivatives': defineAsyncComponent(() => import('@/components/visualization/DerivativeAnimation.vue')),
-  'implicit-derivative': defineAsyncComponent(() => import('@/components/visualization/DerivativeAnimation.vue')),
-  'differential': defineAsyncComponent(() => import('@/components/visualization/DerivativeAnimation.vue')),
-  'rolle-theorem': defineAsyncComponent(() => import('@/components/visualization/DerivativeAnimation.vue')),
+  'derivative': DerivativeAnimation,
+  'derivative-definition': DerivativeAnimation,
+  'chain-rule': DerivativeAnimation,
+  'higher-derivatives': DerivativeAnimation,
+  'implicit-derivative': DerivativeAnimation,
+  'differential': DerivativeAnimation,
+  'rolle-theorem': DerivativeAnimation,
 
   // 中值定理
-  'mean-value': defineAsyncComponent(() => import('@/components/visualization/MeanValueAnimation.vue')),
+  'mean-value': MeanValueAnimation,
 
   // 交互式函数图
-  'interactive-plot': defineAsyncComponent(() => import('@/components/visualization/InteractiveFunctionPlot.vue')),
-  'function-explorer': defineAsyncComponent(() => import('@/components/visualization/InteractiveFunctionPlot.vue')),
+  'interactive-plot': InteractiveFunctionPlot,
+  'function-explorer': InteractiveFunctionPlot,
 
   // 函数应用相关
-  'function-plot': defineAsyncComponent(() => import('@/components/visualization/InteractiveFunctionPlot.vue')),
-  'function-properties': defineAsyncComponent(() => import('@/components/visualization/InteractiveFunctionPlot.vue')),
-  'monotonicity': defineAsyncComponent(() => import('@/components/visualization/DerivativeAnimation.vue')),
-  'extrema': defineAsyncComponent(() => import('@/components/visualization/DerivativeAnimation.vue')),
-  'concavity': defineAsyncComponent(() => import('@/components/visualization/DerivativeAnimation.vue')),
-  'asymptote': defineAsyncComponent(() => import('@/components/visualization/DerivativeAnimation.vue')),
+  'function-plot': InteractiveFunctionPlot,
+  'function-properties': InteractiveFunctionPlot,
+  'monotonicity': DerivativeAnimation,
+  'extrema': DerivativeAnimation,
+  'concavity': DerivativeAnimation,
+  'asymptote': DerivativeAnimation,
 
   // 积分相关
-  'integral': defineAsyncComponent(() => import('@/components/visualization/IntegralAnimation.vue')),
-  'antiderivative': defineAsyncComponent(() => import('@/components/visualization/IntegralAnimation.vue')),
-  'definite-integral': defineAsyncComponent(() => import('@/components/visualization/IntegralAnimation.vue')),
-  'ftc': defineAsyncComponent(() => import('@/components/visualization/IntegralAnimation.vue')),
-  'integral-applications': defineAsyncComponent(() => import('@/components/visualization/IntegralAnimation.vue')),
+  'integral': IntegralAnimation,
+  'antiderivative': IntegralAnimation,
+  'definite-integral': IntegralAnimation,
+  'ftc': IntegralAnimation,
+  'integral-applications': IntegralAnimation,
 
   // 泰勒级数相关
-  'taylor': defineAsyncComponent(() => import('@/components/visualization/TaylorAnimation.vue')),
-  'power-series': defineAsyncComponent(() => import('@/components/visualization/TaylorAnimation.vue')),
-  'series-convergence': defineAsyncComponent(() => import('@/components/visualization/TaylorAnimation.vue')),
+  'taylor': TaylorAnimation,
+  'power-series': TaylorAnimation,
+  'series-convergence': TaylorAnimation,
 
   // 微分方程相关 - 使用导数动画
-  'direction-field': defineAsyncComponent(() => import('@/components/visualization/DerivativeAnimation.vue'))
+  'direction-field': DerivativeAnimation
 }
 
 const currentKnowledgePoint = computed(() => {
@@ -717,7 +732,7 @@ const currentMistakes = computed(() => {
   return knowledgeStore.getCommonMistakesByKnowledgePoint(currentKnowledgePoint.value.id)
 })
 
-const getVisualizationComponent = (type: string | undefined) => {
+const getVisualizationComponent = (type: string | undefined): ReturnType<typeof defineAsyncComponent> | null => {
   if (!type) return null
   return visualizationComponents[type] || null
 }
@@ -788,8 +803,7 @@ const generateNewMetaphor = async () => {
 }
 
 onMounted(() => {
-  knowledgeStore.loadKnowledgeData()
-  progressStore.loadFromStorage()
+  // 数据已在 App.vue 中全局加载，无需重复加载
   // 初始化AI配置
   if (settingsStore.aiApiKey) {
     setAIConfig({ apiKey: settingsStore.aiApiKey })
@@ -803,26 +817,35 @@ onUnmounted(() => {
 </script>
 
 <style lang="scss" scoped>
+// ============================================
+// iOS 风格学习视图
+// ============================================
 .learn-view {
   height: 100%;
   overflow: auto;
+  background-color: var(--bg-color);
 }
 
 .learn-content {
   min-height: 100%;
+  padding: var(--spacing-md);
 }
 
 .knowledge-content {
   min-height: auto;
+  background-color: var(--card-bg);
+  border-radius: var(--border-radius-lg);
+  padding: var(--spacing-lg);
 }
 
+// iOS 风格面包屑
 .knowledge-breadcrumb {
-  margin-bottom: 12px;
-  padding: 8px 0;
+  margin-bottom: var(--spacing-md);
+  padding: var(--spacing-sm) 0;
 
   :deep(.el-breadcrumb__item) {
     .el-breadcrumb__inner {
-      color: var(--text-color-secondary);
+      color: var(--text-color-tertiary);
       font-size: 13px;
 
       &.is-link:hover {
@@ -837,17 +860,18 @@ onUnmounted(() => {
   }
 }
 
+// iOS 风格进度条
 .chapter-progress {
-  margin-bottom: 16px;
-  padding: 12px 16px;
+  margin-bottom: var(--spacing-md);
+  padding: var(--spacing-sm) var(--spacing-md);
   background-color: var(--bg-color);
-  border-radius: 8px;
+  border-radius: var(--border-radius);
 
   .progress-info {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 8px;
+    margin-bottom: var(--spacing-sm);
 
     .progress-chapter {
       font-size: 13px;
@@ -857,87 +881,114 @@ onUnmounted(() => {
 
     .progress-text {
       font-size: 12px;
-      color: var(--text-color-secondary);
+      color: var(--text-color-tertiary);
+      font-feature-settings: 'tnum';
     }
   }
 }
 
+// iOS 大标题风格
 .knowledge-header {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  margin-bottom: 12px;
-  gap: 16px;
+  margin-bottom: var(--spacing-sm);
+  gap: var(--spacing-md);
 }
 
 .knowledge-title {
-  font-size: 24px;
-  font-weight: 600;
+  font-size: 28px;
+  font-weight: 700;
   color: var(--text-color);
   margin: 0;
   flex: 1;
+  letter-spacing: -0.01em;
 }
 
 .knowledge-actions {
   display: flex;
-  gap: 8px;
+  gap: var(--spacing-sm);
   flex-shrink: 0;
 }
 
 .knowledge-desc {
   color: var(--text-color-secondary);
-  line-height: 1.8;
-  margin-bottom: 24px;
+  line-height: 1.7;
+  margin-bottom: var(--spacing-lg);
+  font-size: 15px;
 }
 
+// iOS 风格可视化区域
 .visualization-area {
   background-color: var(--bg-color);
-  border-radius: 8px;
-  padding: 20px;
-  margin-bottom: 24px;
+  border-radius: var(--border-radius-lg);
+  padding: var(--spacing-lg);
+  margin-bottom: var(--spacing-lg);
   min-height: 400px;
 }
 
+// iOS 风格要点列表
 .key-points-section {
-  margin-bottom: 24px;
+  margin-bottom: var(--spacing-lg);
 
   h3 {
-    font-size: 16px;
+    font-size: 17px;
     font-weight: 600;
-    margin-bottom: 12px;
+    margin-bottom: var(--spacing-sm);
+    color: var(--text-color);
   }
 
   .key-points-list {
     list-style: none;
     padding: 0;
+    background-color: var(--bg-color);
+    border-radius: var(--border-radius);
+    overflow: hidden;
 
     li {
       position: relative;
-      padding-left: 20px;
-      margin-bottom: 8px;
-      line-height: 1.8;
+      padding: 11px var(--spacing-md) 11px 32px;
+      line-height: 1.7;
+      font-size: 15px;
 
       &::before {
-        content: '•';
+        content: '';
         position: absolute;
-        left: 0;
-        color: var(--primary-color);
-        font-weight: bold;
+        left: var(--spacing-md);
+        top: 50%;
+        transform: translateY(-50%);
+        width: 6px;
+        height: 6px;
+        background-color: var(--primary-color);
+        border-radius: 50%;
+      }
+
+      // iOS 分隔线
+      &:not(:last-child)::after {
+        content: '';
+        position: absolute;
+        left: 32px;
+        right: 0;
+        bottom: 0;
+        height: 0.5px;
+        background-color: var(--separator-color);
       }
     }
   }
 }
 
+// iOS 风格比喻区
 .metaphor-section {
-  margin-bottom: 24px;
+  margin-bottom: var(--spacing-lg);
 
   h3 {
-    font-size: 16px;
+    font-size: 17px;
     font-weight: 600;
-    margin-bottom: 12px;
+    margin-bottom: var(--spacing-sm);
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: var(--spacing-sm);
+    color: var(--text-color);
 
     .el-icon {
       color: var(--primary-color);
@@ -946,28 +997,28 @@ onUnmounted(() => {
 }
 
 .metaphor-list {
-  margin-bottom: 12px;
+  margin-bottom: var(--spacing-sm);
 }
 
 .metaphor-item {
-  padding: 16px;
+  padding: var(--spacing-md);
   background-color: var(--primary-color-light);
-  border-radius: 8px;
-  margin-bottom: 12px;
+  border-radius: var(--border-radius);
+  margin-bottom: var(--spacing-sm);
   border-left: 3px solid var(--primary-color);
 
   &.ai-generated {
-    border-left-color: #67C23A;
-    background-color: rgba(103, 194, 58, 0.1);
+    border-left-color: var(--ios-green);
+    background-color: rgba(52, 199, 89, 0.1);
   }
 
   .metaphor-header {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-    margin-bottom: 8px;
+    margin-bottom: var(--spacing-sm);
     flex-wrap: wrap;
-    gap: 8px;
+    gap: var(--spacing-sm);
   }
 
   .metaphor-title {
@@ -978,36 +1029,39 @@ onUnmounted(() => {
 
   .metaphor-tags {
     display: flex;
-    gap: 4px;
+    gap: var(--spacing-xs);
     flex-wrap: wrap;
   }
 
   .metaphor-content {
-    line-height: 1.8;
+    line-height: 1.7;
     color: var(--text-color-secondary);
     white-space: pre-wrap;
+    font-size: 15px;
   }
 }
 
+// iOS 风格公式区
 .formulas-section {
-  margin-bottom: 24px;
+  margin-bottom: var(--spacing-lg);
 
   h3 {
-    font-size: 16px;
+    font-size: 17px;
     font-weight: 600;
-    margin-bottom: 12px;
+    margin-bottom: var(--spacing-sm);
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: var(--spacing-sm);
+    color: var(--text-color);
 
     .el-icon {
       color: var(--primary-color);
     }
 
     .formula-count {
-      font-size: 14px;
+      font-size: 13px;
       font-weight: 400;
-      color: var(--text-color-secondary);
+      color: var(--text-color-tertiary);
     }
   }
 }
@@ -1015,32 +1069,31 @@ onUnmounted(() => {
 .formula-list {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: var(--spacing-sm);
 }
 
+// iOS 风格公式卡片
 .formula-card {
-  padding: 16px 20px;
+  padding: var(--spacing-md);
   background-color: var(--bg-color);
-  border-radius: 12px;
-  border: 1px solid var(--border-color);
-  transition: all 0.3s;
+  border-radius: var(--border-radius);
+  transition: all 0.25s var(--transition-timing);
 
-  &:hover {
-    border-color: var(--primary-color);
-    box-shadow: 0 2px 12px rgba(var(--primary-color-rgb), 0.1);
+  &:active {
+    background-color: var(--active-bg);
   }
 
   .formula-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 12px;
+    margin-bottom: var(--spacing-sm);
   }
 
   .formula-header-left {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: var(--spacing-sm);
     flex-wrap: wrap;
   }
 
@@ -1062,23 +1115,23 @@ onUnmounted(() => {
 
   .formula-latex {
     text-align: center;
-    padding: 16px;
+    padding: var(--spacing-md);
     background-color: var(--card-bg);
-    border-radius: 8px;
-    margin-bottom: 12px;
+    border-radius: var(--border-radius);
+    margin-bottom: var(--spacing-sm);
 
     :deep(.katex) {
-      font-size: 1.2em;
+      font-size: 1.15em;
     }
   }
 
   .formula-description {
     display: flex;
     align-items: flex-start;
-    gap: 8px;
-    padding: 10px 12px;
-    background-color: rgba(var(--primary-color-rgb), 0.08);
-    border-radius: 6px;
+    gap: var(--spacing-sm);
+    padding: var(--spacing-sm) var(--spacing-md);
+    background-color: rgba(0, 122, 255, 0.08);
+    border-radius: var(--border-radius);
     font-size: 14px;
     line-height: 1.6;
     color: var(--text-color-secondary);
@@ -1091,12 +1144,12 @@ onUnmounted(() => {
   }
 
   .formula-details {
-    margin-top: 16px;
-    padding-top: 16px;
-    border-top: 1px dashed var(--border-color);
+    margin-top: var(--spacing-md);
+    padding-top: var(--spacing-md);
+    border-top: 0.5px solid var(--separator-color);
 
     .detail-section {
-      margin-bottom: 14px;
+      margin-bottom: var(--spacing-md);
 
       &:last-child {
         margin-bottom: 0;
@@ -1105,11 +1158,13 @@ onUnmounted(() => {
       .detail-label {
         display: flex;
         align-items: center;
-        gap: 6px;
+        gap: var(--spacing-xs);
         font-size: 13px;
         font-weight: 600;
         color: var(--text-color);
-        margin-bottom: 6px;
+        margin-bottom: var(--spacing-xs);
+        text-transform: uppercase;
+        letter-spacing: 0.02em;
 
         .el-icon {
           color: var(--primary-color);
@@ -1118,42 +1173,42 @@ onUnmounted(() => {
 
       .detail-content {
         font-size: 14px;
-        line-height: 1.8;
+        line-height: 1.7;
         color: var(--text-color-secondary);
-        padding-left: 20px;
+        padding-left: var(--spacing-lg);
       }
 
       .formula-example {
         background-color: var(--card-bg);
-        padding: 12px 16px;
-        border-radius: 6px;
+        padding: var(--spacing-sm) var(--spacing-md);
+        border-radius: var(--border-radius);
         margin-left: 0;
-        padding-left: 16px;
+        padding-left: var(--spacing-md);
 
         :deep(.katex) {
           font-size: 1.1em;
         }
       }
 
-      // 记忆口诀样式
+      // iOS 风格记忆口诀
       &.memory-tip-section {
-        background: linear-gradient(135deg, rgba(103, 194, 58, 0.08) 0%, rgba(64, 158, 255, 0.08) 100%);
-        padding: 12px 16px;
-        border-radius: 8px;
-        border-left: 3px solid #67C23A;
+        background: linear-gradient(135deg, rgba(52, 199, 89, 0.1) 0%, rgba(90, 200, 250, 0.1) 100%);
+        padding: var(--spacing-sm) var(--spacing-md);
+        border-radius: var(--border-radius);
+        border-left: 3px solid var(--ios-green);
 
         .detail-label {
-          color: #67C23A;
+          color: var(--ios-green);
 
           .el-icon {
-            color: #67C23A;
+            color: var(--ios-green);
           }
         }
 
         .memory-tip {
           padding-left: 0;
           font-size: 14px;
-          line-height: 1.8;
+          line-height: 1.7;
           color: var(--text-color);
           font-weight: 500;
         }
@@ -1163,26 +1218,27 @@ onUnmounted(() => {
 }
 
 .examples-section {
-  margin-top: 32px;
-  padding-top: 24px;
-  border-top: 1px solid var(--border-color);
+  margin-top: var(--spacing-xl);
+  padding-top: var(--spacing-lg);
+  border-top: 0.5px solid var(--separator-color);
 
   h3 {
-    font-size: 18px;
+    font-size: 17px;
     font-weight: 600;
-    margin-bottom: 16px;
+    margin-bottom: var(--spacing-md);
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: var(--spacing-sm);
+    color: var(--text-color);
 
     .el-icon {
       color: var(--primary-color);
     }
 
     .examples-count {
-      font-size: 14px;
+      font-size: 13px;
       font-weight: 400;
-      color: var(--text-color-secondary);
+      color: var(--text-color-tertiary);
     }
   }
 }
@@ -1190,9 +1246,10 @@ onUnmounted(() => {
 .examples-list {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: var(--spacing-md);
 }
 
+// iOS 风格空状态
 .empty-state {
   height: 100%;
   display: flex;
@@ -1200,28 +1257,30 @@ onUnmounted(() => {
   align-items: center;
   justify-content: center;
   text-align: center;
+  padding: var(--spacing-xl);
 
   .el-icon {
     color: var(--text-color-placeholder);
-    margin-bottom: 16px;
+    margin-bottom: var(--spacing-md);
   }
 
   h3 {
-    font-size: 18px;
+    font-size: 17px;
     color: var(--text-color);
-    margin-bottom: 8px;
+    margin-bottom: var(--spacing-sm);
   }
 
   p {
-    color: var(--text-color-secondary);
+    color: var(--text-color-tertiary);
+    font-size: 15px;
   }
 }
 
-// Markdown 内容样式
+// iOS 风格 Markdown 内容
 .markdown-content {
   :deep(p) {
     margin: 0 0 0.5em 0;
-    line-height: 1.8;
+    line-height: 1.7;
 
     &:last-child {
       margin-bottom: 0;
@@ -1241,22 +1300,22 @@ onUnmounted(() => {
 
   :deep(li) {
     margin-bottom: 0.25em;
-    line-height: 1.8;
+    line-height: 1.7;
   }
 
   :deep(code) {
-    background-color: rgba(var(--primary-color-rgb), 0.1);
+    background-color: rgba(0, 122, 255, 0.1);
     padding: 0.2em 0.4em;
     border-radius: 4px;
-    font-family: 'Consolas', 'Monaco', monospace;
+    font-family: 'SF Mono', 'Consolas', monospace;
     font-size: 0.9em;
     color: var(--primary-color);
   }
 
   :deep(pre) {
     background-color: var(--bg-color);
-    padding: 12px 16px;
-    border-radius: 8px;
+    padding: var(--spacing-sm) var(--spacing-md);
+    border-radius: var(--border-radius);
     overflow-x: auto;
     margin: 0.5em 0;
 
@@ -1268,21 +1327,22 @@ onUnmounted(() => {
   }
 
   :deep(blockquote) {
-    border-left: 4px solid var(--primary-color);
-    padding-left: 16px;
+    border-left: 3px solid var(--primary-color);
+    padding-left: var(--spacing-md);
     margin: 0.5em 0;
     color: var(--text-color-secondary);
-    font-style: italic;
   }
 
   :deep(table) {
     width: 100%;
     border-collapse: collapse;
     margin: 0.5em 0;
+    border-radius: var(--border-radius);
+    overflow: hidden;
 
     th, td {
-      border: 1px solid var(--border-color);
-      padding: 8px 12px;
+      border: 0.5px solid var(--separator-color);
+      padding: var(--spacing-sm) var(--spacing-md);
       text-align: left;
     }
 
@@ -1295,10 +1355,6 @@ onUnmounted(() => {
   :deep(a) {
     color: var(--primary-color);
     text-decoration: none;
-
-    &:hover {
-      text-decoration: underline;
-    }
   }
 
   :deep(strong) {
@@ -1306,23 +1362,17 @@ onUnmounted(() => {
     color: var(--text-color);
   }
 
-  :deep(em) {
-    font-style: italic;
-  }
-
   :deep(hr) {
     border: none;
-    border-top: 1px solid var(--border-color);
+    border-top: 0.5px solid var(--separator-color);
     margin: 1em 0;
   }
 
-  // KaTeX 公式样式
   :deep(.katex-display) {
     margin: 0.5em 0;
     overflow-x: auto;
   }
 
-  // 块级公式包装器
   :deep(.katex-block-wrapper) {
     margin: 1em 0;
     text-align: center;
@@ -1330,7 +1380,6 @@ onUnmounted(() => {
   }
 }
 
-// 修复 key-points-list 中 markdown 段落样式
 .key-points-list {
   li {
     :deep(p) {
@@ -1340,19 +1389,20 @@ onUnmounted(() => {
   }
 }
 
-// 相关知识点
+// iOS 风格相关知识点
 .related-section {
-  margin-top: 32px;
-  padding-top: 24px;
-  border-top: 1px solid var(--border-color);
+  margin-top: var(--spacing-xl);
+  padding-top: var(--spacing-lg);
+  border-top: 0.5px solid var(--separator-color);
 
   h3 {
-    font-size: 16px;
+    font-size: 17px;
     font-weight: 600;
-    margin-bottom: 16px;
+    margin-bottom: var(--spacing-md);
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: var(--spacing-sm);
+    color: var(--text-color);
 
     .el-icon {
       color: var(--primary-color);
@@ -1362,7 +1412,7 @@ onUnmounted(() => {
   .related-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 20px;
+    gap: var(--spacing-lg);
 
     @media (max-width: 768px) {
       grid-template-columns: 1fr;
@@ -1373,11 +1423,13 @@ onUnmounted(() => {
     .related-label {
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: var(--spacing-xs);
       font-size: 13px;
       font-weight: 500;
-      color: var(--text-color-secondary);
-      margin-bottom: 10px;
+      color: var(--text-color-tertiary);
+      margin-bottom: var(--spacing-sm);
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
 
       .el-icon {
         font-size: 14px;
@@ -1387,65 +1439,70 @@ onUnmounted(() => {
     .related-list {
       display: flex;
       flex-direction: column;
-      gap: 8px;
+      background-color: var(--bg-color);
+      border-radius: var(--border-radius);
+      overflow: hidden;
     }
 
     .related-item {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 10px 14px;
-      background-color: var(--bg-color);
-      border-radius: 8px;
+      padding: 11px var(--spacing-md);
       cursor: pointer;
-      transition: all 0.2s;
+      transition: background-color 0.15s ease;
+      position: relative;
 
-      &:hover {
-        background-color: var(--primary-color-light);
-        transform: translateX(4px);
+      &:not(:last-child)::after {
+        content: '';
+        position: absolute;
+        left: var(--spacing-md);
+        right: 0;
+        bottom: 0;
+        height: 0.5px;
+        background-color: var(--separator-color);
+      }
 
-        .related-arrow {
-          opacity: 1;
-        }
+      &:active {
+        background-color: var(--active-bg);
       }
 
       .related-title {
-        font-size: 14px;
+        font-size: 15px;
         color: var(--text-color);
       }
 
       .related-arrow {
-        color: var(--primary-color);
-        opacity: 0;
-        transition: opacity 0.2s;
+        color: var(--text-color-tertiary);
       }
     }
   }
 }
 
-// 快速操作区
+// iOS 风格快速操作区
 .quick-actions-section {
-  margin-top: 32px;
-  padding-top: 24px;
-  border-top: 1px solid var(--border-color);
+  margin-top: var(--spacing-xl);
+  padding-top: var(--spacing-lg);
+  border-top: 0.5px solid var(--separator-color);
 
   h3 {
-    font-size: 16px;
+    font-size: 17px;
     font-weight: 600;
-    margin-bottom: 16px;
+    margin-bottom: var(--spacing-md);
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: var(--spacing-sm);
+    color: var(--text-color);
 
     .el-icon {
-      color: var(--warning-color);
+      color: var(--ios-orange);
     }
   }
 
   .quick-actions {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 16px;
+    gap: var(--spacing-md);
 
     @media (max-width: 768px) {
       grid-template-columns: 1fr;
@@ -1456,38 +1513,32 @@ onUnmounted(() => {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 8px;
-    padding: 20px 16px;
+    gap: var(--spacing-sm);
+    padding: var(--spacing-lg) var(--spacing-md);
     background-color: var(--bg-color);
-    border-radius: 12px;
+    border-radius: var(--border-radius-lg);
     cursor: pointer;
-    transition: all 0.3s;
-    border: 1px solid transparent;
+    transition: all 0.25s var(--transition-timing);
 
-    &:hover {
-      background-color: var(--primary-color-light);
-      border-color: var(--primary-color);
-      transform: translateY(-2px);
-
-      .el-icon {
-        color: var(--primary-color);
-      }
+    &:active {
+      transform: scale(0.98);
+      background-color: var(--active-bg);
     }
 
     .el-icon {
       color: var(--text-color-secondary);
-      transition: color 0.3s;
+      transition: color 0.25s;
     }
 
     .action-title {
-      font-size: 14px;
+      font-size: 15px;
       font-weight: 600;
       color: var(--text-color);
     }
 
     .action-desc {
       font-size: 12px;
-      color: var(--text-color-secondary);
+      color: var(--text-color-tertiary);
       text-align: center;
       display: -webkit-box;
       -webkit-line-clamp: 1;
@@ -1497,14 +1548,14 @@ onUnmounted(() => {
   }
 }
 
-// 前后导航
+// iOS 风格前后导航
 .nav-footer {
   display: flex;
   justify-content: space-between;
-  gap: 16px;
-  margin-top: 32px;
-  padding-top: 24px;
-  border-top: 1px solid var(--border-color);
+  gap: var(--spacing-md);
+  margin-top: var(--spacing-xl);
+  padding-top: var(--spacing-lg);
+  border-top: 0.5px solid var(--separator-color);
 
   .nav-placeholder {
     flex: 1;
@@ -1512,12 +1563,13 @@ onUnmounted(() => {
 
   .nav-btn {
     flex: 1;
-    max-width: 280px;
+    max-width: 260px;
     height: auto;
-    padding: 12px 16px;
+    padding: var(--spacing-sm) var(--spacing-md);
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: var(--spacing-sm);
+    border-radius: var(--border-radius);
 
     &.prev {
       justify-content: flex-start;
@@ -1544,7 +1596,7 @@ onUnmounted(() => {
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
-        max-width: 180px;
+        max-width: 160px;
       }
     }
 

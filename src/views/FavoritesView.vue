@@ -88,7 +88,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { Delete } from '@element-plus/icons-vue'
 import { ElMessage } from 'element-plus'
@@ -127,7 +127,8 @@ const getKnowledgePointDesc = (id: string) => {
 const getKnowledgePointChapter = (id: string) => {
   const kp = knowledgeStore.getKnowledgePointById(id)
   if (!kp) return ''
-  const chapter = knowledgeStore.chapters.find(ch => ch.id === kp.chapterId)
+  // 使用索引 O(1) 查找
+  const chapter = knowledgeStore.getChapterById(kp.chapterId)
   return chapter?.title || ''
 }
 
@@ -174,59 +175,108 @@ const removeFavorite = (id: string, type: FavoriteItem['type']) => {
   ElMessage.success('已取消收藏')
 }
 
-onMounted(() => {
-  knowledgeStore.loadKnowledgeData()
-  progressStore.loadFromStorage()
-})
+// 数据已在 App.vue 中全局加载，无需重复加载
 </script>
 
 <style lang="scss" scoped>
+// ============================================
+// iOS 风格收藏视图
+// ============================================
 .favorites-view {
   max-width: 900px;
   margin: 0 auto;
+  padding: var(--spacing-md);
+  background-color: var(--bg-color);
 }
 
+// iOS 大标题风格
 .page-title {
-  margin-bottom: 24px;
+  font-size: 34px;
+  font-weight: 700;
+  color: var(--text-color);
+  margin-bottom: var(--spacing-lg);
+  letter-spacing: 0.01em;
 }
 
+// iOS 风格标签
+:deep(.el-tabs) {
+  .el-tabs__header {
+    margin-bottom: var(--spacing-lg);
+  }
+
+  .el-tabs__nav-wrap::after {
+    height: 0.5px;
+    background-color: var(--separator-color);
+  }
+
+  .el-tabs__item {
+    font-size: 15px;
+    font-weight: 500;
+    padding: 0 var(--spacing-lg);
+    color: var(--text-color-secondary);
+
+    &.is-active {
+      color: var(--primary-color);
+    }
+  }
+
+  .el-tabs__active-bar {
+    height: 2px;
+    border-radius: 1px;
+  }
+
+  .el-tabs__content {
+    padding-top: 0;
+  }
+}
+
+// iOS 风格收藏列表
 .favorites-list {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: var(--spacing-md);
 }
 
+// iOS 风格收藏卡片
 .favorite-item {
+  background-color: var(--card-bg);
+  border-radius: var(--border-radius-lg);
+  padding: var(--spacing-lg);
   cursor: pointer;
-  transition: all 0.2s;
+  transition: all 0.25s var(--transition-timing);
 
-  &:hover {
-    transform: translateY(-2px);
-    box-shadow: var(--box-shadow);
+  &:active {
+    transform: scale(0.99);
+    background-color: var(--active-bg);
   }
 
   .item-header {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-    margin-bottom: 8px;
+    margin-bottom: var(--spacing-sm);
 
     h3 {
-      font-size: 16px;
+      font-size: 17px;
       font-weight: 600;
       color: var(--text-color);
       margin: 0;
+    }
+
+    :deep(.el-button) {
+      border-radius: var(--border-radius);
     }
   }
 
   .item-desc {
     color: var(--text-color-secondary);
-    line-height: 1.6;
-    margin-bottom: 12px;
+    line-height: 1.7;
+    margin-bottom: var(--spacing-md);
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
+    font-size: 15px;
   }
 
   .item-meta {
@@ -234,50 +284,72 @@ onMounted(() => {
     justify-content: space-between;
     font-size: 12px;
     color: var(--text-color-placeholder);
+    padding-top: var(--spacing-sm);
+    border-top: 0.5px solid var(--separator-color);
 
     .chapter {
       color: var(--primary-color);
+      font-weight: 500;
+    }
+
+    .time {
+      font-feature-settings: 'tnum';
     }
   }
 }
 
+// iOS 风格公式收藏卡片
 .formula-item {
   cursor: default;
 
-  &:hover {
+  &:active {
     transform: none;
+    background-color: var(--card-bg);
   }
 
   .formula-latex {
     background-color: var(--bg-color);
-    padding: 16px;
-    border-radius: 8px;
-    margin-bottom: 12px;
+    padding: var(--spacing-md);
+    border-radius: var(--border-radius);
+    margin-bottom: var(--spacing-md);
     text-align: center;
     overflow-x: auto;
+
+    :deep(.katex) {
+      font-size: 1.15em;
+    }
   }
 }
 
+// iOS 风格比喻收藏卡片
 .metaphor-item {
   cursor: default;
 
-  &:hover {
+  &:active {
     transform: none;
+    background-color: var(--card-bg);
   }
 
   .metaphor-content {
     color: var(--text-color-secondary);
     line-height: 1.8;
-    margin-bottom: 12px;
+    margin-bottom: var(--spacing-md);
     white-space: pre-wrap;
+    font-size: 15px;
   }
 }
 
-:deep(.el-tabs__content) {
-  padding-top: 16px;
-}
-
+// iOS 风格空状态
 :deep(.el-empty) {
-  padding: 60px 0;
+  padding: var(--spacing-xl) 0;
+
+  .el-empty__image {
+    width: 100px;
+  }
+
+  .el-empty__description {
+    font-size: 15px;
+    color: var(--text-color-tertiary);
+  }
 }
 </style>

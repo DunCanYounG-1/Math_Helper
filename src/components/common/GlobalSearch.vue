@@ -167,7 +167,8 @@ const getGlobalIndex = (type: 'kp' | 'formula' | 'metaphor', index: number): num
 
 // 获取章节短标题
 const getChapterShortTitle = (chapterId: string) => {
-  const chapter = knowledgeStore.chapters.find(ch => ch.id === chapterId)
+  // 使用索引 O(1) 查找
+  const chapter = knowledgeStore.getChapterById(chapterId)
   if (!chapter) return ''
   return chapter.title.replace(/^第.章\s*/, '').substring(0, 6)
 }
@@ -301,6 +302,13 @@ watch(searchQuery, (val) => {
     results.value = { knowledgePoints: [], formulas: [], metaphors: [] }
   }
 })
+
+// 提供 focus 方法供外部调用
+const focus = () => {
+  showResults.value = true
+}
+
+defineExpose({ focus })
 </script>
 
 <style lang="scss" scoped>

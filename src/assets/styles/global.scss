@@ -1,5 +1,9 @@
 @use './variables.scss';
 
+// ============================================
+// iOS Human Interface Guidelines 全局样式
+// ============================================
+
 // 重置样式
 * {
   margin: 0;
@@ -10,19 +14,32 @@
 html, body {
   width: 100%;
   height: 100%;
-  font-family: 'Microsoft YaHei', 'PingFang SC', -apple-system, BlinkMacSystemFont, sans-serif;
-  font-size: 14px;
-  line-height: 1.5;
+  // iOS 系统字体栈
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text',
+               'Helvetica Neue', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  font-size: var(--font-size-subhead);  // 15px - iOS 标准
+  line-height: 1.47;                     // iOS 标准行高
+  letter-spacing: -0.01em;               // iOS 字间距
   color: var(--text-color);
   background-color: var(--bg-color);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  // 禁用触摸高亮
+  -webkit-tap-highlight-color: transparent;
+  // 禁用文本选择的蓝色高亮
+  user-select: none;
+  // 允许输入框等可选择
+  input, textarea, [contenteditable] {
+    user-select: text;
+  }
 }
 
-// 滚动条样式
+// ============================================
+// iOS 风格滚动条
+// ============================================
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 6px;
+  height: 6px;
 }
 
 ::-webkit-scrollbar-track {
@@ -30,41 +47,481 @@ html, body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background-color: rgba(0, 0, 0, 0.2);
-  border-radius: 4px;
+  background-color: rgba(0, 0, 0, 0.15);
+  border-radius: 3px;
+  transition: background-color 0.2s;
 
   &:hover {
-    background-color: rgba(0, 0, 0, 0.3);
+    background-color: rgba(0, 0, 0, 0.25);
   }
 }
 
 [data-theme="dark"] {
   ::-webkit-scrollbar-thumb {
-    background-color: rgba(255, 255, 255, 0.2);
+    background-color: rgba(255, 255, 255, 0.15);
 
     &:hover {
-      background-color: rgba(255, 255, 255, 0.3);
+      background-color: rgba(255, 255, 255, 0.25);
     }
   }
 }
 
-// 通用类
+// ============================================
+// iOS 字体样式工具类
+// ============================================
+.text-large-title {
+  font-size: var(--font-size-large-title);
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  line-height: 1.2;
+}
+
+.text-title1 {
+  font-size: var(--font-size-title1);
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.text-title2 {
+  font-size: var(--font-size-title2);
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.text-title3 {
+  font-size: var(--font-size-title3);
+  font-weight: 600;
+  line-height: 1.35;
+}
+
+.text-headline {
+  font-size: var(--font-size-headline);
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.text-body {
+  font-size: var(--font-size-body);
+  font-weight: 400;
+  line-height: 1.47;
+}
+
+.text-callout {
+  font-size: var(--font-size-callout);
+  font-weight: 400;
+  line-height: 1.4;
+}
+
+.text-subhead {
+  font-size: var(--font-size-subhead);
+  font-weight: 400;
+  line-height: 1.4;
+}
+
+.text-footnote {
+  font-size: var(--font-size-footnote);
+  font-weight: 400;
+  line-height: 1.38;
+}
+
+.text-caption1 {
+  font-size: var(--font-size-caption1);
+  font-weight: 400;
+  line-height: 1.33;
+}
+
+.text-caption2 {
+  font-size: var(--font-size-caption2);
+  font-weight: 400;
+  line-height: 1.27;
+}
+
+// ============================================
+// iOS 风格卡片组件
+// ============================================
+.ios-card {
+  background-color: var(--card-bg);
+  border-radius: var(--border-radius);
+  overflow: hidden;
+
+  // 分组列表样式
+  &.grouped {
+    margin: var(--spacing-lg) var(--spacing-md);
+  }
+
+  // 内嵌分组
+  &.inset {
+    margin: var(--spacing-16) var(--spacing-16);
+  }
+}
+
+// iOS 分组标题
+.ios-section-header {
+  font-size: var(--font-size-footnote);
+  font-weight: 400;
+  color: var(--text-color-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  padding: var(--spacing-8) var(--spacing-16);
+  padding-top: var(--spacing-24);
+}
+
+// iOS 分组脚注
+.ios-section-footer {
+  font-size: var(--font-size-footnote);
+  font-weight: 400;
+  color: var(--text-color-tertiary);
+  padding: var(--spacing-8) var(--spacing-16);
+  padding-bottom: var(--spacing-8);
+}
+
+// iOS 列表行
+.ios-list-item {
+  display: flex;
+  align-items: center;
+  padding: 11px var(--spacing-16);
+  background-color: var(--card-bg);
+  min-height: var(--touch-target-min);
+  position: relative;
+
+  // 分隔线（iOS 风格：从文字处开始）
+  &:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    left: var(--spacing-16);
+    right: 0;
+    bottom: 0;
+    height: 0.5px;
+    background-color: var(--separator-color);
+  }
+
+  // 有图标时，分隔线从图标后开始
+  &.has-icon:not(:last-child)::after {
+    left: calc(var(--spacing-16) + 44px);
+  }
+
+  // 点击效果
+  &.clickable {
+    cursor: pointer;
+    transition: background-color 0.15s ease;
+
+    &:active {
+      background-color: var(--active-bg);
+    }
+  }
+
+  // 带箭头指示器
+  &.has-chevron {
+    padding-right: var(--spacing-32);
+
+    &::before {
+      content: '';
+      position: absolute;
+      right: var(--spacing-16);
+      width: 8px;
+      height: 8px;
+      border-right: 2px solid var(--text-color-tertiary);
+      border-bottom: 2px solid var(--text-color-tertiary);
+      transform: rotate(-45deg);
+      opacity: 0.5;
+    }
+  }
+}
+
+// ============================================
+// iOS 风格按钮
+// ============================================
+.ios-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-8);
+  padding: var(--spacing-12) var(--spacing-20);
+  min-height: var(--touch-target-min);
+  border-radius: var(--border-radius);
+  font-size: var(--font-size-body);
+  font-weight: 500;
+  border: none;
+  cursor: pointer;
+  transition: all var(--duration-fast) var(--transition-timing);
+  -webkit-tap-highlight-color: transparent;
+
+  &:focus-visible {
+    outline: none;
+    box-shadow: var(--focus-ring);
+  }
+
+  &.primary {
+    background-color: var(--primary-color);
+    color: white;
+
+    &:hover {
+      filter: brightness(1.1);
+    }
+
+    &:active {
+      filter: brightness(0.9);
+      transform: scale(0.98);
+    }
+  }
+
+  &.secondary {
+    background-color: var(--primary-color-light);
+    color: var(--primary-color);
+
+    &:active {
+      background-color: rgba(0, 122, 255, 0.2);
+      transform: scale(0.98);
+    }
+  }
+
+  &.text {
+    background: transparent;
+    color: var(--primary-color);
+    padding: var(--spacing-8) var(--spacing-12);
+
+    &:hover {
+      background-color: var(--hover-bg);
+    }
+
+    &:active {
+      background-color: var(--active-bg);
+    }
+  }
+
+  &.destructive {
+    background-color: var(--danger-color);
+    color: white;
+
+    &:active {
+      filter: brightness(0.9);
+      transform: scale(0.98);
+    }
+  }
+
+  // 胶囊形
+  &.rounded {
+    border-radius: var(--border-radius-full);
+    padding: var(--spacing-12) var(--spacing-24);
+  }
+
+  // 禁用状态
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none !important;
+    filter: none !important;
+  }
+}
+
+// ============================================
+// iOS 风格输入框
+// ============================================
+.ios-input {
+  width: 100%;
+  padding: 11px var(--spacing-16);
+  min-height: var(--touch-target-min);
+  font-size: var(--font-size-body);
+  color: var(--text-color);
+  background-color: var(--card-bg);
+  border: none;
+  border-radius: var(--border-radius);
+  outline: none;
+  transition: box-shadow var(--duration-fast);
+
+  &::placeholder {
+    color: var(--text-color-placeholder);
+  }
+
+  &:focus {
+    box-shadow: var(--focus-ring);
+  }
+
+  // 搜索框样式
+  &.search {
+    background-color: rgba(118, 118, 128, 0.12);
+    border-radius: var(--border-radius);
+    padding-left: 36px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%238E8E93' viewBox='0 0 24 24'%3E%3Cpath d='M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: 10px center;
+    background-size: 20px 20px;
+  }
+}
+
+// ============================================
+// iOS 风格分段控制器
+// ============================================
+.ios-segmented-control {
+  display: inline-flex;
+  background-color: rgba(118, 118, 128, 0.12);
+  border-radius: var(--border-radius-sm);
+  padding: 2px;
+
+  .segment {
+    padding: var(--spacing-6) var(--spacing-12);
+    min-height: 32px;
+    font-size: var(--font-size-footnote);
+    font-weight: 500;
+    color: var(--text-color);
+    border-radius: 7px;
+    cursor: pointer;
+    transition: all var(--duration-fast) var(--transition-timing);
+
+    &.active {
+      background-color: var(--card-bg);
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+
+    &:not(.active):hover {
+      background-color: rgba(0, 0, 0, 0.04);
+    }
+  }
+}
+
+// ============================================
+// iOS 风格导航栏
+// ============================================
+.ios-navbar {
+  height: var(--touch-target-min);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 var(--spacing-16);
+  background-color: var(--header-bg);
+  backdrop-filter: var(--blur-regular);
+  -webkit-backdrop-filter: var(--blur-regular);
+  border-bottom: 0.5px solid var(--separator-color);
+
+  .navbar-title {
+    font-size: var(--font-size-body);
+    font-weight: 600;
+    color: var(--text-color);
+  }
+
+  .navbar-button {
+    font-size: var(--font-size-body);
+    color: var(--primary-color);
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: var(--spacing-8);
+    min-width: var(--touch-target-min);
+    min-height: var(--touch-target-min);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &:active {
+      opacity: 0.5;
+    }
+  }
+}
+
+// ============================================
+// iOS 风格标签栏
+// ============================================
+.ios-tabbar {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  height: 49px;
+  background-color: var(--header-bg);
+  backdrop-filter: var(--blur-regular);
+  -webkit-backdrop-filter: var(--blur-regular);
+  border-top: 0.5px solid var(--separator-color);
+
+  .tab-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    padding: 4px 0;
+    min-width: var(--touch-target-min);
+    min-height: var(--touch-target-min);
+    color: var(--text-color-tertiary);
+    cursor: pointer;
+    transition: color var(--duration-fast);
+
+    .tab-icon {
+      font-size: 24px;
+    }
+
+    .tab-label {
+      font-size: 10px;
+    }
+
+    &.active {
+      color: var(--primary-color);
+    }
+  }
+}
+
+// ============================================
+// iOS 风格开关
+// ============================================
+.ios-switch {
+  position: relative;
+  width: 51px;
+  height: 31px;
+  border-radius: 16px;
+  background-color: rgba(120, 120, 128, 0.16);
+  cursor: pointer;
+  transition: background-color var(--duration-fast);
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 27px;
+    height: 27px;
+    border-radius: 50%;
+    background-color: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+    transition: transform var(--duration-fast) var(--spring-timing);
+  }
+
+  &.active {
+    background-color: var(--ios-green);
+
+    &::after {
+      transform: translateX(20px);
+    }
+  }
+}
+
+// ============================================
+// 通用工具类
+// ============================================
 .card {
   background-color: var(--card-bg);
   border-radius: var(--border-radius);
-  box-shadow: var(--box-shadow-light);
-  padding: 20px;
+  box-shadow: var(--box-shadow-sm);
+  padding: var(--spacing-20);
 }
 
 .page-title {
-  font-size: 20px;
-  font-weight: 600;
+  font-size: var(--font-size-large-title);
+  font-weight: 700;
+  letter-spacing: 0.01em;
   color: var(--text-color);
-  margin-bottom: 20px;
+  margin-bottom: var(--spacing-20);
+}
+
+.section-title {
+  font-size: var(--font-size-title2);
+  font-weight: 700;
+  color: var(--text-color);
+  margin-bottom: var(--spacing-16);
 }
 
 .text-secondary {
   color: var(--text-color-secondary);
+}
+
+.text-tertiary {
+  color: var(--text-color-tertiary);
 }
 
 .text-primary {
@@ -77,16 +534,20 @@ html, body {
 }
 
 .math-formula {
-  padding: 12px 16px;
-  background-color: var(--bg-color);
+  padding: var(--spacing-16);
+  background-color: var(--grouped-bg);
   border-radius: var(--border-radius);
   overflow-x: auto;
 }
 
-// 过渡动画
+// ============================================
+// iOS 风格过渡动画
+// ============================================
+
+// 淡入淡出
 .fade-enter-active,
 .fade-leave-active {
-  transition: opacity 0.3s ease;
+  transition: opacity var(--duration-normal) var(--transition-timing);
 }
 
 .fade-enter-from,
@@ -94,12 +555,186 @@ html, body {
   opacity: 0;
 }
 
-.slide-enter-active,
-.slide-leave-active {
-  transition: transform 0.3s ease;
+// iOS 推入动画（从右侧滑入）
+.slide-right-enter-active,
+.slide-right-leave-active {
+  transition: transform var(--duration-slow) var(--transition-timing),
+              opacity var(--duration-slow) var(--transition-timing);
 }
 
-.slide-enter-from,
-.slide-leave-to {
-  transform: translateX(-100%);
+.slide-right-enter-from {
+  transform: translateX(100%);
+  opacity: 0;
+}
+
+.slide-right-leave-to {
+  transform: translateX(-30%);
+  opacity: 0.5;
+}
+
+// iOS 上滑动画（模态框）
+.slide-up-enter-active {
+  transition: transform var(--duration-slow) var(--spring-timing),
+              opacity var(--duration-normal);
+}
+
+.slide-up-leave-active {
+  transition: transform var(--duration-normal) var(--transition-timing),
+              opacity var(--duration-fast);
+}
+
+.slide-up-enter-from {
+  transform: translateY(100%);
+  opacity: 0;
+}
+
+.slide-up-leave-to {
+  transform: translateY(30%);
+  opacity: 0;
+}
+
+// iOS 弹性缩放
+.scale-enter-active {
+  transition: all var(--duration-normal) var(--spring-timing);
+}
+
+.scale-leave-active {
+  transition: all var(--duration-fast) var(--transition-timing);
+}
+
+.scale-enter-from,
+.scale-leave-to {
+  opacity: 0;
+  transform: scale(0.9);
+}
+
+// iOS 弹出动画（Action Sheet、Alert）
+.popup-enter-active {
+  transition: all var(--duration-normal) var(--spring-timing);
+}
+
+.popup-leave-active {
+  transition: all var(--duration-fast) var(--transition-timing);
+}
+
+.popup-enter-from {
+  opacity: 0;
+  transform: scale(1.1);
+}
+
+.popup-leave-to {
+  opacity: 0;
+  transform: scale(0.95);
+}
+
+// ============================================
+// 毛玻璃效果
+// ============================================
+.glass-effect {
+  background-color: var(--header-bg);
+  backdrop-filter: var(--blur-regular);
+  -webkit-backdrop-filter: var(--blur-regular);
+}
+
+.glass-effect-thin {
+  background-color: rgba(255, 255, 255, 0.6);
+  backdrop-filter: var(--blur-thin);
+  -webkit-backdrop-filter: var(--blur-thin);
+
+  [data-theme="dark"] & {
+    background-color: rgba(28, 28, 30, 0.6);
+  }
+}
+
+.glass-effect-prominent {
+  background-color: rgba(255, 255, 255, 0.7);
+  backdrop-filter: var(--blur-prominent);
+  -webkit-backdrop-filter: var(--blur-prominent);
+
+  [data-theme="dark"] & {
+    background-color: rgba(28, 28, 30, 0.7);
+  }
+}
+
+// ============================================
+// iOS 风格徽章
+// ============================================
+.ios-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 var(--spacing-6);
+  font-size: var(--font-size-caption2);
+  font-weight: 500;
+  color: white;
+  background-color: var(--ios-red);
+  border-radius: var(--border-radius-full);
+
+  &.primary {
+    background-color: var(--primary-color);
+  }
+
+  &.success {
+    background-color: var(--ios-green);
+  }
+
+  &.warning {
+    background-color: var(--ios-orange);
+  }
+}
+
+// ============================================
+// iOS 风格提示条
+// ============================================
+.ios-banner {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-12);
+  padding: var(--spacing-12) var(--spacing-16);
+  background-color: var(--card-bg);
+  border-radius: var(--border-radius);
+
+  &.info {
+    background-color: rgba(0, 122, 255, 0.1);
+    color: var(--ios-blue);
+  }
+
+  &.success {
+    background-color: rgba(52, 199, 89, 0.1);
+    color: var(--ios-green);
+  }
+
+  &.warning {
+    background-color: rgba(255, 149, 0, 0.1);
+    color: var(--ios-orange);
+  }
+
+  &.error {
+    background-color: rgba(255, 59, 48, 0.1);
+    color: var(--ios-red);
+  }
+}
+
+// ============================================
+// 触摸反馈
+// ============================================
+.touch-feedback {
+  transition: transform var(--duration-fast) var(--transition-timing),
+              opacity var(--duration-fast);
+
+  &:active {
+    transform: scale(0.98);
+    opacity: 0.8;
+  }
+}
+
+// 按压缩放效果
+.press-scale {
+  transition: transform var(--duration-fast) var(--spring-timing);
+
+  &:active {
+    transform: scale(0.95);
+  }
 }

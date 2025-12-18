@@ -213,11 +213,6 @@ const saveNote = () => {
   if (!content) return
 
   const isMarkdown = isMarkdownContent(content)
-  const noteData = {
-    content,
-    isMarkdown,
-    aiOptimized: false
-  }
 
   if (editingNoteId.value) {
     progressStore.updateNote(editingNoteId.value, content, { isMarkdown })

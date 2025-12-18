@@ -14,6 +14,11 @@
         "wrong": "忘记检查定义域对称性",
         "correct": "奇偶函数的定义域必须关于原点对称",
         "tip": "如 $f(x) = \\ln x$ 定义域 $(0, +\\infty)$ 不对称，无奇偶性"
+      },
+      {
+        "wrong": "认为 $f(0)=0$ 是偶函数的充要条件",
+        "correct": "$f(0)=0$ 是奇函数在 $x=0$ 有定义时的必要条件",
+        "tip": "偶函数关于y轴对称，奇函数关于原点对称"
       }
     ],
     "severity": "high",
@@ -39,6 +44,11 @@
         "wrong": "$1 - \\cos x$ 替换成 $x^2$ 而非 $\\frac{x^2}{2}$",
         "correct": "$1 - \\cos x \\sim \\frac{x^2}{2}$",
         "tip": "牢记：$1 - \\cos x$ 的等价无穷小有系数 $\\frac{1}{2}$"
+      },
+      {
+        "wrong": "把 $\\tan x - \\sin x$ 替换为 $0$",
+        "correct": "$\\tan x - \\sin x \\sim \\frac{x^3}{2}$，不是等价无穷小",
+        "tip": "需要用泰勒展开：$\\tan x = x + \\frac{x^3}{3}$，$\\sin x = x - \\frac{x^3}{6}$"
       }
     ],
     "severity": "high",
@@ -59,6 +69,11 @@
         "wrong": "极限为 $\\infty$ 时说极限存在",
         "correct": "极限为 $\\infty$ 说明极限不存在（发散）",
         "tip": "\"极限存在\" 指收敛到某个有限值"
+      },
+      {
+        "wrong": "认为 $\\lim_{x \\to 0} \\sin\\frac{1}{x}$ 极限为0",
+        "correct": "该极限不存在，因为函数在0附近无限振荡",
+        "tip": "振荡型函数在振荡点处极限不存在"
       }
     ],
     "severity": "high",
@@ -79,6 +94,11 @@
         "wrong": "用导数公式直接求分段函数在分段点的导数",
         "correct": "分段点必须用导数定义（左右导数）判断",
         "tip": "先求左右导数，相等才可导"
+      },
+      {
+        "wrong": "认为导数存在等于左右导数存在",
+        "correct": "导数存在要求左右导数存在且相等",
+        "tip": "$f(x)=|x|$ 在 $x=0$：左导数=-1，右导数=1，不可导"
       }
     ],
     "severity": "high",
@@ -99,6 +119,11 @@
         "wrong": "多层复合时遗漏某层的导数",
         "correct": "链式法则要一层一层求导并相乘",
         "tip": "$(e^{\\sin x^2})' = e^{\\sin x^2} \\cdot \\cos x^2 \\cdot 2x$"
+      },
+      {
+        "wrong": "对 $e^{f(x)}$ 求导忘记乘 $f'(x)$",
+        "correct": "$(e^{f(x)})' = e^{f(x)} \\cdot f'(x)$",
+        "tip": "$(e^{x^2})' = e^{x^2} \\cdot 2x$，不是 $e^{x^2}$"
       }
     ],
     "severity": "high",
@@ -124,6 +149,11 @@
         "wrong": "忽略洛必达法则失效的情况",
         "correct": "当 $\\lim \\frac{f'(x)}{g'(x)}$ 不存在时，原极限可能存在",
         "tip": "如 $\\lim_{x \\to \\infty} \\frac{x + \\sin x}{x}$，不能用洛必达"
+      },
+      {
+        "wrong": "将 $0 \\cdot \\infty$ 型直接用洛必达",
+        "correct": "需先转化为 $\\frac{0}{0}$ 或 $\\frac{\\infty}{\\infty}$ 型",
+        "tip": "$0 \\cdot \\infty$ 可写成 $\\frac{0}{1/\\infty}$ 或 $\\frac{\\infty}{1/0}$"
       }
     ],
     "severity": "high",
@@ -144,6 +174,11 @@
         "wrong": "凑微分时忘记补系数",
         "correct": "$\\int f(ax+b)\\,dx = \\frac{1}{a}F(ax+b) + C$",
         "tip": "$\\int \\cos 2x\\,dx = \\frac{1}{2}\\sin 2x + C$"
+      },
+      {
+        "wrong": "$\\int \\frac{1}{x}dx = \\ln x + C$",
+        "correct": "$\\int \\frac{1}{x}dx = \\ln |x| + C$，注意绝对值",
+        "tip": "当 $x < 0$ 时，$\\ln x$ 无定义"
       }
     ],
     "severity": "medium",
@@ -164,6 +199,11 @@
         "wrong": "混淆奇偶函数积分性质",
         "correct": "对称区间 $[-a, a]$ 上：奇函数积分为0，偶函数积分为 $2\\int_0^a$",
         "tip": "$\\int_{-1}^{1} x^3\\,dx = 0$"
+      },
+      {
+        "wrong": "被积函数有间断点时直接用公式",
+        "correct": "需要在间断点处分段积分",
+        "tip": "$\\int_{-1}^{1} \\frac{1}{x^2}dx$ 不能直接用公式，$x=0$ 处发散"
       }
     ],
     "severity": "medium",
@@ -184,6 +224,11 @@
         "wrong": "分离变量时漏掉特解",
         "correct": "分离变量可能丢失 $y = 0$ 等特解",
         "tip": "检验 $y = 0$ 是否为解"
+      },
+      {
+        "wrong": "齐次方程换元后忘记换回",
+        "correct": "令 $u = y/x$ 后，最终要把 $u$ 换回 $y/x$",
+        "tip": "换元积分后别忘了代回原变量"
       }
     ],
     "severity": "medium",
@@ -204,9 +249,404 @@
         "wrong": "求 $\\lim f^g$ 时直接用 $(\\lim f)^{\\lim g}$",
         "correct": "$1^\\infty$ 型需要转化为 $e^{\\lim g \\ln f}$",
         "tip": "$\\lim (1+\\frac{1}{x})^x$ 是 $1^\\infty$ 型，极限为 $e$"
+      },
+      {
+        "wrong": "认为 $\\lim f \\cdot g = \\lim f \\cdot \\lim g$ 恒成立",
+        "correct": "只有两个极限都存在时才成立",
+        "tip": "$\\lim_{x\\to 0} x \\cdot \\sin\\frac{1}{x} = 0$，虽然 $\\lim \\sin\\frac{1}{x}$ 不存在"
       }
     ],
     "severity": "high",
     "examFrequency": "very-high"
+  },
+  {
+    "id": "cm-11",
+    "knowledgePointId": "kp-2-4-1",
+    "title": "隐函数求导误区",
+    "mistakes": [
+      {
+        "wrong": "对 $y$ 求导时忘记乘 $y'$",
+        "correct": "把 $y$ 看作 $x$ 的函数，$(y^2)' = 2y \\cdot y'$",
+        "tip": "每次对含 $y$ 的项求导都要用链式法则"
+      },
+      {
+        "wrong": "混合项 $xy$ 求导错误",
+        "correct": "$(xy)' = y + xy'$，使用乘法法则",
+        "tip": "$x$ 对 $x$ 求导得1，$y$ 对 $x$ 求导得 $y'$"
+      },
+      {
+        "wrong": "忘记方程两边同时求导",
+        "correct": "等式两边对 $x$ 求导后仍然相等",
+        "tip": "如 $x^2 + y^2 = 1$ 两边求导得 $2x + 2yy' = 0$"
+      }
+    ],
+    "severity": "high",
+    "examFrequency": "high"
+  },
+  {
+    "id": "cm-12",
+    "knowledgePointId": "kp-3-1-2",
+    "title": "极值判断误区",
+    "mistakes": [
+      {
+        "wrong": "认为 $f'(x_0) = 0$ 就是极值点",
+        "correct": "$f'(x_0) = 0$ 是极值点的必要条件，不是充分条件",
+        "tip": "$f(x) = x^3$ 在 $x=0$ 处 $f'=0$，但不是极值点"
+      },
+      {
+        "wrong": "只检查驻点，忽略导数不存在的点",
+        "correct": "极值点可能在导数不存在处取得",
+        "tip": "$f(x) = |x|$ 在 $x=0$ 处取得极小值，但不可导"
+      },
+      {
+        "wrong": "混淆极值与最值",
+        "correct": "极值是局部概念，最值是全局概念",
+        "tip": "最值要比较所有极值点和区间端点"
+      },
+      {
+        "wrong": "第二充分条件 $f''(x_0)=0$ 时直接判断",
+        "correct": "$f''(x_0)=0$ 时第二充分条件失效，需用其他方法",
+        "tip": "改用第一充分条件或高阶导数判定"
+      }
+    ],
+    "severity": "high",
+    "examFrequency": "very-high"
+  },
+  {
+    "id": "cm-13",
+    "knowledgePointId": "kp-3-2-1",
+    "title": "凹凸性判断误区",
+    "mistakes": [
+      {
+        "wrong": "混淆凹函数和凸函数的定义",
+        "correct": "凹（下凸）：$f'' > 0$，开口向上；凸（上凸）：$f'' < 0$，开口向下",
+        "tip": "\"凹\"像碗能装水，\"凸\"像山包"
+      },
+      {
+        "wrong": "认为 $f''(x_0) = 0$ 就是拐点",
+        "correct": "拐点要求 $f''$ 在 $x_0$ 两侧变号",
+        "tip": "$f(x) = x^4$ 在 $x=0$ 处 $f''=0$，但不是拐点"
+      },
+      {
+        "wrong": "忽略二阶导数不存在的可能拐点",
+        "correct": "拐点可能在 $f''$ 不存在处",
+        "tip": "$f(x) = x^{1/3}$ 在 $x=0$ 处是拐点"
+      }
+    ],
+    "severity": "medium",
+    "examFrequency": "high"
+  },
+  {
+    "id": "cm-14",
+    "knowledgePointId": "kp-3-3-1",
+    "title": "分部积分误区",
+    "mistakes": [
+      {
+        "wrong": "u 和 dv 选择不当导致积分更复杂",
+        "correct": "遵循口诀：反对幂指三（反三角→对数→幂→指数→三角）",
+        "tip": "$\\int x e^x dx$ 中应选 $u=x$，$dv=e^x dx$"
+      },
+      {
+        "wrong": "分部积分后忘记负号",
+        "correct": "公式是 $\\int u dv = uv - \\int v du$，注意减号",
+        "tip": "每次分部积分都要仔细检查符号"
+      },
+      {
+        "wrong": "循环积分时处理不当",
+        "correct": "遇到循环时设 $I = \\int ...$，建立方程求解",
+        "tip": "$\\int e^x \\sin x dx$ 分部两次后得到关于 $I$ 的方程"
+      }
+    ],
+    "severity": "high",
+    "examFrequency": "very-high"
+  },
+  {
+    "id": "cm-15",
+    "knowledgePointId": "kp-3-4-1",
+    "title": "三角换元误区",
+    "mistakes": [
+      {
+        "wrong": "换元后忘记确定三角函数的范围",
+        "correct": "如 $x = a\\sin t$，需限定 $t \\in [-\\frac{\\pi}{2}, \\frac{\\pi}{2}]$",
+        "tip": "范围限定保证换元是一一对应的"
+      },
+      {
+        "wrong": "$\\sqrt{a^2 - x^2}$ 换元选择错误",
+        "correct": "应令 $x = a\\sin t$ 或 $x = a\\cos t$",
+        "tip": "根号下是 $a^2 - x^2$ 用正弦/余弦"
+      },
+      {
+        "wrong": "$\\sqrt{x^2 + a^2}$ 换元选择错误",
+        "correct": "应令 $x = a\\tan t$",
+        "tip": "根号下是 $x^2 + a^2$ 用正切"
+      },
+      {
+        "wrong": "换元后忘记换回原变量",
+        "correct": "不定积分最终要用原变量表示",
+        "tip": "画直角三角形辅助换回"
+      }
+    ],
+    "severity": "high",
+    "examFrequency": "high"
+  },
+  {
+    "id": "cm-16",
+    "knowledgePointId": "kp-5-1-1",
+    "title": "级数收敛判断误区",
+    "mistakes": [
+      {
+        "wrong": "认为 $\\lim a_n = 0$ 则级数收敛",
+        "correct": "$\\lim a_n = 0$ 只是收敛的必要条件，不充分",
+        "tip": "调和级数 $\\sum \\frac{1}{n}$ 发散，但 $\\lim \\frac{1}{n} = 0$"
+      },
+      {
+        "wrong": "比值判别法极限为1时下结论",
+        "correct": "$\\lim \\frac{a_{n+1}}{a_n} = 1$ 时判别法失效",
+        "tip": "此时需换其他方法，如积分判别法"
+      },
+      {
+        "wrong": "混淆条件收敛和绝对收敛",
+        "correct": "绝对收敛 ⇒ 条件收敛，反之不成立",
+        "tip": "$\\sum \\frac{(-1)^n}{n}$ 条件收敛但不绝对收敛"
+      },
+      {
+        "wrong": "交错级数判别法条件记错",
+        "correct": "莱布尼茨判别法需要 $|a_n|$ 单调递减趋于0",
+        "tip": "单调性和极限条件缺一不可"
+      }
+    ],
+    "severity": "high",
+    "examFrequency": "very-high"
+  },
+  {
+    "id": "cm-17",
+    "knowledgePointId": "kp-5-2-1",
+    "title": "幂级数收敛域误区",
+    "mistakes": [
+      {
+        "wrong": "忘记单独讨论端点收敛性",
+        "correct": "收敛半径 $R$ 确定后，$x = \\pm R$ 要单独判断",
+        "tip": "用其他判别法检验端点"
+      },
+      {
+        "wrong": "收敛半径公式记错",
+        "correct": "$R = \\lim |\\frac{a_n}{a_{n+1}}|$ 或 $R = \\frac{1}{\\lim \\sqrt[n]{|a_n|}}$",
+        "tip": "注意是 $a_n$ 除以 $a_{n+1}$"
+      },
+      {
+        "wrong": "缺项幂级数直接用公式",
+        "correct": "缺项时需将 $x^{2n}$ 等看作整体",
+        "tip": "$\\sum x^{2n}$ 应令 $t = x^2$，先求 $t$ 的收敛域"
+      }
+    ],
+    "severity": "high",
+    "examFrequency": "high"
+  },
+  {
+    "id": "cm-18",
+    "knowledgePointId": "kp-5-3-1",
+    "title": "泰勒展开误区",
+    "mistakes": [
+      {
+        "wrong": "在非展开点处使用麦克劳林公式",
+        "correct": "麦克劳林公式是在 $x=0$ 处展开",
+        "tip": "非零点展开需用泰勒公式 $f(x) = \\sum \\frac{f^{(n)}(x_0)}{n!}(x-x_0)^n$"
+      },
+      {
+        "wrong": "展开式中 $x$ 和 $(x-a)$ 混用",
+        "correct": "在 $x=a$ 处展开，各项应是 $(x-a)$ 的幂",
+        "tip": "统一使用 $(x-a)$ 作为展开变量"
+      },
+      {
+        "wrong": "忽略余项，认为等式精确成立",
+        "correct": "泰勒公式有余项 $R_n(x)$，有限项展开是近似",
+        "tip": "级数收敛时等式成立，否则只是近似"
+      },
+      {
+        "wrong": "常用展开式系数记错",
+        "correct": "$e^x = 1 + x + \\frac{x^2}{2!} + ...$，$\\sin x = x - \\frac{x^3}{3!} + ...$",
+        "tip": "熟记几个常用函数的展开式"
+      }
+    ],
+    "severity": "high",
+    "examFrequency": "very-high"
+  },
+  {
+    "id": "cm-19",
+    "knowledgePointId": "kp-2-5-1",
+    "title": "微分与导数混淆",
+    "mistakes": [
+      {
+        "wrong": "混淆 $dy$ 和 $\\Delta y$",
+        "correct": "$dy = f'(x)dx$ 是线性近似，$\\Delta y = f(x+\\Delta x) - f(x)$ 是真实增量",
+        "tip": "$dy$ 是切线增量，$\\Delta y$ 是曲线增量"
+      },
+      {
+        "wrong": "认为 $\\frac{dy}{dx}$ 是两个微分相除",
+        "correct": "$\\frac{dy}{dx}$ 是一个整体符号，表示导数",
+        "tip": "但在计算中可以像分数一样运算"
+      },
+      {
+        "wrong": "高阶微分运算出错",
+        "correct": "$d^2y = f''(x)(dx)^2$，$(dx)^2$ 不是 $d(x^2)$",
+        "tip": "$dx$ 是独立变量，$(dx)^2 = dx \\cdot dx$"
+      }
+    ],
+    "severity": "medium",
+    "examFrequency": "medium"
+  },
+  {
+    "id": "cm-20",
+    "knowledgePointId": "kp-4-2-1",
+    "title": "二阶微分方程误区",
+    "mistakes": [
+      {
+        "wrong": "二阶齐次方程特征根重根情况处理错误",
+        "correct": "重根 $r$ 对应通解 $(C_1 + C_2 x)e^{rx}$",
+        "tip": "重根要乘 $x$，三重根乘 $x^2$"
+      },
+      {
+        "wrong": "特解形式设错",
+        "correct": "若 $\\lambda$ 是 $k$ 重特征根，特解要乘 $x^k$",
+        "tip": "先检查右端项是否与齐次解\"共振\""
+      },
+      {
+        "wrong": "复特征根通解写错",
+        "correct": "$r = \\alpha \\pm \\beta i$ 对应 $e^{\\alpha x}(C_1\\cos\\beta x + C_2\\sin\\beta x)$",
+        "tip": "用欧拉公式转化"
+      },
+      {
+        "wrong": "常数变易法积分常数处理不当",
+        "correct": "常数变易法中不需要加积分常数",
+        "tip": "最后加的任意常数已包含在通解中"
+      }
+    ],
+    "severity": "high",
+    "examFrequency": "high"
+  },
+  {
+    "id": "cm-21",
+    "knowledgePointId": "kp-1-6-1",
+    "title": "重要极限应用误区",
+    "mistakes": [
+      {
+        "wrong": "$\\lim_{x \\to 0} \\frac{\\sin kx}{x} = 1$",
+        "correct": "$\\lim_{x \\to 0} \\frac{\\sin kx}{x} = k$",
+        "tip": "$\\frac{\\sin kx}{x} = k \\cdot \\frac{\\sin kx}{kx} \\to k \\cdot 1 = k$"
+      },
+      {
+        "wrong": "$(1+\\frac{1}{x})^x$ 当 $x \\to 0$ 时极限为 $e$",
+        "correct": "第二重要极限是 $x \\to \\infty$，$x \\to 0$ 时不成立",
+        "tip": "$x \\to 0^+$ 时 $(1+\\frac{1}{x})^x \\to \\infty^0$ 型"
+      },
+      {
+        "wrong": "变形后不验证是否还满足条件",
+        "correct": "用 $\\lim(1+\\frac{1}{\\square})^\\square = e$ 时，$\\square \\to \\infty$",
+        "tip": "凑成标准形式后检验极限过程"
+      }
+    ],
+    "severity": "high",
+    "examFrequency": "very-high"
+  },
+  {
+    "id": "cm-22",
+    "knowledgePointId": "kp-3-5-1",
+    "title": "定积分应用误区",
+    "mistakes": [
+      {
+        "wrong": "旋转体体积公式混淆",
+        "correct": "绕x轴：$V = \\pi\\int y^2 dx$；绕y轴：$V = 2\\pi\\int xy dx$（壳法）",
+        "tip": "圆盘法和壳法根据具体情况选择"
+      },
+      {
+        "wrong": "弧长公式记错",
+        "correct": "$L = \\int \\sqrt{1 + (y')^2} dx$",
+        "tip": "参数方程：$L = \\int \\sqrt{(x')^2 + (y')^2} dt$"
+      },
+      {
+        "wrong": "面积计算时曲线上下关系搞错",
+        "correct": "面积 $= \\int (上曲线 - 下曲线) dx$",
+        "tip": "先画图确定哪条曲线在上面"
+      },
+      {
+        "wrong": "极坐标面积公式系数错误",
+        "correct": "$S = \\frac{1}{2}\\int r^2 d\\theta$，注意 $\\frac{1}{2}$",
+        "tip": "扇形面积 $\\frac{1}{2}r^2\\theta$ 的微元形式"
+      }
+    ],
+    "severity": "high",
+    "examFrequency": "high"
+  },
+  {
+    "id": "cm-23",
+    "knowledgePointId": "kp-2-6-1",
+    "title": "中值定理应用误区",
+    "mistakes": [
+      {
+        "wrong": "罗尔定理条件检验不全",
+        "correct": "需验证：闭区间连续、开区间可导、端点值相等",
+        "tip": "三个条件缺一不可"
+      },
+      {
+        "wrong": "拉格朗日中值定理 $\\xi$ 的位置任意",
+        "correct": "$\\xi$ 在开区间 $(a,b)$ 内，不包括端点",
+        "tip": "存在性定理，只保证存在不给出具体位置"
+      },
+      {
+        "wrong": "证明题构造辅助函数困难",
+        "correct": "从待证等式出发，整理成 $F'(\\xi) = 0$ 的形式",
+        "tip": "辅助函数通常是待证等式的原函数"
+      }
+    ],
+    "severity": "high",
+    "examFrequency": "high"
+  },
+  {
+    "id": "cm-24",
+    "knowledgePointId": "kp-1-7-1",
+    "title": "连续性与间断点误区",
+    "mistakes": [
+      {
+        "wrong": "混淆第一类和第二类间断点",
+        "correct": "第一类：左右极限都存在（可去/跳跃）；第二类：至少一侧极限不存在",
+        "tip": "先求左右极限再分类"
+      },
+      {
+        "wrong": "可去间断点处函数值一定不存在",
+        "correct": "可去间断点处函数值可能存在但不等于极限",
+        "tip": "$f(x) = \\frac{\\sin x}{x}$ 在 $x=0$ 无定义是可去间断点"
+      },
+      {
+        "wrong": "认为分段点一定是间断点",
+        "correct": "分段函数在分段点可能连续",
+        "tip": "检验左右极限和函数值是否相等"
+      }
+    ],
+    "severity": "medium",
+    "examFrequency": "high"
+  },
+  {
+    "id": "cm-25",
+    "knowledgePointId": "kp-4-3-1",
+    "title": "可分离变量方程误区",
+    "mistakes": [
+      {
+        "wrong": "分离变量时除以零函数",
+        "correct": "若 $g(y) = 0$ 有解，需单独讨论",
+        "tip": "$\\frac{dy}{dx} = y$ 分离时 $y=0$ 是一个特解"
+      },
+      {
+        "wrong": "积分后忘记两边的常数可合并",
+        "correct": "两边积分各得常数，可合并为一个",
+        "tip": "$\\ln|y| + C_1 = x + C_2$ 可写成 $\\ln|y| = x + C$"
+      },
+      {
+        "wrong": "对数中忘记绝对值",
+        "correct": "$\\int \\frac{1}{y}dy = \\ln|y| + C$",
+        "tip": "保留绝对值，最后根据初值条件确定正负"
+      }
+    ],
+    "severity": "medium",
+    "examFrequency": "high"
   }
 ]

@@ -14,7 +14,7 @@
     <transition name="panel-expand">
       <div v-if="isExpanded" class="panel-content">
         <div
-          v-for="(mistake, mIndex) in mistakes"
+          v-for="mistake in mistakes"
           :key="mistake.id"
           class="mistake-group"
         >

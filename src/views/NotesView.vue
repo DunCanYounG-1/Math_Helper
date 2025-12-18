@@ -216,7 +216,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import {
   Notebook,
@@ -545,55 +545,86 @@ const goToKnowledgePoint = (kpId: string) => {
   router.push(`/learn/${kpId}`)
 }
 
-onMounted(() => {
-  knowledgeStore.loadKnowledgeData()
-  progressStore.loadFromStorage()
-})
+// 数据已在 App.vue 中全局加载，无需重复加载
 </script>
 
 <style lang="scss" scoped>
+// ============================================
+// iOS 风格笔记视图
+// ============================================
 .notes-view {
   max-width: 1200px;
   margin: 0 auto;
+  padding: var(--spacing-md);
+  background-color: var(--bg-color);
 }
 
+// iOS 大标题风格头部
 .page-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 24px;
+  margin-bottom: var(--spacing-lg);
+  flex-wrap: wrap;
+  gap: var(--spacing-sm);
 
   .page-title {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: var(--spacing-sm);
     margin: 0;
-    font-size: 24px;
+    font-size: 34px;
+    font-weight: 700;
+    color: var(--text-color);
+    letter-spacing: 0.01em;
 
     .el-icon {
       color: var(--primary-color);
+      font-size: 28px;
     }
 
     .notes-count {
-      font-size: 16px;
+      font-size: 17px;
       font-weight: 400;
-      color: var(--text-color-secondary);
+      color: var(--text-color-tertiary);
     }
   }
 
   .header-actions {
     display: flex;
-    gap: 12px;
+    gap: var(--spacing-sm);
+
+    :deep(.el-button) {
+      border-radius: var(--border-radius);
+      font-weight: 500;
+    }
   }
 }
 
+// iOS 风格筛选栏
 .filter-bar {
   display: flex;
-  gap: 16px;
-  margin-bottom: 24px;
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-lg);
+  flex-wrap: wrap;
 
   .search-input {
     width: 300px;
+
+    :deep(.el-input__wrapper) {
+      border-radius: var(--border-radius);
+      background-color: rgba(118, 118, 128, 0.12);
+      box-shadow: none;
+    }
+  }
+
+  .filter-select,
+  .sort-select {
+    :deep(.el-select__wrapper) {
+      border-radius: var(--border-radius);
+      box-shadow: none;
+      border: 0.5px solid var(--separator-color);
+    }
   }
 
   .filter-select {
@@ -605,29 +636,29 @@ onMounted(() => {
   }
 }
 
+// iOS App 风格笔记卡片网格
 .notes-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-  gap: 20px;
+  gap: var(--spacing-md);
 }
 
 .note-card {
   background-color: var(--card-bg);
-  border-radius: 12px;
-  padding: 20px;
+  border-radius: var(--border-radius-lg);
+  padding: var(--spacing-lg);
   cursor: pointer;
-  transition: all 0.2s;
-  border: 1px solid var(--border-color);
+  transition: all 0.25s var(--transition-timing);
   display: flex;
   flex-direction: column;
 
-  &:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  &:active {
+    transform: scale(0.98);
+    background-color: var(--active-bg);
   }
 
   &.is-markdown {
-    border-left: 3px solid #67C23A;
+    border-left: 3px solid var(--ios-green);
   }
 }
 
@@ -635,17 +666,21 @@ onMounted(() => {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  margin-bottom: 12px;
+  margin-bottom: var(--spacing-sm);
 
   .note-tags {
     display: flex;
-    gap: 6px;
+    gap: var(--spacing-xs);
+  }
+
+  :deep(.el-button.is-text) {
+    padding: 6px;
   }
 }
 
 .note-card-content {
   flex: 1;
-  margin-bottom: 16px;
+  margin-bottom: var(--spacing-md);
 
   .note-preview {
     color: var(--text-color-secondary);
@@ -653,6 +688,7 @@ onMounted(() => {
     max-height: 120px;
     overflow: hidden;
     position: relative;
+    font-size: 14px;
 
     &::after {
       content: '';
@@ -685,8 +721,8 @@ onMounted(() => {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding-top: 12px;
-  border-top: 1px dashed var(--border-color);
+  padding-top: var(--spacing-sm);
+  border-top: 0.5px solid var(--separator-color);
 
   .note-knowledge-point {
     display: flex;
@@ -695,32 +731,41 @@ onMounted(() => {
     font-size: 12px;
     color: var(--primary-color);
     cursor: pointer;
+    font-weight: 500;
 
-    &:hover {
-      text-decoration: underline;
+    &:active {
+      opacity: 0.7;
     }
   }
 
   .note-time {
     font-size: 12px;
     color: var(--text-color-placeholder);
+    font-feature-settings: 'tnum';
   }
 }
 
-// 对话框样式
+// iOS 风格对话框
 .note-dialog-content {
   .dialog-form-item {
-    margin-bottom: 20px;
+    margin-bottom: var(--spacing-lg);
 
     > label {
       display: block;
-      margin-bottom: 8px;
-      font-weight: 500;
-      color: var(--text-color);
+      margin-bottom: var(--spacing-sm);
+      font-weight: 600;
+      font-size: 13px;
+      color: var(--text-color-tertiary);
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
     }
 
     .knowledge-select {
       width: 100%;
+
+      :deep(.el-select__wrapper) {
+        border-radius: var(--border-radius);
+      }
     }
   }
 
@@ -728,24 +773,49 @@ onMounted(() => {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 12px;
+    margin-bottom: var(--spacing-sm);
+
+    :deep(.el-radio-group) {
+      background-color: rgba(118, 118, 128, 0.12);
+      border-radius: var(--border-radius);
+      padding: 2px;
+    }
+
+    :deep(.el-radio-button__inner) {
+      border: none;
+      border-radius: 7px;
+      font-size: 13px;
+      font-weight: 500;
+      background: transparent;
+    }
+
+    :deep(.el-radio-button__original-radio:checked + .el-radio-button__inner) {
+      background-color: var(--card-bg);
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
 
     .toolbar-right {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: var(--spacing-sm);
 
       .help-icon {
         color: var(--text-color-placeholder);
         cursor: help;
+      }
+
+      :deep(.el-button) {
+        border-radius: var(--border-radius);
+        font-weight: 500;
       }
     }
   }
 
   .editor-input {
     :deep(.el-textarea__inner) {
-      font-family: 'Consolas', 'Monaco', monospace;
+      font-family: 'SF Mono', 'Consolas', monospace;
       line-height: 1.6;
+      border-radius: var(--border-radius);
     }
   }
 
@@ -753,33 +823,33 @@ onMounted(() => {
     min-height: 300px;
     max-height: 450px;
     overflow-y: auto;
-    padding: 16px;
+    padding: var(--spacing-md);
     background-color: var(--bg-color);
-    border: 1px solid var(--border-color);
-    border-radius: 4px;
+    border-radius: var(--border-radius);
   }
 }
 
-// 查看笔记对话框
+// iOS 风格查看笔记对话框
 .note-view-content {
   .note-view-meta {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 20px;
-    padding-bottom: 16px;
-    border-bottom: 1px solid var(--border-color);
+    margin-bottom: var(--spacing-lg);
+    padding-bottom: var(--spacing-md);
+    border-bottom: 0.5px solid var(--separator-color);
 
     .meta-tags {
       display: flex;
-      gap: 8px;
+      gap: var(--spacing-sm);
     }
 
     .meta-time {
       display: flex;
-      gap: 16px;
+      gap: var(--spacing-md);
       font-size: 12px;
       color: var(--text-color-placeholder);
+      font-feature-settings: 'tnum';
     }
   }
 
@@ -792,15 +862,16 @@ onMounted(() => {
       white-space: pre-wrap;
       line-height: 1.8;
       color: var(--text-color);
+      font-size: 15px;
     }
   }
 }
 
-// Markdown 样式
+// iOS 风格 Markdown 样式
 .markdown-body {
   :deep(h1), :deep(h2), :deep(h3), :deep(h4), :deep(h5), :deep(h6) {
-    margin-top: 16px;
-    margin-bottom: 8px;
+    margin-top: var(--spacing-md);
+    margin-bottom: var(--spacing-sm);
     font-weight: 600;
     line-height: 1.4;
     color: var(--text-color);
@@ -811,51 +882,92 @@ onMounted(() => {
   :deep(h3) { font-size: 1.1em; }
 
   :deep(p) {
-    margin: 8px 0;
+    margin: var(--spacing-sm) 0;
     line-height: 1.8;
+    font-size: 15px;
   }
 
   :deep(ul), :deep(ol) {
-    margin: 8px 0;
+    margin: var(--spacing-sm) 0;
     padding-left: 24px;
   }
 
   :deep(code) {
-    background-color: var(--bg-color-mute, #f5f5f5);
+    background-color: rgba(0, 122, 255, 0.1);
     padding: 2px 6px;
     border-radius: 4px;
-    font-family: 'Consolas', 'Monaco', monospace;
+    font-family: 'SF Mono', 'Consolas', monospace;
     font-size: 0.9em;
+    color: var(--primary-color);
   }
 
   :deep(pre) {
-    background-color: var(--bg-color-mute, #f5f5f5);
-    padding: 12px;
-    border-radius: 8px;
+    background-color: var(--bg-color);
+    padding: var(--spacing-md);
+    border-radius: var(--border-radius);
     overflow-x: auto;
 
     code {
       background: none;
       padding: 0;
+      color: inherit;
     }
   }
 
   :deep(blockquote) {
-    margin: 12px 0;
-    padding: 8px 16px;
-    border-left: 4px solid var(--primary-color);
-    background-color: var(--bg-color-mute, #f9f9f9);
+    margin: var(--spacing-md) 0;
+    padding: var(--spacing-sm) var(--spacing-md);
+    border-left: 3px solid var(--primary-color);
+    background-color: rgba(0, 122, 255, 0.05);
     color: var(--text-color-secondary);
+    border-radius: 0 var(--border-radius) var(--border-radius) 0;
   }
 
   :deep(.katex-display) {
-    margin: 16px 0;
+    margin: var(--spacing-md) 0;
     overflow-x: auto;
   }
 
   :deep(.katex-block-wrapper) {
-    margin: 16px 0;
+    margin: var(--spacing-md) 0;
     text-align: center;
+  }
+}
+
+// iOS 风格空状态
+:deep(.el-empty) {
+  padding: var(--spacing-xl) 0;
+
+  .el-empty__description {
+    font-size: 15px;
+    color: var(--text-color-tertiary);
+  }
+
+  .el-button {
+    border-radius: var(--border-radius);
+    font-weight: 500;
+  }
+}
+
+// 响应式
+@media (max-width: 768px) {
+  .page-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .filter-bar {
+    flex-direction: column;
+
+    .search-input,
+    .filter-select,
+    .sort-select {
+      width: 100%;
+    }
+  }
+
+  .notes-grid {
+    grid-template-columns: 1fr;
   }
 }
 </style>

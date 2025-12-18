@@ -205,6 +205,7 @@
         </el-button>
       </div>
       <StepByStepGuide
+        v-if="currentExample"
         :example="currentExample"
         @complete="handleGuidedComplete"
       />
@@ -269,7 +270,7 @@
       </div>
 
       <!-- 当前题目 -->
-      <div class="current-question card">
+      <div v-if="currentExample" class="current-question card">
         <div class="question-header">
           <div class="question-info">
             <el-tag :type="difficultyType(currentExample.difficulty)" size="small">
@@ -450,7 +451,6 @@ import { ref, computed, onMounted, onUnmounted, watch } from 'vue'
 import {
   EditPen,
   Edit,
-  Refresh,
   Check,
   Close,
   View,
@@ -877,8 +877,8 @@ const difficultyLabel = (diff: string) => {
   return labels[diff] || '基础'
 }
 
-const difficultyType = (diff: string) => {
-  const types: Record<string, string> = {
+const difficultyType = (diff: string): 'primary' | 'success' | 'warning' | 'info' | 'danger' => {
+  const types: Record<string, 'primary' | 'success' | 'warning' | 'info' | 'danger'> = {
     basic: 'success',
     intermediate: 'warning',
     advanced: 'danger'
@@ -953,8 +953,7 @@ watch(practiceMode, () => {
 })
 
 onMounted(() => {
-  knowledgeStore.loadKnowledgeData()
-  progressStore.loadFromStorage()
+  // 数据已在 App.vue 中全局加载，无需重复加载
   window.addEventListener('keydown', handleKeydown)
 })
 
@@ -965,10 +964,15 @@ onUnmounted(() => {
 </script>
 
 <style lang="scss" scoped>
+// ============================================
+// iOS 风格练习视图
+// ============================================
 .practice-view {
   max-width: 900px;
   margin: 0 auto;
   position: relative;
+  padding: var(--spacing-md);
+  background-color: var(--bg-color);
 }
 
 // 答题反馈覆盖层
@@ -991,7 +995,7 @@ onUnmounted(() => {
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-bottom: 16px;
+    margin-bottom: var(--spacing-md);
     animation: feedbackPop 0.4s ease-out;
   }
 
@@ -1003,133 +1007,116 @@ onUnmounted(() => {
 
   &.correct {
     .feedback-icon {
-      background-color: rgba(103, 194, 58, 0.15);
-      color: #67C23A;
+      background-color: rgba(52, 199, 89, 0.15);
+      color: var(--ios-green);
     }
     .feedback-text {
-      color: #67C23A;
+      color: var(--ios-green);
     }
   }
 
   &.wrong {
     .feedback-icon {
-      background-color: rgba(245, 108, 108, 0.15);
-      color: #F56C6C;
+      background-color: rgba(255, 59, 48, 0.15);
+      color: var(--ios-red);
     }
     .feedback-text {
-      color: #F56C6C;
+      color: var(--ios-red);
     }
   }
 }
 
 @keyframes feedbackPop {
-  0% {
-    transform: scale(0);
-    opacity: 0;
-  }
-  50% {
-    transform: scale(1.2);
-  }
-  100% {
-    transform: scale(1);
-    opacity: 1;
-  }
+  0% { transform: scale(0); opacity: 0; }
+  50% { transform: scale(1.2); }
+  100% { transform: scale(1); opacity: 1; }
 }
 
 @keyframes feedbackSlide {
-  0% {
-    transform: translateY(20px);
-    opacity: 0;
-  }
-  100% {
-    transform: translateY(0);
-    opacity: 1;
-  }
+  0% { transform: translateY(20px); opacity: 0; }
+  100% { transform: translateY(0); opacity: 1; }
 }
 
-.feedback-enter-active {
-  transition: opacity 0.3s ease;
-}
+.feedback-enter-active { transition: opacity 0.3s ease; }
+.feedback-leave-active { transition: opacity 0.3s ease 0.3s; }
+.feedback-enter-from, .feedback-leave-to { opacity: 0; }
 
-.feedback-leave-active {
-  transition: opacity 0.3s ease 0.3s;
-}
-
-.feedback-enter-from,
-.feedback-leave-to {
-  opacity: 0;
-}
-
+// iOS 大标题风格头部
 .practice-header {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  margin-bottom: 24px;
+  margin-bottom: var(--spacing-lg);
 
   .header-left {
     .page-title {
       display: flex;
       align-items: center;
-      gap: 8px;
-      font-size: 24px;
-      margin-bottom: 8px;
+      gap: var(--spacing-sm);
+      font-size: 34px;
+      font-weight: 700;
+      color: var(--text-color);
+      margin-bottom: var(--spacing-xs);
+      letter-spacing: 0.01em;
 
       .el-icon {
         color: var(--primary-color);
+        font-size: 28px;
       }
     }
 
     .page-desc {
-      color: var(--text-color-secondary);
+      color: var(--text-color-tertiary);
+      font-size: 15px;
     }
   }
 
   .header-right {
-    .el-radio-button {
-      :deep(.el-radio-button__inner) {
-        display: flex;
-        align-items: center;
-        gap: 4px;
-      }
+    :deep(.el-radio-button__inner) {
+      display: flex;
+      align-items: center;
+      gap: var(--spacing-xs);
+      border-radius: 7px;
+      font-size: 13px;
+      font-weight: 500;
     }
   }
 }
 
+// iOS 风格统计卡片
 .stats-overview {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 16px;
-  margin-bottom: 24px;
+  gap: var(--spacing-sm);
+  margin-bottom: var(--spacing-lg);
 
   .stat-card {
     background: var(--card-bg);
-    border-radius: 12px;
-    padding: 16px;
+    border-radius: var(--border-radius);
+    padding: var(--spacing-md);
     display: flex;
     align-items: center;
-    gap: 12px;
-    box-shadow: var(--box-shadow-light);
+    gap: var(--spacing-sm);
+    transition: all 0.25s var(--transition-timing);
+
+    &:active {
+      transform: scale(0.98);
+    }
 
     .stat-icon {
-      width: 48px;
-      height: 48px;
-      border-radius: 12px;
+      width: 44px;
+      height: 44px;
+      border-radius: 11px;
       display: flex;
       align-items: center;
       justify-content: center;
-      background: linear-gradient(135deg, var(--primary-color), var(--primary-color-light));
+      background: linear-gradient(135deg, var(--ios-blue), #5AC8FA);
       color: white;
-      font-size: 24px;
+      font-size: 20px;
 
-      &.success {
-        background: linear-gradient(135deg, #67C23A, #95D475);
-      }
-      &.warning {
-        background: linear-gradient(135deg, #E6A23C, #EEBE77);
-      }
-      &.fire {
-        background: linear-gradient(135deg, #F56C6C, #F89898);
-      }
+      &.success { background: linear-gradient(135deg, var(--ios-green), #63DA6E); }
+      &.warning { background: linear-gradient(135deg, var(--ios-orange), #FFCC00); }
+      &.fire { background: linear-gradient(135deg, var(--ios-red), #FF6B6B); }
     }
 
     .stat-info {
@@ -1137,116 +1124,123 @@ onUnmounted(() => {
       flex-direction: column;
 
       .stat-value {
-        font-size: 24px;
+        font-size: 22px;
         font-weight: 700;
         color: var(--text-color);
+        font-feature-settings: 'tnum';
       }
 
       .stat-label {
         font-size: 12px;
-        color: var(--text-color-secondary);
+        color: var(--text-color-tertiary);
       }
     }
   }
 }
 
+// iOS 风格模式选择
 .mode-selection {
-  margin-bottom: 24px;
+  margin-bottom: var(--spacing-lg);
+  background-color: var(--card-bg);
+  border-radius: var(--border-radius-lg);
+  padding: var(--spacing-lg);
 
   h3 {
-    margin-bottom: 16px;
-    font-size: 16px;
+    margin-bottom: var(--spacing-md);
+    font-size: 17px;
+    font-weight: 600;
     color: var(--text-color);
   }
 
   .mode-cards {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 16px;
+    grid-template-columns: repeat(5, 1fr);
+    gap: var(--spacing-sm);
   }
 
   .mode-card {
-    padding: 20px;
-    border-radius: 12px;
+    padding: var(--spacing-md);
+    border-radius: var(--border-radius);
     background: var(--bg-color);
     text-align: center;
     cursor: pointer;
-    transition: all 0.3s;
+    transition: all 0.25s var(--transition-timing);
     border: 2px solid transparent;
 
-    &:hover {
-      transform: translateY(-2px);
-      box-shadow: var(--box-shadow);
+    &:active {
+      transform: scale(0.98);
     }
 
     &.active {
       border-color: var(--primary-color);
-      background: var(--primary-color-light);
+      background: rgba(0, 122, 255, 0.08);
     }
 
     &.disabled {
-      opacity: 0.5;
+      opacity: 0.4;
       cursor: not-allowed;
-
-      &:hover {
-        transform: none;
-        box-shadow: none;
-      }
     }
 
-    &.wrong-mode {
-      .el-icon {
-        color: #F56C6C;
-      }
+    &.wrong-mode .el-icon { color: var(--ios-red); }
+    &.guided-mode .el-icon { color: var(--ios-purple); }
+    &.guided-mode.active {
+      border-color: var(--ios-purple);
+      background: rgba(175, 82, 222, 0.1);
     }
 
     .el-icon {
       color: var(--primary-color);
-      margin-bottom: 8px;
+      margin-bottom: var(--spacing-sm);
     }
 
     .mode-title {
       display: block;
       font-weight: 600;
       color: var(--text-color);
-      margin-bottom: 4px;
+      font-size: 14px;
+      margin-bottom: 2px;
     }
 
     .mode-desc {
       display: block;
-      font-size: 12px;
-      color: var(--text-color-secondary);
+      font-size: 11px;
+      color: var(--text-color-tertiary);
     }
   }
 }
 
+// iOS 风格筛选区
 .filter-section {
-  margin-bottom: 24px;
+  margin-bottom: var(--spacing-lg);
+  background-color: var(--card-bg);
+  border-radius: var(--border-radius-lg);
+  padding: var(--spacing-lg);
 
   .filter-row {
     display: flex;
     flex-wrap: wrap;
-    gap: 16px;
+    gap: var(--spacing-md);
     align-items: flex-end;
   }
 
   .filter-item {
     display: flex;
     flex-direction: column;
-    gap: 6px;
+    gap: var(--spacing-xs);
 
     .filter-label {
       font-size: 13px;
-      color: var(--text-color-secondary);
+      font-weight: 600;
+      color: var(--text-color-tertiary);
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
     }
 
-    .el-select {
-      width: 160px;
-    }
+    .el-select { width: 150px; }
   }
 
   .filter-info {
-    margin-top: 12px;
+    margin-top: var(--spacing-md);
     font-size: 13px;
     color: var(--text-color-placeholder);
     display: flex;
@@ -1257,20 +1251,20 @@ onUnmounted(() => {
   .shortcuts-hint {
     display: flex;
     align-items: center;
-    gap: 4px;
+    gap: var(--spacing-xs);
     cursor: help;
     color: var(--text-color-secondary);
 
-    &:hover {
-      color: var(--primary-color);
-    }
+    &:hover { color: var(--primary-color); }
   }
 }
 
 .wrong-start {
   text-align: center;
-  padding: 32px;
-  margin-bottom: 24px;
+  padding: var(--spacing-xl);
+  margin-bottom: var(--spacing-lg);
+  background-color: var(--card-bg);
+  border-radius: var(--border-radius-lg);
 }
 
 .shortcuts-list {
@@ -1280,25 +1274,27 @@ onUnmounted(() => {
     display: inline-block;
     padding: 2px 6px;
     font-size: 11px;
-    font-family: monospace;
+    font-family: 'SF Mono', monospace;
     background-color: rgba(255, 255, 255, 0.15);
-    border-radius: 3px;
+    border-radius: 4px;
     margin: 0 2px;
   }
 }
 
+// iOS 风格计时显示
 .timer-display {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
-  font-size: 24px;
+  gap: var(--spacing-sm);
+  font-size: 28px;
   font-weight: 700;
   color: var(--primary-color);
-  margin-bottom: 16px;
+  margin-bottom: var(--spacing-md);
+  font-feature-settings: 'tnum';
 
   &.warning {
-    color: #F56C6C;
+    color: var(--ios-red);
     animation: pulse 1s ease-in-out infinite;
   }
 }
@@ -1308,20 +1304,19 @@ onUnmounted(() => {
   50% { opacity: 0.5; }
 }
 
+// iOS 风格连击显示
 .streak-display {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
+  gap: var(--spacing-sm);
   font-size: 20px;
   font-weight: 700;
-  color: #E6A23C;
-  margin-bottom: 16px;
+  color: var(--ios-orange);
+  margin-bottom: var(--spacing-md);
   animation: bounce 0.5s ease;
 
-  .el-icon {
-    animation: rotate 2s linear infinite;
-  }
+  .el-icon { animation: rotate 2s linear infinite; }
 }
 
 @keyframes bounce {
@@ -1334,27 +1329,31 @@ onUnmounted(() => {
   to { transform: rotate(360deg); }
 }
 
+// iOS 风格进度区
 .practice-progress {
-  margin-bottom: 16px;
+  margin-bottom: var(--spacing-md);
+  background-color: var(--card-bg);
+  border-radius: var(--border-radius-lg);
+  padding: var(--spacing-lg);
 
   .progress-info {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 8px;
+    margin-bottom: var(--spacing-sm);
     font-size: 14px;
     color: var(--text-color-secondary);
 
     .score {
-      color: var(--success-color);
-      font-weight: 500;
+      color: var(--ios-green);
+      font-weight: 600;
     }
   }
 
   .question-dots {
     display: flex;
     flex-wrap: wrap;
-    gap: 8px;
-    margin-top: 12px;
+    gap: var(--spacing-sm);
+    margin-top: var(--spacing-md);
 
     .dot {
       width: 28px;
@@ -1364,155 +1363,160 @@ onUnmounted(() => {
       justify-content: center;
       border-radius: 50%;
       font-size: 12px;
+      font-weight: 500;
       cursor: pointer;
       background-color: var(--bg-color);
       color: var(--text-color-secondary);
-      transition: all 0.2s;
+      transition: all 0.25s var(--transition-timing);
 
       &.current {
         background-color: var(--primary-color);
         color: white;
+        animation: currentPulse 2s infinite;
       }
+      &.correct { background-color: var(--ios-green); color: white; }
+      &.wrong { background-color: var(--ios-red); color: white; }
+      &.skipped { background-color: var(--ios-orange); color: white; }
 
-      &.correct {
-        background-color: var(--success-color);
-        color: white;
-      }
-
-      &.wrong {
-        background-color: var(--danger-color);
-        color: white;
-      }
-
-      &.skipped {
-        background-color: var(--warning-color);
-        color: white;
-      }
+      &:active { transform: scale(0.9); }
     }
   }
 }
 
+@keyframes currentPulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(0, 122, 255, 0.4); }
+  50% { box-shadow: 0 0 0 6px rgba(0, 122, 255, 0); }
+}
+
+// iOS 风格题目卡片
 .current-question {
+  background-color: var(--card-bg);
+  border-radius: var(--border-radius-lg);
+  padding: var(--spacing-lg);
+  animation: fadeIn 0.4s ease-out;
+
   .question-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 16px;
-    padding-bottom: 16px;
-    border-bottom: 1px solid var(--border-color);
+    margin-bottom: var(--spacing-md);
+    padding-bottom: var(--spacing-md);
+    border-bottom: 0.5px solid var(--separator-color);
 
     .question-info {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: var(--spacing-sm);
 
       .question-title {
         font-weight: 600;
+        font-size: 17px;
         color: var(--text-color);
       }
     }
 
     .question-number {
       font-size: 14px;
-      color: var(--text-color-secondary);
+      color: var(--text-color-tertiary);
     }
   }
 
   .question-content {
-    margin-bottom: 24px;
+    margin-bottom: var(--spacing-lg);
 
     .section-label {
       font-size: 13px;
       font-weight: 600;
-      color: var(--text-color-secondary);
-      margin-bottom: 8px;
+      color: var(--text-color-tertiary);
+      margin-bottom: var(--spacing-sm);
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
     }
 
     .problem-text {
       background-color: var(--bg-color);
-      padding: 16px;
-      border-radius: 8px;
+      padding: var(--spacing-md);
+      border-radius: var(--border-radius);
       font-size: 16px;
       line-height: 1.8;
 
-      :deep(.katex) {
-        font-size: 1.15em;
-      }
-
-      :deep(.katex-display) {
-        margin: 12px 0;
-        font-size: 1.2em;
-      }
+      :deep(.katex) { font-size: 1.15em; }
+      :deep(.katex-display) { margin: 12px 0; font-size: 1.2em; }
     }
   }
 
   .answer-area {
     display: flex;
-    gap: 12px;
+    gap: var(--spacing-sm);
     flex-wrap: wrap;
-    margin-bottom: 24px;
+    margin-bottom: var(--spacing-lg);
+
+    .el-button {
+      border-radius: var(--border-radius);
+      font-weight: 500;
+      transition: all 0.25s var(--transition-timing);
+
+      &:active { transform: scale(0.98); }
+    }
   }
 
   .solution-area {
-    margin-bottom: 24px;
+    margin-bottom: var(--spacing-lg);
   }
 
   .analysis-section {
-    background-color: rgba(var(--primary-color-rgb), 0.05);
+    background: linear-gradient(135deg, rgba(0, 122, 255, 0.08) 0%, rgba(90, 200, 250, 0.08) 100%);
     border-left: 3px solid var(--primary-color);
-    padding: 12px 16px;
-    margin-bottom: 16px;
-    border-radius: 0 8px 8px 0;
+    padding: var(--spacing-md);
+    margin-bottom: var(--spacing-md);
+    border-radius: 0 var(--border-radius) var(--border-radius) 0;
 
     .section-label {
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: var(--spacing-xs);
       font-size: 13px;
       font-weight: 600;
-      color: var(--text-color-secondary);
-      margin-bottom: 8px;
+      color: var(--text-color-tertiary);
+      margin-bottom: var(--spacing-sm);
+      text-transform: uppercase;
     }
 
     .analysis-text {
       line-height: 1.8;
       font-size: 15px;
+      color: var(--text-color);
 
-      :deep(.katex) {
-        font-size: 1.15em;
-      }
-
-      :deep(.katex-display) {
-        margin: 12px 0;
-        font-size: 1.2em;
-      }
+      :deep(.katex) { font-size: 1.15em; }
+      :deep(.katex-display) { margin: 12px 0; font-size: 1.2em; }
     }
   }
 
   .steps-section {
-    margin-bottom: 16px;
+    margin-bottom: var(--spacing-md);
 
     .section-label {
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: var(--spacing-xs);
       font-size: 13px;
       font-weight: 600;
-      color: var(--text-color-secondary);
-      margin-bottom: 12px;
+      color: var(--text-color-tertiary);
+      margin-bottom: var(--spacing-md);
+      text-transform: uppercase;
     }
 
     .step-item {
       background-color: var(--bg-color);
-      border-radius: 8px;
-      padding: 12px 16px;
-      margin-bottom: 8px;
+      border-radius: var(--border-radius);
+      padding: var(--spacing-md);
+      margin-bottom: var(--spacing-sm);
 
       .step-header {
         display: flex;
         align-items: center;
-        gap: 10px;
-        margin-bottom: 8px;
+        gap: var(--spacing-sm);
+        margin-bottom: var(--spacing-sm);
 
         .step-number {
           width: 24px;
@@ -1530,108 +1534,118 @@ onUnmounted(() => {
         .step-title {
           font-weight: 600;
           color: var(--text-color);
-
-          :deep(.katex) {
-            font-size: 1em;
-          }
+          :deep(.katex) { font-size: 1em; }
         }
       }
 
       .step-content {
-        padding-left: 34px;
+        padding-left: 36px;
         line-height: 1.8;
         font-size: 15px;
+        color: var(--text-color-secondary);
 
-        :deep(.katex) {
-          font-size: 1.15em;
-        }
-
-        :deep(.katex-display) {
-          margin: 12px 0;
-          font-size: 1.2em;
-        }
+        :deep(.katex) { font-size: 1.15em; }
+        :deep(.katex-display) { margin: 12px 0; font-size: 1.2em; }
       }
     }
   }
 
   .answer-section {
-    background-color: rgba(103, 194, 58, 0.1);
-    border: 1px solid rgba(103, 194, 58, 0.3);
-    border-radius: 8px;
-    padding: 12px 16px;
-    margin-bottom: 16px;
+    background: linear-gradient(135deg, rgba(52, 199, 89, 0.1) 0%, rgba(90, 200, 250, 0.1) 100%);
+    border-left: 3px solid var(--ios-green);
+    border-radius: 0 var(--border-radius) var(--border-radius) 0;
+    padding: var(--spacing-md);
+    margin-bottom: var(--spacing-md);
 
     .section-label {
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: var(--spacing-xs);
       font-size: 13px;
       font-weight: 600;
-      color: #67c23a;
-      margin-bottom: 8px;
+      color: var(--ios-green);
+      margin-bottom: var(--spacing-sm);
+      text-transform: uppercase;
     }
 
     .answer-text {
       font-size: 16px;
       font-weight: 500;
       line-height: 1.8;
+      color: var(--text-color);
 
-      :deep(.katex) {
-        font-size: 1.15em;
-      }
-
-      :deep(.katex-display) {
-        margin: 12px 0;
-        font-size: 1.2em;
-      }
+      :deep(.katex) { font-size: 1.15em; }
+      :deep(.katex-display) { margin: 12px 0; font-size: 1.2em; }
     }
   }
 
   .self-check {
     display: flex;
     align-items: center;
-    gap: 12px;
-    padding: 12px 16px;
+    gap: var(--spacing-sm);
+    padding: var(--spacing-md);
     background-color: var(--bg-color);
-    border-radius: 8px;
-    margin-bottom: 16px;
+    border-radius: var(--border-radius);
+    margin-bottom: var(--spacing-md);
+    animation: slideIn 0.3s ease-out;
 
-    span {
-      color: var(--text-color-secondary);
-    }
+    span { color: var(--text-color-secondary); }
   }
 
   .navigation-buttons {
     display: flex;
     justify-content: space-between;
-    padding-top: 16px;
-    border-top: 1px solid var(--border-color);
+    padding-top: var(--spacing-md);
+    border-top: 0.5px solid var(--separator-color);
+
+    :deep(.el-button) {
+      border-radius: var(--border-radius);
+      font-weight: 500;
+    }
   }
 }
 
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideIn {
+  from { opacity: 0; transform: translateX(-10px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+// iOS 风格练习结果
 .practice-result {
   text-align: center;
-  padding: 40px;
+  padding: var(--spacing-xl);
+  background-color: var(--card-bg);
+  border-radius: var(--border-radius-lg);
+  animation: zoomIn 0.5s ease-out;
 
   .result-icon {
-    margin-bottom: 16px;
+    margin-bottom: var(--spacing-md);
+    animation: celebratePop 0.6s ease-out 0.3s both;
   }
 
   h2 {
-    margin-bottom: 24px;
+    margin-bottom: var(--spacing-lg);
     color: var(--text-color);
+    font-size: 22px;
+    font-weight: 700;
   }
 
   .challenge-result {
-    margin-bottom: 24px;
+    margin-bottom: var(--spacing-lg);
 
     .challenge-score {
       font-size: 18px;
       color: var(--text-color-secondary);
 
       strong {
-        font-size: 32px;
-        color: #E6A23C;
+        font-size: 36px;
+        color: var(--ios-orange);
+        font-feature-settings: 'tnum';
       }
     }
   }
@@ -1639,8 +1653,8 @@ onUnmounted(() => {
   .result-stats {
     display: flex;
     justify-content: center;
-    gap: 40px;
-    margin-bottom: 32px;
+    gap: var(--spacing-xl);
+    margin-bottom: var(--spacing-xl);
 
     .stat {
       display: flex;
@@ -1651,15 +1665,14 @@ onUnmounted(() => {
         font-size: 32px;
         font-weight: 700;
         color: var(--text-color);
+        font-feature-settings: 'tnum';
 
-        &.highlight {
-          color: var(--primary-color);
-        }
+        &.highlight { color: var(--primary-color); }
       }
 
       .stat-label {
         font-size: 14px;
-        color: var(--text-color-secondary);
+        color: var(--text-color-tertiary);
       }
     }
   }
@@ -1667,180 +1680,56 @@ onUnmounted(() => {
   .result-actions {
     display: flex;
     justify-content: center;
-    gap: 12px;
-  }
-}
+    gap: var(--spacing-sm);
 
-.empty-state {
-  text-align: center;
-  padding: 60px;
-
-  .el-icon {
-    color: var(--text-color-placeholder);
-    margin-bottom: 16px;
-  }
-
-  h3 {
-    color: var(--text-color);
-    margin-bottom: 8px;
-  }
-
-  p {
-    color: var(--text-color-secondary);
-  }
-}
-
-.latex-error {
-  color: #f56c6c;
-  background-color: rgba(245, 108, 108, 0.1);
-  padding: 2px 4px;
-  border-radius: 3px;
-}
-
-// 动画效果
-.card {
-  animation: slideUp 0.3s ease-out;
-}
-
-@keyframes slideUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.current-question {
-  animation: fadeIn 0.4s ease-out;
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-.practice-result {
-  animation: zoomIn 0.5s ease-out;
-
-  .result-icon {
-    animation: celebratePop 0.6s ease-out 0.3s both;
+    :deep(.el-button) {
+      border-radius: var(--border-radius);
+      font-weight: 500;
+    }
   }
 }
 
 @keyframes zoomIn {
-  from {
-    opacity: 0;
-    transform: scale(0.9);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
+  from { opacity: 0; transform: scale(0.9); }
+  to { opacity: 1; transform: scale(1); }
 }
 
 @keyframes celebratePop {
-  0% {
-    transform: scale(0);
-    opacity: 0;
-  }
-  50% {
-    transform: scale(1.2);
-  }
-  100% {
-    transform: scale(1);
-    opacity: 1;
-  }
+  0% { transform: scale(0); opacity: 0; }
+  50% { transform: scale(1.2); }
+  100% { transform: scale(1); opacity: 1; }
 }
 
-// 按钮悬浮效果
-.answer-area .el-button {
-  transition: all 0.2s ease;
-
-  &:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  }
-
-  &:active {
-    transform: translateY(0);
-  }
-}
-
-// 答题反馈动画
-.self-check {
-  animation: slideIn 0.3s ease-out;
-}
-
-@keyframes slideIn {
-  from {
-    opacity: 0;
-    transform: translateX(-10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-// 进度点动画
-.question-dots .dot {
-  transition: all 0.2s ease;
-
-  &:hover {
-    transform: scale(1.15);
-  }
-
-  &.current {
-    animation: currentPulse 2s infinite;
-  }
-}
-
-@keyframes currentPulse {
-  0%, 100% {
-    box-shadow: 0 0 0 0 rgba(var(--primary-color-rgb), 0.4);
-  }
-  50% {
-    box-shadow: 0 0 0 6px rgba(var(--primary-color-rgb), 0);
-  }
-}
-
-// 模式卡片悬浮效果增强
-.mode-card {
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-
-  &:hover:not(.disabled) {
-    transform: translateY(-4px);
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
-
-    .el-icon {
-      transform: scale(1.1);
-    }
-  }
+// iOS 风格空状态
+.empty-state {
+  text-align: center;
+  padding: var(--spacing-xl);
+  background-color: var(--card-bg);
+  border-radius: var(--border-radius-lg);
 
   .el-icon {
-    transition: transform 0.3s ease;
+    color: var(--text-color-placeholder);
+    margin-bottom: var(--spacing-md);
+  }
+
+  h3 {
+    color: var(--text-color);
+    margin-bottom: var(--spacing-sm);
+    font-size: 17px;
+    font-weight: 600;
+  }
+
+  p {
+    color: var(--text-color-tertiary);
+    font-size: 15px;
   }
 }
 
-// 统计卡片动画
-.stats-overview .stat-card {
-  transition: all 0.2s ease;
-
-  &:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-  }
-
-  .stat-value {
-    transition: color 0.2s ease;
-  }
+.latex-error {
+  color: var(--ios-red);
+  background-color: rgba(255, 59, 48, 0.1);
+  padding: 2px 4px;
+  border-radius: 3px;
 }
 
 // 分步引导模式
@@ -1849,16 +1738,15 @@ onUnmounted(() => {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 20px;
-    padding: 16px 20px;
+    margin-bottom: var(--spacing-lg);
+    padding: var(--spacing-md) var(--spacing-lg);
     background-color: var(--card-bg);
-    border-radius: 12px;
-    box-shadow: var(--box-shadow-light);
+    border-radius: var(--border-radius-lg);
 
     .guided-progress {
       display: flex;
       align-items: center;
-      gap: 16px;
+      gap: var(--spacing-md);
 
       span {
         font-size: 14px;
@@ -1866,76 +1754,51 @@ onUnmounted(() => {
         color: var(--text-color);
       }
 
-      .el-progress {
-        width: 200px;
-      }
+      .el-progress { width: 200px; }
     }
   }
 
   .guided-navigation {
     display: flex;
     justify-content: space-between;
-    margin-top: 20px;
-    padding: 16px 20px;
+    margin-top: var(--spacing-lg);
+    padding: var(--spacing-md) var(--spacing-lg);
     background-color: var(--card-bg);
-    border-radius: 12px;
-    box-shadow: var(--box-shadow-light);
+    border-radius: var(--border-radius-lg);
   }
 }
 
-// 分步引导模式卡片
-.mode-card.guided-mode {
-  .el-icon {
-    color: #9b59b6;
-  }
-
-  &.active {
-    border-color: #9b59b6;
-    background: rgba(155, 89, 182, 0.1);
-  }
-}
-
+// 响应式
 @media (max-width: 768px) {
-  .stats-overview {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .mode-selection .mode-cards {
-    grid-template-columns: repeat(2, 1fr);
-  }
+  .stats-overview { grid-template-columns: repeat(2, 1fr); }
+  .mode-selection .mode-cards { grid-template-columns: repeat(2, 1fr); }
 
   .practice-header {
     flex-direction: column;
-    gap: 16px;
+    gap: var(--spacing-md);
 
-    .header-right {
-      align-self: flex-start;
-    }
+    .header-right { align-self: flex-start; }
   }
 
   .guided-practice-area {
     .guided-header {
       flex-direction: column;
-      gap: 12px;
+      gap: var(--spacing-sm);
 
       .guided-progress {
         width: 100%;
         flex-direction: column;
         align-items: flex-start;
 
-        .el-progress {
-          width: 100%;
-        }
+        .el-progress { width: 100%; }
       }
     }
 
     .guided-navigation {
       flex-direction: column;
-      gap: 12px;
+      gap: var(--spacing-sm);
 
-      .el-button {
-        width: 100%;
-      }
+      .el-button { width: 100%; }
     }
   }
 }

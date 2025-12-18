@@ -874,104 +874,171 @@ onUnmounted(() => {
 </script>
 
 <style lang="scss" scoped>
+// ============================================
+// iOS 风格函数绘图视图
+// ============================================
 .graph-view {
   height: 100%;
   display: flex;
   flex-direction: column;
+  background-color: var(--bg-color);
+  padding: var(--spacing-md);
 }
 
+// iOS 大标题风格工具栏
 .graph-toolbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px;
+  margin-bottom: var(--spacing-lg);
+  flex-wrap: wrap;
+  gap: var(--spacing-sm);
 
   .page-title {
-    margin-bottom: 0;
+    font-size: 34px;
+    font-weight: 700;
+    color: var(--text-color);
+    margin: 0;
+    letter-spacing: 0.01em;
   }
 
   .toolbar-actions {
     display: flex;
-    gap: 8px;
+    align-items: center;
+    gap: var(--spacing-sm);
+    flex-wrap: wrap;
+
+    :deep(.el-switch) {
+      --el-switch-on-color: var(--ios-green);
+    }
+
+    :deep(.el-button) {
+      border-radius: var(--border-radius);
+      font-weight: 500;
+    }
   }
 }
 
 .graph-content {
   flex: 1;
   display: flex;
-  gap: 20px;
+  gap: var(--spacing-md);
   min-height: 0;
+
+  @media (max-width: 1024px) {
+    flex-direction: column;
+  }
 }
 
+// iOS 风格输入面板
 .input-panel {
   width: 400px;
   flex-shrink: 0;
   display: flex;
   flex-direction: column;
   overflow: auto;
+  background-color: var(--card-bg);
+  border-radius: var(--border-radius-lg);
+  padding: var(--spacing-lg);
+
+  @media (max-width: 1024px) {
+    width: 100%;
+    max-height: 50vh;
+  }
 
   h3 {
-    font-size: 16px;
-    margin-bottom: 16px;
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--text-color);
+    margin-bottom: var(--spacing-md);
   }
 }
 
+// iOS 风格函数列表
 .function-list {
   flex: 1;
   overflow: auto;
-  min-height: 200px;
-  max-height: 400px;
+  min-height: 150px;
+  max-height: 350px;
 }
 
 .function-item {
-  padding: 12px;
-  border: 1px solid var(--border-color);
-  border-radius: 8px;
-  margin-bottom: 12px;
-  transition: all 0.2s ease;
+  padding: var(--spacing-md);
+  background-color: var(--bg-color);
+  border-radius: var(--border-radius);
+  margin-bottom: var(--spacing-sm);
+  transition: all 0.25s var(--transition-timing);
+  border: 2px solid transparent;
 
   &.active {
     border-color: var(--primary-color);
-    box-shadow: 0 0 0 2px rgba(var(--primary-color-rgb), 0.1);
+    background-color: rgba(0, 122, 255, 0.05);
+  }
+
+  &:active {
+    transform: scale(0.99);
   }
 
   .function-header {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: var(--spacing-sm);
 
     .color-dot {
-      width: 12px;
-      height: 12px;
+      width: 14px;
+      height: 14px;
       border-radius: 50%;
       flex-shrink: 0;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
     }
 
     .function-label {
-      font-weight: 500;
+      font-weight: 600;
       white-space: nowrap;
+      font-size: 15px;
+      color: var(--text-color);
     }
 
     .el-input {
       flex: 1;
+
+      :deep(.el-input__wrapper) {
+        border-radius: var(--border-radius);
+        background-color: var(--card-bg);
+        box-shadow: none;
+        border: 0.5px solid var(--separator-color);
+
+        &:hover, &.is-focus {
+          box-shadow: none;
+          border-color: var(--primary-color);
+        }
+      }
+    }
+
+    :deep(.el-button) {
+      &.is-text {
+        padding: 6px;
+      }
     }
   }
 
   .parameters {
-    margin-top: 12px;
-    padding-top: 12px;
-    border-top: 1px dashed var(--border-color);
+    margin-top: var(--spacing-md);
+    padding-top: var(--spacing-md);
+    border-top: 0.5px solid var(--separator-color);
   }
 
   .parameter-item {
     display: flex;
     align-items: center;
-    gap: 8px;
-    margin-bottom: 8px;
+    gap: var(--spacing-sm);
+    margin-bottom: var(--spacing-sm);
 
     .param-name {
-      width: 40px;
-      font-weight: 500;
+      min-width: 40px;
+      font-weight: 600;
+      font-size: 14px;
+      color: var(--primary-color);
     }
 
     .el-slider {
@@ -980,128 +1047,177 @@ onUnmounted(() => {
   }
 
   .error-message {
-    margin-top: 8px;
-    padding: 8px;
-    background-color: #fef0f0;
-    color: #f56c6c;
-    border-radius: 4px;
-    font-size: 12px;
+    margin-top: var(--spacing-sm);
+    padding: var(--spacing-sm) var(--spacing-md);
+    background-color: rgba(255, 59, 48, 0.1);
+    color: var(--ios-red);
+    border-radius: var(--border-radius);
+    font-size: 13px;
+    border-left: 3px solid var(--ios-red);
   }
 }
 
+// iOS 风格坐标范围设置
 .range-settings {
-  margin-top: 16px;
-  padding-top: 16px;
-  border-top: 1px solid var(--border-color);
+  margin-top: var(--spacing-md);
+  padding-top: var(--spacing-md);
+  border-top: 0.5px solid var(--separator-color);
   flex-shrink: 0;
 
   h4 {
-    font-size: 14px;
-    margin-bottom: 12px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-color-tertiary);
+    margin-bottom: var(--spacing-sm);
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
   }
 
   .range-inputs {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: var(--spacing-sm);
   }
 
   .range-group {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: var(--spacing-sm);
+    padding: var(--spacing-sm) var(--spacing-md);
+    background-color: var(--bg-color);
+    border-radius: var(--border-radius);
 
     span {
-      font-weight: 500;
+      font-weight: 600;
+      font-size: 14px;
+      color: var(--text-color);
     }
 
     .el-input-number {
-      width: 100px;
+      width: 90px;
+
+      :deep(.el-input__wrapper) {
+        border-radius: 6px;
+        box-shadow: none;
+        background-color: var(--card-bg);
+        border: 0.5px solid var(--separator-color);
+      }
     }
   }
 }
 
+// iOS 风格图表面板
 .chart-panel {
   flex: 1;
   min-width: 0;
+  background-color: var(--card-bg);
+  border-radius: var(--border-radius-lg);
+  padding: var(--spacing-md);
 }
 
 .chart-container {
   width: 100%;
   height: 100%;
   min-height: 400px;
+  border-radius: var(--border-radius);
+  overflow: hidden;
 }
 
+// iOS 风格特殊点列表
 .special-points-list {
-  margin-top: 16px;
-  padding-top: 16px;
-  border-top: 1px solid var(--border-color);
+  margin-top: var(--spacing-md);
+  padding-top: var(--spacing-md);
+  border-top: 0.5px solid var(--separator-color);
   flex-shrink: 0;
 
   h4 {
-    font-size: 14px;
-    margin-bottom: 12px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-color-tertiary);
+    margin-bottom: var(--spacing-sm);
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
   }
 
   .points-container {
     max-height: 120px;
     overflow-y: auto;
+    background-color: var(--bg-color);
+    border-radius: var(--border-radius);
+    overflow: hidden;
   }
 
   .point-item {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 8px 12px;
-    margin-bottom: 4px;
-    background-color: var(--bg-color);
-    border-radius: 4px;
+    padding: 10px var(--spacing-md);
+    font-size: 14px;
     border-left: 3px solid;
-    font-size: 13px;
+    position: relative;
+
+    // iOS 风格分隔线
+    &:not(:last-child)::after {
+      content: '';
+      position: absolute;
+      left: var(--spacing-md);
+      right: 0;
+      bottom: 0;
+      height: 0.5px;
+      background-color: var(--separator-color);
+    }
 
     .point-type {
-      font-weight: 500;
+      font-weight: 600;
+      font-size: 14px;
+      color: var(--text-color);
     }
 
     .point-coords {
-      font-family: monospace;
+      font-family: 'SF Mono', 'Consolas', monospace;
+      font-size: 13px;
       color: var(--text-color-secondary);
+      font-feature-settings: 'tnum';
     }
   }
 }
 
+// iOS 风格切线工具面板
 .tangent-panel {
-  margin-top: 16px;
-  padding: 16px;
-  border-top: 1px solid var(--border-color);
-  background-color: rgba(230, 162, 60, 0.05);
-  border-radius: 8px;
+  margin-top: var(--spacing-md);
+  padding: var(--spacing-md);
+  background: linear-gradient(135deg, rgba(255, 149, 0, 0.1) 0%, rgba(255, 204, 0, 0.1) 100%);
+  border-radius: var(--border-radius);
+  border-left: 3px solid var(--ios-orange);
   flex-shrink: 0;
 
   h4 {
-    font-size: 14px;
-    margin-bottom: 12px;
-    color: #E6A23C;
+    font-size: 15px;
+    font-weight: 600;
+    margin-bottom: var(--spacing-md);
+    color: var(--ios-orange);
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: var(--spacing-sm);
   }
 
   .tangent-controls {
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: var(--spacing-sm);
   }
 
   .tangent-row {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: var(--spacing-sm);
+    padding: var(--spacing-sm) 0;
 
     .tangent-label {
-      font-size: 13px;
+      font-size: 14px;
       color: var(--text-color-secondary);
       white-space: nowrap;
+      min-width: 70px;
     }
 
     .el-select {
@@ -1114,51 +1230,63 @@ onUnmounted(() => {
   }
 
   .tangent-info {
-    margin-top: 16px;
-    padding: 12px;
+    margin-top: var(--spacing-md);
+    padding: var(--spacing-md);
     background-color: var(--card-bg);
-    border-radius: 6px;
-    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
 
     .info-item {
       display: flex;
       align-items: baseline;
-      gap: 8px;
-      margin-bottom: 8px;
+      gap: var(--spacing-sm);
+      padding: var(--spacing-xs) 0;
+      position: relative;
 
-      &:last-child {
-        margin-bottom: 0;
+      &:not(:last-child)::after {
+        content: '';
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        height: 0.5px;
+        background-color: var(--separator-color);
       }
 
       .info-label {
-        font-size: 12px;
-        color: var(--text-color-secondary);
+        font-size: 13px;
+        color: var(--text-color-tertiary);
         flex-shrink: 0;
+        min-width: 60px;
       }
 
       .info-value {
-        font-size: 13px;
+        font-size: 14px;
         font-weight: 500;
         color: var(--text-color);
+        font-feature-settings: 'tnum';
 
         &.equation {
           font-family: 'Cambria Math', 'Times New Roman', serif;
           font-style: italic;
-          color: #E6A23C;
+          color: var(--ios-orange);
         }
       }
     }
   }
 
   .tangent-tip {
-    margin-top: 12px;
+    margin-top: var(--spacing-md);
     font-size: 12px;
     color: var(--text-color-placeholder);
+    padding: var(--spacing-sm) var(--spacing-md);
+    background-color: rgba(255, 149, 0, 0.1);
+    border-radius: var(--border-radius);
   }
 }
 
+// 数学键盘容器
 .math-keyboard-container {
-  margin-top: 16px;
+  margin-top: var(--spacing-md);
   flex-shrink: 0;
 }
 </style>

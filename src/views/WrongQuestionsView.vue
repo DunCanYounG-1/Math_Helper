@@ -212,7 +212,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import {
   DocumentDelete,
@@ -233,7 +233,7 @@ import {
 } from '@element-plus/icons-vue'
 import { ElMessage } from 'element-plus'
 import { useKnowledgeStore, type Example } from '@/stores/knowledgeStore'
-import { useProgressStore, type WrongQuestion } from '@/stores/progressStore'
+import { useProgressStore } from '@/stores/progressStore'
 import { renderLatex } from '@/utils/latex'
 import 'katex/dist/katex.min.css'
 
@@ -287,7 +287,8 @@ const getExample = (exampleId: string): Example | undefined => {
 // 获取知识点标题
 const getKnowledgePointTitle = (kpId: string | undefined): string => {
   if (!kpId) return ''
-  const kp = knowledgeStore.knowledgePoints.find(k => k.id === kpId)
+  // 使用索引 O(1) 查找
+  const kp = knowledgeStore.getKnowledgePointById(kpId)
   return kp?.title || ''
 }
 
@@ -301,8 +302,8 @@ const getDifficultyLabel = (diff: string | undefined) => {
   return labels[diff || 'basic'] || '基础'
 }
 
-const getDifficultyType = (diff: string | undefined) => {
-  const types: Record<string, string> = {
+const getDifficultyType = (diff: string | undefined): 'primary' | 'success' | 'warning' | 'info' | 'danger' => {
+  const types: Record<string, 'primary' | 'success' | 'warning' | 'info' | 'danger'> = {
     basic: 'success',
     intermediate: 'warning',
     advanced: 'danger'
@@ -377,139 +378,208 @@ const goToPractice = () => {
   router.push('/practice')
 }
 
-onMounted(() => {
-  knowledgeStore.loadKnowledgeData()
-  progressStore.loadFromStorage()
-})
+// 数据已在 App.vue 中全局加载，无需重复加载
 </script>
 
 <style lang="scss" scoped>
+// ============================================
+// iOS 风格错题本视图
+// ============================================
 .wrong-questions-view {
   max-width: 900px;
   margin: 0 auto;
+  padding: var(--spacing-md);
+  background-color: var(--bg-color);
 }
 
+// iOS 大标题风格头部
 .page-header {
-  margin-bottom: 24px;
+  margin-bottom: var(--spacing-lg);
 
   .page-title {
     display: flex;
     align-items: center;
-    gap: 8px;
-    font-size: 24px;
-    margin-bottom: 8px;
+    gap: var(--spacing-sm);
+    font-size: 34px;
+    font-weight: 700;
+    color: var(--text-color);
+    margin-bottom: var(--spacing-xs);
+    letter-spacing: 0.01em;
 
     .el-icon {
-      color: #F56C6C;
+      color: var(--ios-red);
+      font-size: 28px;
     }
   }
 
   .page-desc {
-    color: var(--text-color-secondary);
+    color: var(--text-color-tertiary);
+    font-size: 15px;
   }
 }
 
+// iOS 风格统计卡片
 .stats-section {
-  display: flex;
-  justify-content: space-around;
-  margin-bottom: 24px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--spacing-sm);
+  margin-bottom: var(--spacing-lg);
+  background-color: var(--card-bg);
+  border-radius: var(--border-radius-lg);
+  padding: var(--spacing-lg);
 
   .stat-item {
     text-align: center;
+    padding: var(--spacing-md);
+    background-color: var(--bg-color);
+    border-radius: var(--border-radius);
 
     .stat-value {
       display: block;
       font-size: 28px;
       font-weight: 700;
       color: var(--text-color);
+      font-feature-settings: 'tnum';
+      margin-bottom: var(--spacing-xs);
 
       &.warning {
-        color: #E6A23C;
+        color: var(--ios-orange);
       }
 
       &.success {
-        color: #67C23A;
+        color: var(--ios-green);
       }
     }
 
     .stat-label {
-      font-size: 14px;
-      color: var(--text-color-secondary);
+      font-size: 12px;
+      color: var(--text-color-tertiary);
     }
+  }
+
+  @media (max-width: 768px) {
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 
+// iOS 风格筛选区
 .filter-section {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px;
+  margin-bottom: var(--spacing-lg);
+  flex-wrap: wrap;
+  gap: var(--spacing-sm);
+
+  .filter-left {
+    :deep(.el-radio-group) {
+      background-color: rgba(118, 118, 128, 0.12);
+      border-radius: var(--border-radius);
+      padding: 2px;
+    }
+
+    :deep(.el-radio-button__inner) {
+      border: none;
+      border-radius: 7px;
+      font-size: 13px;
+      font-weight: 500;
+      padding: 6px 12px;
+      background: transparent;
+      color: var(--text-color);
+    }
+
+    :deep(.el-radio-button__original-radio:checked + .el-radio-button__inner) {
+      background-color: var(--card-bg);
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      color: var(--text-color);
+    }
+  }
 
   .filter-right {
     display: flex;
-    gap: 8px;
+    gap: var(--spacing-sm);
+
+    :deep(.el-button) {
+      border-radius: var(--border-radius);
+      font-weight: 500;
+    }
   }
 }
 
+// iOS 风格错题列表
 .wrong-questions-list {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: var(--spacing-md);
 }
 
 .wrong-question-card {
+  background-color: var(--card-bg);
+  border-radius: var(--border-radius-lg);
+  padding: var(--spacing-lg);
+  transition: all 0.25s var(--transition-timing);
+
+  &:active {
+    transform: scale(0.99);
+  }
+
   &.mastered {
-    opacity: 0.7;
-    border-left: 3px solid #67C23A;
+    border-left: 3px solid var(--ios-green);
+    opacity: 0.8;
   }
 
   .question-header {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-    margin-bottom: 12px;
+    margin-bottom: var(--spacing-md);
+    flex-wrap: wrap;
+    gap: var(--spacing-sm);
 
     .question-info {
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: var(--spacing-sm);
       flex-wrap: wrap;
 
       .question-title {
         font-weight: 600;
+        font-size: 15px;
         color: var(--text-color);
       }
     }
 
     .question-stats {
       display: flex;
-      gap: 16px;
+      gap: var(--spacing-md);
 
       .stat {
         display: flex;
         align-items: center;
         gap: 4px;
         font-size: 13px;
+        font-weight: 500;
 
         &.wrong-stat {
-          color: #F56C6C;
+          color: var(--ios-red);
         }
 
         &.review-stat {
-          color: #67C23A;
+          color: var(--ios-green);
         }
       }
     }
   }
 
   .question-content {
-    background: var(--bg-color);
-    padding: 16px;
-    border-radius: 8px;
-    margin-bottom: 12px;
+    background-color: var(--bg-color);
+    padding: var(--spacing-md);
+    border-radius: var(--border-radius);
+    margin-bottom: var(--spacing-md);
 
     .problem-text {
       line-height: 1.8;
+      font-size: 15px;
 
       :deep(.katex-display) {
         margin: 8px 0;
@@ -520,10 +590,10 @@ onMounted(() => {
   .question-meta {
     display: flex;
     flex-wrap: wrap;
-    gap: 16px;
-    margin-bottom: 12px;
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-md);
     font-size: 13px;
-    color: var(--text-color-secondary);
+    color: var(--text-color-tertiary);
 
     .meta-item {
       display: flex;
@@ -534,94 +604,121 @@ onMounted(() => {
 
   .question-actions {
     display: flex;
-    gap: 8px;
-    padding-top: 12px;
-    border-top: 1px solid var(--border-color);
+    gap: var(--spacing-sm);
+    padding-top: var(--spacing-md);
+    border-top: 0.5px solid var(--separator-color);
+
+    :deep(.el-button) {
+      border-radius: var(--border-radius);
+      font-weight: 500;
+    }
   }
 }
 
+// iOS 风格空状态
 .empty-state {
   text-align: center;
-  padding: 60px;
+  padding: var(--spacing-xl);
+  background-color: var(--card-bg);
+  border-radius: var(--border-radius-lg);
 
   .el-icon {
     color: var(--text-color-placeholder);
-    margin-bottom: 16px;
+    margin-bottom: var(--spacing-md);
   }
 
   h3 {
+    font-size: 17px;
+    font-weight: 600;
     color: var(--text-color);
-    margin-bottom: 8px;
+    margin-bottom: var(--spacing-sm);
   }
 
   p {
-    color: var(--text-color-secondary);
-    margin-bottom: 16px;
+    font-size: 15px;
+    color: var(--text-color-tertiary);
+    margin-bottom: var(--spacing-md);
+  }
+
+  :deep(.el-button) {
+    border-radius: var(--border-radius);
+    font-weight: 500;
   }
 }
 
+// iOS 风格解答弹窗
 .solution-dialog {
   .problem-section {
-    margin-bottom: 20px;
+    margin-bottom: var(--spacing-lg);
 
     .section-label {
+      font-size: 13px;
       font-weight: 600;
-      color: var(--text-color);
-      margin-bottom: 8px;
+      color: var(--text-color-tertiary);
+      margin-bottom: var(--spacing-sm);
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
     }
 
     .problem-content {
-      background: var(--bg-color);
-      padding: 16px;
-      border-radius: 8px;
+      background-color: var(--bg-color);
+      padding: var(--spacing-md);
+      border-radius: var(--border-radius);
       line-height: 1.8;
+      font-size: 15px;
     }
   }
 
   .analysis-section {
-    margin-bottom: 20px;
-    background: rgba(var(--primary-color-rgb), 0.05);
+    margin-bottom: var(--spacing-lg);
+    background: linear-gradient(135deg, rgba(0, 122, 255, 0.08) 0%, rgba(90, 200, 250, 0.08) 100%);
     border-left: 3px solid var(--primary-color);
-    padding: 12px 16px;
-    border-radius: 0 8px 8px 0;
+    padding: var(--spacing-md);
+    border-radius: 0 var(--border-radius) var(--border-radius) 0;
 
     .section-label {
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: var(--spacing-xs);
+      font-size: 13px;
       font-weight: 600;
-      color: var(--text-color-secondary);
-      margin-bottom: 8px;
+      color: var(--text-color-tertiary);
+      margin-bottom: var(--spacing-sm);
+      text-transform: uppercase;
     }
 
     .analysis-content {
       line-height: 1.8;
+      font-size: 15px;
+      color: var(--text-color);
     }
   }
 
   .steps-section {
-    margin-bottom: 20px;
+    margin-bottom: var(--spacing-lg);
 
     .section-label {
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: var(--spacing-xs);
+      font-size: 13px;
       font-weight: 600;
-      color: var(--text-color-secondary);
-      margin-bottom: 12px;
+      color: var(--text-color-tertiary);
+      margin-bottom: var(--spacing-md);
+      text-transform: uppercase;
     }
 
     .step-item {
-      background: var(--bg-color);
-      padding: 12px 16px;
-      border-radius: 8px;
-      margin-bottom: 8px;
+      background-color: var(--bg-color);
+      padding: var(--spacing-md);
+      border-radius: var(--border-radius);
+      margin-bottom: var(--spacing-sm);
 
       .step-header {
         display: flex;
         align-items: center;
-        gap: 10px;
-        margin-bottom: 8px;
+        gap: var(--spacing-sm);
+        margin-bottom: var(--spacing-sm);
 
         .step-number {
           width: 24px;
@@ -629,7 +726,7 @@ onMounted(() => {
           display: flex;
           align-items: center;
           justify-content: center;
-          background: var(--primary-color);
+          background-color: var(--primary-color);
           color: white;
           font-size: 12px;
           font-weight: 600;
@@ -638,43 +735,50 @@ onMounted(() => {
 
         .step-title {
           font-weight: 600;
+          font-size: 15px;
           color: var(--text-color);
         }
       }
 
       .step-content {
-        padding-left: 34px;
+        padding-left: 36px;
         line-height: 1.8;
+        font-size: 15px;
+        color: var(--text-color-secondary);
       }
     }
   }
 
   .answer-section {
-    background: rgba(103, 194, 58, 0.1);
-    border: 1px solid rgba(103, 194, 58, 0.3);
-    padding: 12px 16px;
-    border-radius: 8px;
+    background: linear-gradient(135deg, rgba(52, 199, 89, 0.1) 0%, rgba(90, 200, 250, 0.1) 100%);
+    border-left: 3px solid var(--ios-green);
+    padding: var(--spacing-md);
+    border-radius: 0 var(--border-radius) var(--border-radius) 0;
 
     .section-label {
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: var(--spacing-xs);
+      font-size: 13px;
       font-weight: 600;
-      color: #67C23A;
-      margin-bottom: 8px;
+      color: var(--ios-green);
+      margin-bottom: var(--spacing-sm);
+      text-transform: uppercase;
     }
 
     .answer-content {
       font-weight: 500;
+      font-size: 16px;
       line-height: 1.8;
+      color: var(--text-color);
     }
   }
 }
 
 .latex-error {
-  color: #F56C6C;
-  background: rgba(245, 108, 108, 0.1);
+  color: var(--ios-red);
+  background-color: rgba(255, 59, 48, 0.1);
   padding: 2px 4px;
-  border-radius: 3px;
+  border-radius: 4px;
 }
 </style>

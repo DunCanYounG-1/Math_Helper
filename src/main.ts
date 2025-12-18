@@ -1,18 +1,21 @@
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
-import ElementPlus from 'element-plus'
-import 'element-plus/dist/index.css'
-import zhCn from 'element-plus/dist/locale/zh-cn.mjs'
+// Element Plus 按需导入 - 组件自动注册，只需导入命令式组件样式
+import 'element-plus/es/components/message/style/css'
+import 'element-plus/es/components/message-box/style/css'
+import 'element-plus/es/components/notification/style/css'
+import 'element-plus/es/components/loading/style/css'
 import 'katex/dist/katex.min.css'
 
 import App from './App.vue'
 import router from './router'
 
 import './assets/styles/global.scss'
+import './assets/styles/ios-overrides.scss'
 
 const app = createApp(App)
 
-// 鍏ㄥ眬閿欒澶勭悊
+// 全局错误处理
 app.config.errorHandler = (err, vm, info) => {
   console.error('Global Error:', err)
   console.error('Component:', vm)
@@ -21,6 +24,5 @@ app.config.errorHandler = (err, vm, info) => {
 
 app.use(createPinia())
 app.use(router)
-app.use(ElementPlus, { locale: zhCn })
 
 app.mount('#app')

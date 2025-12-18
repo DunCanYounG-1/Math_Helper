@@ -160,7 +160,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { Document, Search, Loading, ArrowRight, Star, StarFilled, CopyDocument, Grid, Reading } from '@element-plus/icons-vue'
 import { ElMessage } from 'element-plus'
@@ -217,14 +217,16 @@ const getChapterFormulaCount = (chapterId: string) => {
 
 // 获取章节短标题
 const getChapterShortTitle = (chapterId: string) => {
-  const chapter = knowledgeStore.chapters.find(ch => ch.id === chapterId)
+  // 使用索引 O(1) 查找
+  const chapter = knowledgeStore.getChapterById(chapterId)
   if (!chapter) return ''
   return chapter.title.replace(/^第.章\s*/, '').substring(0, 6)
 }
 
 // 获取章节完整标题
 const getChapterTitle = (chapterId: string) => {
-  const chapter = knowledgeStore.chapters.find(ch => ch.id === chapterId)
+  // 使用索引 O(1) 查找
+  const chapter = knowledgeStore.getChapterById(chapterId)
   return chapter?.title || ''
 }
 
@@ -279,17 +281,15 @@ const onMemoryComplete = (memorizedIds: string[]) => {
   ElMessage.success(`本轮学习完成！已掌握 ${memorizedIds.length} 个公式`)
 }
 
-const onMemoryProgress = (current: number, total: number, memorized: number) => {
-  // 可以用于记录学习进度
-  console.log(`进度: ${current}/${total}, 已掌握: ${memorized}`)
+const onMemoryProgress = (_current: number, _total: number, _memorized: number) => {
+  // 进度回调，可用于扩展学习进度记录功能
 }
 
 // 获取相关知识点
 const relatedKnowledgePoint = computed(() => {
   if (!selectedFormula.value) return null
-  return knowledgeStore.knowledgePoints.find(
-    kp => kp.id === selectedFormula.value?.knowledgePointId
-  )
+  // 使用索引 O(1) 查找
+  return knowledgeStore.getKnowledgePointById(selectedFormula.value.knowledgePointId)
 })
 
 const showDetail = (formula: FormulaWithChapter) => {
@@ -339,35 +339,42 @@ const copyLatex = async (latex: string, event?: Event) => {
   }
 }
 
-onMounted(() => {
-  knowledgeStore.loadKnowledgeData()
-  progressStore.loadFromStorage()
-})
+// 数据已在 App.vue 中全局加载，无需重复加载
 </script>
 
 <style lang="scss" scoped>
+// ============================================
+// iOS 风格公式速查视图
+// ============================================
 .formula-view {
   height: 100%;
   display: flex;
   flex-direction: column;
+  background-color: var(--bg-color);
+  padding: var(--spacing-md);
 }
 
+// iOS 大标题风格头部
 .formula-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px;
+  margin-bottom: var(--spacing-lg);
   flex-wrap: wrap;
-  gap: 12px;
+  gap: var(--spacing-sm);
 
   .page-title {
-    margin-bottom: 0;
+    font-size: 34px;
+    font-weight: 700;
+    color: var(--text-color);
+    margin: 0;
+    letter-spacing: 0.01em;
   }
 
   .header-actions {
     display: flex;
     align-items: center;
-    gap: 16px;
+    gap: var(--spacing-md);
     flex-wrap: wrap;
 
     .mode-toggle {
@@ -376,18 +383,56 @@ onMounted(() => {
   }
 
   .formula-search {
-    width: 300px;
+    width: 280px;
+
+    :deep(.el-input__wrapper) {
+      border-radius: var(--border-radius);
+      background-color: rgba(118, 118, 128, 0.12);
+      box-shadow: none;
+
+      &:hover, &.is-focus {
+        box-shadow: none;
+      }
+    }
   }
 }
 
+// iOS 分段控制器风格筛选
 .category-filter {
-  margin-bottom: 20px;
+  margin-bottom: var(--spacing-lg);
   overflow-x: auto;
   white-space: nowrap;
-  padding-bottom: 8px;
+  padding-bottom: var(--spacing-sm);
+  scrollbar-width: none;
 
   &::-webkit-scrollbar {
-    height: 4px;
+    display: none;
+  }
+
+  :deep(.el-radio-group) {
+    background-color: rgba(118, 118, 128, 0.12);
+    border-radius: var(--border-radius);
+    padding: 2px;
+  }
+
+  :deep(.el-radio-button__inner) {
+    border: none;
+    border-radius: 7px;
+    font-size: 13px;
+    font-weight: 500;
+    padding: 6px 12px;
+    background: transparent;
+    color: var(--text-color);
+
+    &:hover {
+      color: var(--text-color);
+    }
+  }
+
+  :deep(.el-radio-button__original-radio:checked + .el-radio-button__inner) {
+    background-color: var(--card-bg);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    color: var(--text-color);
   }
 }
 
@@ -395,33 +440,38 @@ onMounted(() => {
   flex: 1;
   display: flex;
   flex-direction: column;
-  padding: 20px 0;
+  padding: var(--spacing-lg) 0;
   overflow: auto;
 }
 
+// iOS App 风格公式卡片网格
 .formula-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-  gap: 20px;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: var(--spacing-md);
   flex: 1;
   overflow: auto;
-  padding-bottom: 20px;
+  padding-bottom: var(--spacing-lg);
 }
 
+// iOS 风格公式卡片
 .formula-card {
+  background-color: var(--card-bg);
+  border-radius: var(--border-radius-lg);
+  padding: var(--spacing-md);
   cursor: pointer;
-  transition: all 0.3s;
+  transition: all 0.25s var(--transition-timing);
 
-  &:hover {
-    transform: translateY(-2px);
-    box-shadow: var(--box-shadow);
+  &:active {
+    transform: scale(0.98);
+    background-color: var(--active-bg);
   }
 
   .formula-card-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 12px;
+    margin-bottom: var(--spacing-sm);
 
     .formula-name {
       font-weight: 600;
@@ -430,22 +480,23 @@ onMounted(() => {
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
-      margin-right: 8px;
+      margin-right: var(--spacing-sm);
+      color: var(--text-color);
     }
 
     .formula-card-actions {
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: var(--spacing-sm);
       flex-shrink: 0;
     }
   }
 
   .formula-latex {
     background-color: var(--bg-color);
-    padding: 16px;
-    border-radius: 8px;
-    margin-bottom: 12px;
+    padding: var(--spacing-md);
+    border-radius: var(--border-radius);
+    margin-bottom: var(--spacing-sm);
     text-align: center;
     overflow-x: auto;
     min-height: 60px;
@@ -458,12 +509,12 @@ onMounted(() => {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-    gap: 8px;
+    gap: var(--spacing-sm);
   }
 
   .formula-desc {
     font-size: 13px;
-    color: var(--text-color-secondary);
+    color: var(--text-color-tertiary);
     line-height: 1.5;
     display: -webkit-box;
     -webkit-line-clamp: 2;
@@ -474,61 +525,77 @@ onMounted(() => {
   }
 }
 
+// iOS 风格空状态
 .empty-state,
 .loading-state {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 60px;
+  padding: var(--spacing-xl);
   color: var(--text-color-placeholder);
 
   p {
-    margin-top: 12px;
+    margin-top: var(--spacing-sm);
+    font-size: 15px;
   }
 }
 
+// iOS 风格详情弹窗
 .formula-detail {
   .detail-latex {
     background-color: var(--bg-color);
-    padding: 24px;
-    border-radius: 8px;
-    margin-bottom: 16px;
+    padding: var(--spacing-lg);
+    border-radius: var(--border-radius);
+    margin-bottom: var(--spacing-md);
     text-align: center;
-    font-size: 1.2em;
+    font-size: 1.15em;
     overflow-x: auto;
   }
 
   .detail-actions {
     display: flex;
     justify-content: center;
-    gap: 12px;
-    margin-bottom: 20px;
+    gap: var(--spacing-sm);
+    margin-bottom: var(--spacing-lg);
   }
 
   .detail-info {
     .info-item {
-      margin-bottom: 16px;
+      margin-bottom: var(--spacing-md);
+      padding-bottom: var(--spacing-md);
+      border-bottom: 0.5px solid var(--separator-color);
+
+      &:last-child {
+        margin-bottom: 0;
+        padding-bottom: 0;
+        border-bottom: none;
+      }
 
       strong {
         display: block;
         color: var(--text-color);
-        margin-bottom: 4px;
-        font-size: 14px;
+        margin-bottom: var(--spacing-xs);
+        font-size: 13px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.02em;
+        color: var(--text-color-tertiary);
       }
 
       p {
-        color: var(--text-color-secondary);
+        color: var(--text-color);
         line-height: 1.6;
         margin: 0;
+        font-size: 15px;
       }
 
       .latex-code {
         display: block;
         background-color: var(--bg-color);
-        padding: 12px;
-        border-radius: 6px;
-        font-family: 'Consolas', 'Monaco', monospace;
+        padding: var(--spacing-sm) var(--spacing-md);
+        border-radius: var(--border-radius);
+        font-family: 'SF Mono', 'Consolas', monospace;
         font-size: 13px;
         color: var(--text-color);
         word-break: break-all;
@@ -537,7 +604,7 @@ onMounted(() => {
 
       .el-button {
         padding: 0;
-        font-size: 14px;
+        font-size: 15px;
       }
     }
   }

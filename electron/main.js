@@ -20,7 +20,8 @@ function createWindow() {
         }
     });
     // 开发环境加载本地服务，生产环境加载打包文件
-    if (process.env.NODE_ENV === 'development') {
+    // 使用 app.isPackaged 判断是否为打包后的应用
+    if (!electron_1.app.isPackaged) {
         mainWindow.loadURL('http://localhost:5173');
         mainWindow.webContents.openDevTools();
     }
@@ -33,6 +34,18 @@ function createWindow() {
     }
     mainWindow.on('closed', () => {
         mainWindow = null;
+    });
+    // 窗口获得焦点时通知渲染进程（用于修复图表渲染问题）
+    mainWindow.on('focus', () => {
+        mainWindow?.webContents.send('window:focus');
+    });
+    // 窗口显示时通知渲染进程
+    mainWindow.on('show', () => {
+        mainWindow?.webContents.send('window:show');
+    });
+    // 窗口恢复时通知渲染进程
+    mainWindow.on('restore', () => {
+        mainWindow?.webContents.send('window:restore');
     });
 }
 electron_1.app.whenReady().then(createWindow);

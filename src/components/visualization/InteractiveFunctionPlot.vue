@@ -384,6 +384,9 @@ watch(() => props.config, () => {
   reinitChart()
 }, { deep: true })
 
+// 保存 resize 处理函数的引用，以便正确移除
+const handleResize = () => chart?.resize()
+
 onMounted(async () => {
   // 先设置函数，再初始化
   setFunctionFromConfig()
@@ -392,10 +395,11 @@ onMounted(async () => {
   await nextTick()
   initChart()
   isInitialized = true
-  window.addEventListener('resize', () => chart?.resize())
+  window.addEventListener('resize', handleResize)
 })
 
 onUnmounted(() => {
+  window.removeEventListener('resize', handleResize)
   chart?.dispose()
 })
 </script>

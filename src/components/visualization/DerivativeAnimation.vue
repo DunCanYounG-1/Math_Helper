@@ -438,6 +438,9 @@ watch(() => props.config, () => {
   handleFuncChange()
 }, { deep: true })
 
+// 保存 resize 处理函数的引用，以便正确移除
+const handleResize = () => chart?.resize()
+
 onMounted(async () => {
   if (props.config?.expression && functions[props.config.expression]) {
     selectedFunc.value = props.config.expression
@@ -445,10 +448,11 @@ onMounted(async () => {
   // 等待 DOM 渲染完成，确保 chartContainer ref 已准备好
   await nextTick()
   initChart()
-  window.addEventListener('resize', () => chart?.resize())
+  window.addEventListener('resize', handleResize)
 })
 
 onUnmounted(() => {
+  window.removeEventListener('resize', handleResize)
   chart?.dispose()
 })
 </script>

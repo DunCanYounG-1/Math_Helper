@@ -32,34 +32,6 @@ function numericalSecondDerivative(
 }
 
 /**
- * 牛顿法求根（用于找零点和导数零点）
- */
-function newtonMethod(
-  f: (x: number) => number,
-  x0: number,
-  maxIter: number = 50,
-  tol: number = 1e-8
-): number | null {
-  let x = x0
-  for (let i = 0; i < maxIter; i++) {
-    const fx = f(x)
-    if (Math.abs(fx) < tol) {
-      return x
-    }
-    const dfx = numericalDerivative(f, x)
-    if (Math.abs(dfx) < 1e-12) {
-      return null // 导数太小，无法继续
-    }
-    const xNew = x - fx / dfx
-    if (Math.abs(xNew - x) < tol) {
-      return xNew
-    }
-    x = xNew
-  }
-  return null
-}
-
-/**
  * 二分法求根
  */
 function bisectionMethod(
