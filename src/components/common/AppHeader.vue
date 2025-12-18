@@ -179,19 +179,14 @@ const close = () => {
 .status-bar-area {
   height: 0;
   -webkit-app-region: drag;
-
-  // Electron 环境下添加拖拽区域
-  .is-electron & {
-    height: 8px;
-  }
 }
 
 .header-content {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 48px;
-  padding: 0 16px;
+  height: 56px;
+  padding: 0 20px;
   gap: 16px;
 }
 
@@ -233,15 +228,16 @@ const close = () => {
 
 .header-nav {
   flex: 1;
-  overflow: hidden;
   -webkit-app-region: no-drag;
+  display: flex;
+  align-items: center;
 }
 
 .nav-scroll-container {
   display: flex;
+  align-items: center;
   gap: 4px;
   overflow-x: auto;
-  padding: 4px;
 
   // 隐藏滚动条但保持可滚动
   scrollbar-width: none;
@@ -255,13 +251,15 @@ const close = () => {
   align-items: center;
   gap: 6px;
   padding: 8px 14px;
-  border-radius: 20px;
+  border-radius: 18px;
   color: var(--text-color-secondary);
   text-decoration: none;
   font-size: 14px;
   font-weight: 500;
   white-space: nowrap;
   transition: all 0.25s cubic-bezier(0.25, 0.1, 0.25, 1);
+  margin: 0;
+  line-height: 1;
 
   .nav-icon {
     font-size: 16px;

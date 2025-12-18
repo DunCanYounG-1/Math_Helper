@@ -21,7 +21,8 @@ function createWindow() {
   // 使用 app.isPackaged 判断是否为打包后的应用
   if (!app.isPackaged) {
     mainWindow.loadURL('http://localhost:5173')
-    mainWindow.webContents.openDevTools()
+    // 开发者工具默认关闭，需要时按 F12 或 Ctrl+Shift+I 打开
+    // mainWindow.webContents.openDevTools()
   } else {
     // 生产环境：加载打包后的文件
     const indexPath = path.join(__dirname, '../dist/index.html')

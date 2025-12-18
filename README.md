@@ -16,7 +16,10 @@
 - **参数动态调节** - 滑动条实时调整参数，观察曲线变化
 - **多函数叠加** - 同一坐标系显示多条曲线，便于对比分析
 - **特殊点标注** - 自动识别并标注极值点、拐点、零点
-- **3D 曲面绘制** - 二元函数三维可视化（规划中）
+- **3D 曲面绘制** - 二元函数三维可视化，支持显式曲面和参数曲面
+  - 预设曲面：抛物面、马鞍面、波浪面、球面、圆环面、莫比乌斯带等
+  - 临界点分析、梯度场显示、切平面可视化
+  - 多种配色方案，支持自动旋转
 
 ### 知识点可视化
 
@@ -25,27 +28,44 @@
 - **积分面积填充** - 定积分区域可视化，理解"求和"本质
 - **泰勒展开对比** - 多阶展开逼近效果对比
 - **中值定理动画** - 几何直观演示拉格朗日中值定理
+- **单调性与凹凸性** - 函数性质的动态演示
 
 ### AI 辅助理解
 
-- **知识点比喻生成** - 用生活化比喻解释抽象概念
-- **智能问答** - 针对知识点进行对话式答疑
+- **知识点比喻生成** - 用生活化比喻解释抽象概念，支持预览确认
+- **智能问答面板** - 针对知识点进行对话式答疑，支持 Markdown 和 LaTeX 渲染
+- **独立 AI 助手** - 全功能数学问答助手
 - **错误诊断** - 分析常见误区和易错点
-- **支持多模型** - 通义千问、DeepSeek
+- **多模型支持** - 支持 6 大 AI 服务商：
+  - 通义千问（阿里云）
+  - DeepSeek（深度推理）
+  - OpenAI（GPT 系列）
+  - 智谱 AI（GLM 系列）
+  - 月之暗面（Kimi）
+  - 硅基流动（开源模型）
+
+### 深度理解模块
+
+- **知识图谱** - 可视化知识点之间的关联关系
+- **学习路径** - 智能推荐学习顺序
+- **概念关联** - 展示前置知识和后继知识
 
 ### 学习管理
 
-- **学习进度追踪** - 记录每个知识点的学习状态
+- **学习进度追踪** - 记录每个知识点的学习状态（未学习/学习中/已完成/已掌握）
 - **公式闪卡** - 间隔重复算法优化记忆
 - **错题本** - 收集错题，智能复习提醒
 - **笔记系统** - 关联知识点的笔记管理
 - **收藏夹** - 收藏重要知识点和公式
+- **学习数据导出/导入** - 支持备份和迁移学习进度
 
 ### 公式速查
 
 - **分类卡片库** - 按章节和主题分类的公式卡片
 - **LaTeX 渲染** - 高质量数学公式显示
 - **快速搜索** - 关键词检索公式
+- **考试频率标签** - 标注必考/高频/中频公式
+- **记忆口诀** - 辅助记忆的口诀提示
 
 ## 高等数学知识体系
 
@@ -130,9 +150,12 @@
 | UI 组件 | Element Plus | 2.4.0 |
 | 构建工具 | Vite | 5.0.0 |
 | 图表库 | ECharts | 5.4.0 |
+| 3D 渲染 | ECharts GL | 2.0.9 |
 | 动画库 | D3.js | 7.8.0 |
 | 公式渲染 | KaTeX | 0.16.0 |
+| Markdown | Marked | 17.0.0 |
 | 数学计算 | Math.js | 12.2.0 |
+| HTTP 客户端 | Axios | 1.6.0 |
 
 ## 快速开始
 
@@ -189,22 +212,58 @@ Math_Helper/
 │   └── preload.ts          # 预加载脚本
 ├── src/
 │   ├── assets/             # 静态资源和样式
+│   │   └── styles/         # SCSS 样式文件
 │   ├── components/         # Vue 组件
-│   │   ├── common/         # 通用组件（标题栏、侧边栏）
+│   │   ├── ai/             # AI 相关组件
+│   │   │   └── ChatPanel.vue       # AI 问答面板
+│   │   ├── common/         # 通用组件
+│   │   │   ├── AppHeader.vue       # iOS 风格导航栏
+│   │   │   └── GlobalSearch.vue    # 全局搜索
+│   │   ├── deep-understanding/     # 深度理解组件
 │   │   ├── graph/          # 绘图相关组件
 │   │   ├── knowledge/      # 知识点组件
+│   │   │   ├── ChapterTree.vue     # 章节树
+│   │   │   ├── KnowledgeGraph.vue  # 知识图谱
+│   │   │   └── NotesSection.vue    # 笔记区域
 │   │   ├── learn/          # 学习模块组件
+│   │   │   ├── CommonMistakesPanel.vue  # 易错点面板
+│   │   │   └── LearningPathPanel.vue    # 学习路径
 │   │   ├── memory/         # 记忆/闪卡组件
 │   │   ├── practice/       # 练习模块组件
 │   │   └── visualization/  # 可视化动画组件
+│   │       ├── DerivativeAnimation.vue   # 导数动画
+│   │       ├── IntegralAnimation.vue     # 积分动画
+│   │       ├── LimitAnimation.vue        # 极限动画
+│   │       ├── TaylorAnimation.vue       # 泰勒展开
+│   │       ├── MeanValueAnimation.vue    # 中值定理
+│   │       ├── Surface3D.vue             # 3D 曲面
+│   │       └── InteractiveFunctionPlot.vue # 交互式函数图
 │   ├── views/              # 页面视图
+│   │   ├── HomeView.vue            # 首页仪表板
+│   │   ├── GraphView.vue           # 2D 函数绘图
+│   │   ├── Graph3DView.vue         # 3D 曲面绘图
+│   │   ├── LearnView.vue           # 知识学习
+│   │   ├── KnowledgeGraphView.vue  # 知识图谱
+│   │   ├── DeepUnderstandingView.vue # 深度理解
+│   │   ├── PracticeView.vue        # 例题练习
+│   │   ├── FormulaView.vue         # 公式速查
+│   │   ├── NotesView.vue           # 笔记管理
+│   │   ├── FavoritesView.vue       # 收藏夹
+│   │   ├── WrongQuestionsView.vue  # 错题本
+│   │   └── SettingsView.vue        # 设置页面
 │   ├── stores/             # Pinia 状态管理
+│   │   ├── knowledgeStore.ts   # 知识库状态
+│   │   ├── progressStore.ts    # 学习进度
+│   │   └── settingsStore.ts    # 应用设置
 │   ├── services/           # 业务服务层
-│   │   ├── aiService.ts    # AI 服务（千问/DeepSeek）
+│   │   ├── aiService.ts    # AI 服务（多模型支持）
 │   │   └── spacedRepetition.ts  # 间隔重复算法
 │   ├── router/             # 路由配置
 │   ├── types/              # TypeScript 类型定义
 │   ├── utils/              # 工具函数
+│   │   ├── latex.ts        # LaTeX/Markdown 渲染
+│   │   ├── mathjs.ts       # 数学计算封装
+│   │   └── specialPoints.ts # 特殊点计算
 │   ├── data/               # 知识库数据
 │   │   └── knowledgeBase/  # JSON 数据文件
 │   │       ├── chapters.json        # 章节结构
@@ -224,14 +283,31 @@ Math_Helper/
 | 页面 | 路由 | 说明 |
 |------|------|------|
 | 首页 | `/` | 学习仪表板，快速入口 |
-| 函数绘图 | `/graph` | 交互式函数绘图工具 |
+| 函数绘图 | `/graph` | 2D 交互式函数绘图工具 |
+| 3D 绘图 | `/graph-3d` | 3D 曲面可视化 |
 | 知识学习 | `/learn` | 知识点学习和动画演示 |
-| 公式速查 | `/formula` | 公式卡片库 |
+| 知识图谱 | `/knowledge-graph` | 知识点关联可视化 |
+| 深度理解 | `/deep-understanding` | 深入学习模块 |
 | 例题练习 | `/practice` | 分步解题练习 |
+| AI 助手 | `/ai` | 独立 AI 问答助手 |
+| 公式速查 | `/formula` | 公式卡片库 |
 | 笔记管理 | `/notes` | 学习笔记 |
 | 收藏夹 | `/favorites` | 收藏的知识点和公式 |
 | 错题本 | `/wrong-questions` | 错题记录和复习 |
 | 设置 | `/settings` | 应用设置、AI 配置 |
+
+## AI 服务配置
+
+应用支持多种 AI 服务商，可在设置页面配置：
+
+| 服务商 | 推荐模型 | 特点 |
+|--------|----------|------|
+| 通义千问 | qwen-turbo | 国内稳定，响应快速 |
+| DeepSeek | deepseek-reasoner | 深度推理，适合数学 |
+| OpenAI | gpt-4o | 能力强大，需科学上网 |
+| 智谱 AI | glm-4-flash | 免费额度充足 |
+| 月之暗面 | moonshot-v1-32k | 长上下文支持 |
+| 硅基流动 | Qwen2.5-72B | 多种开源模型 |
 
 ## 文档
 
@@ -245,7 +321,22 @@ Math_Helper/
 - **高性能渲染** - 公式渲染 <100ms，动画保持 60fps
 - **无需登录** - 数据存储在本地，保护隐私
 - **主题切换** - 支持浅色/深色主题
-- **自定义标题栏** - 原生窗口体验
+- **自定义标题栏** - macOS 风格窗口控制
+- **iOS 设计风格** - 现代化的用户界面
+- **响应式布局** - 适配不同屏幕尺寸
+
+## 更新日志
+
+### v0.1.0 (2024-12)
+
+- 初始版本发布
+- 2D/3D 函数绘图功能
+- 知识点可视化动画
+- AI 多模型支持（6 大服务商）
+- 学习进度管理
+- 公式速查和闪卡
+- 笔记和收藏功能
+- 错题本功能
 
 ## License
 
@@ -254,3 +345,7 @@ Math_Helper/
 ## 作者
 
 DuncanYoung
+
+---
+
+如有问题或建议，欢迎提交 Issue 或 Pull Request。

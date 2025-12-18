@@ -661,6 +661,9 @@ const updateSurface = () => {
 
   isLoading.value = true
 
+  // 先清除旧图表，确保新数据能正确渲染
+  chart.clear()
+
   nextTick(() => {
     // 根据模式生成数据
     const data = surfaceMode.value === 'parametric'

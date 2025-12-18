@@ -111,7 +111,46 @@
               <div class="metaphor-content markdown-content" v-html="renderMarkdown(metaphor.content)"></div>
             </div>
           </div>
+
+          <!-- AI生成比喻预览区 -->
+          <div v-if="pendingMetaphor" class="pending-metaphor-preview">
+            <div class="preview-header">
+              <el-icon><MagicStick /></el-icon>
+              <span>AI 生成的新比喻（预览）</span>
+            </div>
+            <div class="metaphor-item ai-generated preview">
+              <div class="metaphor-header">
+                <span class="metaphor-title">{{ pendingMetaphor.title }}</span>
+                <div class="metaphor-tags">
+                  <el-tag
+                    v-for="tag in pendingMetaphor.tags"
+                    :key="tag"
+                    size="small"
+                    type="info"
+                  >
+                    {{ tag }}
+                  </el-tag>
+                </div>
+              </div>
+              <div class="metaphor-content markdown-content" v-html="renderMarkdown(pendingMetaphor.content)"></div>
+            </div>
+            <div class="preview-actions">
+              <el-button type="success" @click="keepMetaphor">
+                <el-icon><Check /></el-icon>
+                保留
+              </el-button>
+              <el-button type="warning" plain :loading="isGenerating" @click="regenerateMetaphor">
+                <el-icon v-if="!isGenerating"><RefreshRight /></el-icon>
+                {{ isGenerating ? '生成中...' : '重新生成' }}
+              </el-button>
+              <el-button @click="discardMetaphor">
+                取消
+              </el-button>
+            </div>
+          </div>
+
           <el-button
+            v-if="!pendingMetaphor"
             type="primary"
             plain
             :loading="isGenerating"
@@ -358,7 +397,7 @@ import CommonMistakesPanel from '@/components/learn/CommonMistakesPanel.vue'
 import ChatPanel from '@/components/ai/ChatPanel.vue'
 import { useSettingsStore } from '@/stores/settingsStore'
 import { useProgressStore } from '@/stores/progressStore'
-import { createMetaphor, setAIConfig, isConfigured } from '@/services/aiService'
+import { createMetaphor, setAIConfig, isConfigured, providerConfigs } from '@/services/aiService'
 import { renderMarkdown, renderFormula } from '@/utils/latex'
 import 'katex/dist/katex.min.css'
 
@@ -370,6 +409,7 @@ const progressStore = useProgressStore()
 
 const isGenerating = ref(false)
 const expandedFormulas = ref(new Set<string>())
+const pendingMetaphor = ref<{ title: string; content: string; tags: string[] } | null>(null)
 
 // 公式展开/收起
 const toggleFormulaExpand = (formulaId: string) => {
@@ -741,35 +781,24 @@ const generateNewMetaphor = async () => {
   const kp = currentKnowledgePoint.value
   if (!kp) return
 
-  // 检查API Key配置
+  // 从设置同步完整AI配置
   if (settingsStore.aiApiKey) {
-    setAIConfig({ apiKey: settingsStore.aiApiKey })
+    const providerConfig = providerConfigs[settingsStore.aiProvider]
+    setAIConfig({
+      provider: settingsStore.aiProvider,
+      apiKey: settingsStore.aiApiKey,
+      model: settingsStore.aiModel,
+      baseUrl: providerConfig?.baseUrl || ''
+    })
   }
 
   if (!isConfigured()) {
-    try {
-      const { value } = await ElMessageBox.prompt(
-        '请输入通义千问API Key以启用AI生成功能（可在设置页面配置）',
-        '配置AI服务',
-        {
-          confirmButtonText: '确定',
-          cancelButtonText: '使用模拟数据',
-          inputPlaceholder: 'sk-xxxxxxxx',
-          distinguishCancelAndClose: true
-        }
-      )
-      if (value) {
-        settingsStore.setAIApiKey(value)
-        setAIConfig({ apiKey: value })
-      }
-    } catch (action) {
-      if (action === 'cancel') {
-        // 使用模拟数据
-        ElMessage.info('将使用模拟数据生成比喻')
-      } else {
-        return
-      }
-    }
+    ElMessage.warning({
+      message: '请先在设置中配置AI服务',
+      duration: 2000
+    })
+    router.push('/settings')
+    return
   }
 
   isGenerating.value = true
@@ -781,19 +810,12 @@ const generateNewMetaphor = async () => {
       existingMetaphors: kp.metaphors.map(m => m.title)
     })
 
-    // 创建新比喻对象
-    const newMetaphor: Metaphor = {
-      id: `m-ai-${Date.now()}`,
-      knowledgePointId: kp.id,
+    // 存到预览状态，等待用户确认
+    pendingMetaphor.value = {
       title: result.title,
       content: result.content,
-      type: 'ai-generated',
       tags: result.tags
     }
-
-    // 添加到store
-    knowledgeStore.addMetaphor(newMetaphor)
-    ElMessage.success('新比喻已生成！')
 
   } catch (error) {
     ElMessage.error((error as Error).message || '生成比喻失败')
@@ -802,11 +824,47 @@ const generateNewMetaphor = async () => {
   }
 }
 
+// 保留AI生成的比喻
+const keepMetaphor = () => {
+  const kp = currentKnowledgePoint.value
+  if (!kp || !pendingMetaphor.value) return
+
+  const newMetaphor: Metaphor = {
+    id: `m-ai-${Date.now()}`,
+    knowledgePointId: kp.id,
+    title: pendingMetaphor.value.title,
+    content: pendingMetaphor.value.content,
+    type: 'ai-generated',
+    tags: pendingMetaphor.value.tags
+  }
+
+  knowledgeStore.addMetaphor(newMetaphor)
+  pendingMetaphor.value = null
+  ElMessage.success('比喻已保存！')
+}
+
+// 重新生成比喻
+const regenerateMetaphor = () => {
+  pendingMetaphor.value = null
+  generateNewMetaphor()
+}
+
+// 放弃当前预览的比喻
+const discardMetaphor = () => {
+  pendingMetaphor.value = null
+}
+
 onMounted(() => {
   // 数据已在 App.vue 中全局加载，无需重复加载
-  // 初始化AI配置
+  // 从设置同步完整AI配置
   if (settingsStore.aiApiKey) {
-    setAIConfig({ apiKey: settingsStore.aiApiKey })
+    const providerConfig = providerConfigs[settingsStore.aiProvider]
+    setAIConfig({
+      provider: settingsStore.aiProvider,
+      apiKey: settingsStore.aiApiKey,
+      model: settingsStore.aiModel,
+      baseUrl: providerConfig?.baseUrl || ''
+    })
   }
 })
 
@@ -998,6 +1056,41 @@ onUnmounted(() => {
 
 .metaphor-list {
   margin-bottom: var(--spacing-sm);
+}
+
+// AI生成比喻预览区
+.pending-metaphor-preview {
+  margin-bottom: var(--spacing-md);
+  padding: var(--spacing-md);
+  background: linear-gradient(135deg, rgba(52, 199, 89, 0.08) 0%, rgba(90, 200, 250, 0.08) 100%);
+  border-radius: var(--border-radius-lg);
+  border: 2px dashed var(--ios-green);
+
+  .preview-header {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    margin-bottom: var(--spacing-sm);
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--ios-green);
+
+    .el-icon {
+      font-size: 16px;
+    }
+  }
+
+  .metaphor-item.preview {
+    margin-bottom: var(--spacing-md);
+    border: none;
+    box-shadow: 0 2px 8px rgba(52, 199, 89, 0.15);
+  }
+
+  .preview-actions {
+    display: flex;
+    gap: var(--spacing-sm);
+    justify-content: flex-end;
+  }
 }
 
 .metaphor-item {

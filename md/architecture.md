@@ -1,6 +1,6 @@
 # Math Helper 技术架构文档
 
-> Technical Architecture Document v1.0
+> Technical Architecture Document v1.1
 
 ---
 
@@ -9,10 +9,11 @@
 | 属性 | 值 |
 |------|-----|
 | 产品名称 | Math Helper |
-| 版本 | v1.0 |
+| 版本 | v1.1 |
 | 创建日期 | 2025-12-03 |
-| 状态 | 草稿 |
-| 作者 | AI Architect |
+| 更新日期 | 2025-12-18 |
+| 状态 | 已实施 |
+| 作者 | DuncanYoung |
 
 ---
 
@@ -72,8 +73,10 @@
 | UI组件库 | Element Plus | ^2.4.0 | Vue3生态首选，组件丰富 |
 | 路由 | Vue Router | ^4.2.0 | Vue官方路由 |
 | 图表库 | ECharts | ^5.4.0 | 功能强大，文档完善 |
+| 3D渲染 | ECharts GL | ^2.0.9 | 3D曲面可视化 |
 | 可视化 | D3.js | ^7.8.0 | 灵活自由，适合复杂动画 |
 | 公式渲染 | KaTeX | ^0.16.0 | 高性能，渲染速度快 |
+| Markdown | Marked | ^17.0.0 | Markdown渲染 |
 | 公式解析 | Math.js | ^12.2.0 | 功能完整，支持符号计算 |
 | HTTP客户端 | Axios | ^1.6.0 | 成熟稳定 |
 | 样式 | SCSS | - | CSS预处理，变量和嵌套 |
@@ -465,21 +468,69 @@ export class AnimationEngine {
 
 ### 5.3 AI服务 (AI Service)
 
-**职责**: 封装通义千问API调用、管理对话上下文
+**职责**: 封装多个AI服务商API调用、管理对话上下文、生成比喻和回答问题
+
+**支持的AI服务商**:
+| 服务商 | 模型 | 特点 |
+|--------|------|------|
+| 通义千问 | qwen-turbo, qwen-plus | 国内稳定，响应快 |
+| DeepSeek | deepseek-chat, deepseek-reasoner | 深度推理，适合数学 |
+| OpenAI | gpt-4o-mini, gpt-4o | 能力强，需科学上网 |
+| 智谱AI | glm-4-flash, glm-4 | 免费额度充足 |
+| 月之暗面 | moonshot-v1-8k/32k/128k | 长上下文支持 |
+| 硅基流动 | Qwen2.5, DeepSeek, GLM等 | 多种开源模型 |
 
 ```typescript
 // src/services/aiService.ts
 import axios from 'axios';
 
+export type AIProvider = 'qwen' | 'deepseek' | 'openai' | 'zhipu' | 'moonshot' | 'siliconflow';
+
 export interface AIConfig {
+  provider: AIProvider;
   apiKey: string;
   baseUrl: string;
   model: string;
 }
 
+// 各服务商配置
+export const providerConfigs: Record<AIProvider, {
+  baseUrl: string;
+  models: { value: string; label: string }[];
+  defaultModel: string;
+}> = {
+  qwen: {
+    baseUrl: 'https://dashscope.aliyuncs.com/compatible-mode/v1',
+    models: [
+      { value: 'qwen-turbo', label: 'Qwen Turbo (快速)' },
+      { value: 'qwen-plus', label: 'Qwen Plus (增强)' }
+    ],
+    defaultModel: 'qwen-turbo'
+  },
+  deepseek: {
+    baseUrl: 'https://api.deepseek.com/v1',
+    models: [
+      { value: 'deepseek-chat', label: 'DeepSeek Chat' },
+      { value: 'deepseek-reasoner', label: 'DeepSeek Reasoner (推理)' }
+    ],
+    defaultModel: 'deepseek-chat'
+  },
+  // ... 其他服务商配置
+};
+
 export interface MetaphorRequest {
-  knowledgePoint: string;
-  context?: string;
+  knowledgePointTitle: string;
+  knowledgePointDescription: string;
+  keyPoints: string[];
+  existingMetaphors: string[];
+}
+
+export async function createMetaphor(request: MetaphorRequest): Promise<{
+  title: string;
+  content: string;
+  tags: string[];
+}> {
+  // 调用配置的AI服务生成比喻
 }
 
 export interface ChatRequest {
@@ -1184,6 +1235,7 @@ export function handleError(error: unknown): string {
 
 ---
 
-**文档版本**: v1.0
+**文档版本**: v1.1
 **创建日期**: 2025-12-03
-**状态**: 待开发实施
+**更新日期**: 2025-12-18
+**状态**: 已实施
