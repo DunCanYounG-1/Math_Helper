@@ -389,7 +389,7 @@ import { ref, computed, onMounted, onUnmounted, watch, defineAsyncComponent } fr
 import { useRoute } from 'vue-router'
 import { Reading, MagicStick, Star, StarFilled, ArrowDown, ArrowUp, ArrowLeft, ArrowRight, Clock, Check, Trophy, RefreshRight, EditPen, Document, InfoFilled, Aim, SetUp, Connection, Back, Right, Opportunity } from '@element-plus/icons-vue'
 import { useRouter } from 'vue-router'
-import { ElMessage, ElMessageBox } from 'element-plus'
+import { ElMessage } from 'element-plus'
 import { useKnowledgeStore, type Metaphor } from '@/stores/knowledgeStore'
 import ExampleDisplay from '@/components/knowledge/ExampleDisplay.vue'
 import NotesSection from '@/components/knowledge/NotesSection.vue'
